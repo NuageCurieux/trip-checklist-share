@@ -90,12 +90,20 @@ function UnlockPage() {
           </button>
         </form>
 
-        <Link
-          to="/profil"
-          className="mt-6 block text-center text-xs font-semibold text-primary"
-        >
-          {t("me.title")}
-        </Link>
+        <div className="mt-8 rounded-2xl border border-border bg-card p-5 text-center shadow-card">
+          <p className="text-sm text-muted-foreground">{t("gate.orCreate")}</p>
+          <Link
+            to="/auth"
+            search={{ mode: "signup" }}
+            className="mt-3 block w-full rounded-xl bg-secondary py-3 text-sm font-semibold text-secondary-foreground"
+          >
+            {t("gate.createAccount")}
+          </Link>
+          <Link to="/auth" className="mt-3 block text-xs font-semibold text-primary">
+            {t("gate.signIn")}
+          </Link>
+        </div>
+
       </div>
     </div>
   );

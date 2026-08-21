@@ -24,6 +24,8 @@ export const Route = createFileRoute("/auth")({
       },
     ],
   }),
+  validateSearch: (search: Record<string, unknown>): { mode?: "signup" } =>
+    search['mode'] === "signup" ? { mode: "signup" } : {},
   component: AuthPage,
 });
 
@@ -31,7 +33,10 @@ function AuthPage() {
   const { t } = useI18n();
   const navigate = useNavigate();
   const { user } = useSession();
-  const [mode, setMode] = useState<"signin" | "signup" | "reset">("signin");
+  const { mode: initialMode } = Route.useSearch();
+  const [mode, setMode] = useState<"signin" | "signup" | "reset">(
+    initialMode === "signup" ? "signup" : "signin",
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);

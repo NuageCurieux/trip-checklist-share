@@ -280,8 +280,9 @@ function TripPage() {
             visited: place.visited,
             favorite: place.favorite,
           }))}
-          country={trip.destination}
-          city={trip.destination}
+          country={trip.destination ?? trip.title}
+          city={trip.destination ?? trip.title}
+
         />
       </section>
 
@@ -387,8 +388,9 @@ function TripPage() {
           <section className="mt-8 px-6">
             <PlaceExplorer
               tripId={trip.id}
-              city={trip.destination}
-              country={trip.destination}
+              city={trip.destination ?? trip.title}
+              country={trip.destination ?? trip.title}
+
               onAdded={() => void queryClient.invalidateQueries({ queryKey: ["trip", id] })}
             />
           </section>

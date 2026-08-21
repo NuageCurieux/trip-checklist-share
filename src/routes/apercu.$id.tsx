@@ -181,8 +181,9 @@ function PreviewContent() {
             visited: place.visited,
             favorite: place.favorite,
           }))}
-          country={trip.destination}
-          city={trip.destination}
+          country={trip.destination ?? trip.title}
+          city={trip.destination ?? trip.title}
+
         />
       </section>
 

@@ -65,11 +65,20 @@ function UnlockPage() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    // Read the DOM value: browser autofill / paste can set the input without
+    // firing React's onChange, which used to leave the password state empty.
+    const formValue = String(new FormData(e.currentTarget).get("password") ?? "");
+    const candidate = (formValue || password).trim();
+    if (!candidate) {
+      setError(true);
+      return;
+    }
     setLoading(true);
     setError(false);
     try {
-      const { ok } = await unlock({ data: { password: password.trim() } });
+      const { ok } = await unlock({ data: { password: candidate } });
       if (ok) {
+        await router.invalidate();
         await router.navigate({ to: "/" });
         return;
       }

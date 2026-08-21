@@ -1,9 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Camera } from "lucide-react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
+import { signAvatar, uploadAvatar } from "@/lib/travel";
 
 type Profile = {
   id: string;
@@ -11,31 +13,39 @@ type Profile = {
   display_name: string;
   bio: string | null;
   instagram: string | null;
+  avatar_path: string | null;
+  is_public: boolean;
 };
 
 const HANDLE_RE = /^[a-z0-9_]{3,30}$/;
 
-/** Lets the traveller set up the single public link used in an Instagram bio. */
+/** Lets the traveller set up their personal profile and the public link used in an Instagram bio. */
 export function PublicPageEditor({ userId }: { userId: string }) {
   const { t } = useI18n();
   const queryClient = useQueryClient();
+  const fileInput = useRef<HTMLInputElement>(null);
   const [handle, setHandle] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [bio, setBio] = useState("");
   const [instagram, setInstagram] = useState("");
+  const [isPublic, setIsPublic] = useState(false);
 
-  const { data: profile } = useQuery({
+  const { data } = useQuery({
     queryKey: ["my-profile", userId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: profile, error } = await supabase
         .from("profiles")
-        .select("id, handle, display_name, bio, instagram")
+        .select("id, handle, display_name, bio, instagram, avatar_path, is_public")
         .eq("id", userId)
         .maybeSingle();
       if (error) throw error;
-      return (data as Profile | null) ?? null;
+      const typed = (profile as Profile | null) ?? null;
+      const avatarUrl = await signAvatar(typed?.avatar_path ?? null);
+      return { profile: typed, avatarUrl };
     },
   });
+
+  const profile = data?.profile ?? null;
 
   useEffect(() => {
     if (!profile) return;
@@ -43,10 +53,11 @@ export function PublicPageEditor({ userId }: { userId: string }) {
     setDisplayName(profile.display_name);
     setBio(profile.bio ?? "");
     setInstagram(profile.instagram ?? "");
+    setIsPublic(profile.is_public);
   }, [profile]);
 
   const save = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (avatarPath?: string) => {
       const cleanHandle = handle.trim().toLowerCase();
       if (!HANDLE_RE.test(cleanHandle)) throw new Error("invalid");
       const { error } = await supabase.from("profiles").upsert({
@@ -55,6 +66,8 @@ export function PublicPageEditor({ userId }: { userId: string }) {
         display_name: displayName.trim() || cleanHandle,
         bio: bio.trim() || null,
         instagram: instagram.trim().replace(/^@/, "") || null,
+        is_public: isPublic,
+        ...(avatarPath ? { avatar_path: avatarPath } : {}),
       });
       if (error) throw error;
     },
@@ -70,6 +83,22 @@ export function PublicPageEditor({ userId }: { userId: string }) {
     },
   });
 
+  const photo = useMutation({
+    mutationFn: async (file: File) => {
+      const path = await uploadAvatar(file, userId);
+      const { error } = await supabase
+        .from("profiles")
+        .update({ avatar_path: path })
+        .eq("id", userId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success(t("profile.photoUpdated"));
+      queryClient.invalidateQueries({ queryKey: ["my-profile", userId] });
+    },
+    onError: () => toast.error(t("common.error")),
+  });
+
   const publicUrl =
     typeof window !== "undefined" && profile?.handle
       ? `${window.location.origin}/voyageur/${profile.handle}`
@@ -79,7 +108,7 @@ export function PublicPageEditor({ userId }: { userId: string }) {
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        save.mutate();
+        save.mutate(undefined);
       }}
       className="space-y-3 rounded-2xl border border-border bg-card p-5 shadow-card"
     >
@@ -89,18 +118,59 @@ export function PublicPageEditor({ userId }: { userId: string }) {
         <p className="mt-1 text-sm text-muted-foreground">{t("profile.lead")}</p>
       </div>
 
+      <div className="flex items-center gap-4">
+        <button
+          type="button"
+          onClick={() => fileInput.current?.click()}
+          aria-label={t("profile.choosePhoto")}
+          className="relative grid size-20 shrink-0 place-items-center overflow-hidden rounded-full border border-border bg-background"
+        >
+          {data?.avatarUrl ? (
+            <img
+              src={data.avatarUrl}
+              alt={profile?.display_name ?? t("profile.photo")}
+              className="size-full object-cover"
+            />
+          ) : (
+            <Camera className="size-5 text-muted-foreground" />
+          )}
+        </button>
+        <div className="min-w-0">
+          <p className="text-xs font-medium text-muted-foreground">{t("profile.photo")}</p>
+          <button
+            type="button"
+            disabled={photo.isPending}
+            onClick={() => fileInput.current?.click()}
+            className="mt-1 rounded-full border border-border px-3 py-1.5 text-xs font-semibold disabled:opacity-60"
+          >
+            {t("profile.choosePhoto")}
+          </button>
+        </div>
+        <input
+          ref={fileInput}
+          type="file"
+          accept="image/*"
+          hidden
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+            if (file) photo.mutate(file);
+            event.target.value = "";
+          }}
+        />
+      </div>
+
+      <input
+        value={displayName}
+        onChange={(e) => setDisplayName(e.target.value)}
+        placeholder={t("me.nickname")}
+        maxLength={80}
+        className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
+      />
       <input
         value={handle}
         onChange={(e) => setHandle(e.target.value)}
         placeholder={t("profile.handle")}
         maxLength={30}
-        className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
-      />
-      <input
-        value={displayName}
-        onChange={(e) => setDisplayName(e.target.value)}
-        placeholder={t("profile.displayName")}
-        maxLength={80}
         className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
       />
       <input
@@ -118,6 +188,30 @@ export function PublicPageEditor({ userId }: { userId: string }) {
         rows={2}
         className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
       />
+
+      <div className="rounded-xl border border-border p-3">
+        <p className="text-xs font-medium text-muted-foreground">{t("me.visibility")}</p>
+        <div className="mt-2 flex gap-2">
+          {[false, true].map((value) => (
+            <button
+              key={String(value)}
+              type="button"
+              onClick={() => setIsPublic(value)}
+              aria-pressed={isPublic === value}
+              className={`flex-1 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                isPublic === value
+                  ? "bg-primary text-primary-foreground"
+                  : "border border-border text-muted-foreground"
+              }`}
+            >
+              {value ? t("me.public") : t("me.private")}
+            </button>
+          ))}
+        </div>
+        <p className="mt-2 text-xs text-muted-foreground">
+          {isPublic ? t("me.publicHint") : t("me.privateHint")}
+        </p>
+      </div>
 
       <button
         type="submit"

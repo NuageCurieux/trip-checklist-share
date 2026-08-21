@@ -15,6 +15,7 @@ import { Route as CompteRouteImport } from './routes/compte'
 import { Route as CorrectionsRouteImport } from './routes/corrections'
 import { Route as FavorisRouteImport } from './routes/favoris'
 import { Route as LocalisationRouteImport } from './routes/localisation'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
 import { Route as PartageSlugRouteImport } from './routes/partage.$slug'
 
@@ -48,6 +49,11 @@ const LocalisationRoute = LocalisationRouteImport.update({
   path: '/localisation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CarnetIdRoute = CarnetIdRouteImport.update({
   id: '/carnet/$id',
   path: '/carnet/$id',
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
   '/localisation': typeof LocalisationRoute
+  '/notifications': typeof NotificationsRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
   '/localisation': typeof LocalisationRoute
+  '/notifications': typeof NotificationsRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
   '/localisation': typeof LocalisationRoute
+  '/notifications': typeof NotificationsRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/corrections'
     | '/favoris'
     | '/localisation'
+    | '/notifications'
     | '/carnet/$id'
     | '/partage/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/corrections'
     | '/favoris'
     | '/localisation'
+    | '/notifications'
     | '/carnet/$id'
     | '/partage/$slug'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/corrections'
     | '/favoris'
     | '/localisation'
+    | '/notifications'
     | '/carnet/$id'
     | '/partage/$slug'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   CorrectionsRoute: typeof CorrectionsRoute
   FavorisRoute: typeof FavorisRoute
   LocalisationRoute: typeof LocalisationRoute
+  NotificationsRoute: typeof NotificationsRoute
   CarnetIdRoute: typeof CarnetIdRoute
   PartageSlugRoute: typeof PartageSlugRoute
 }
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocalisationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/carnet/$id': {
       id: '/carnet/$id'
       path: '/carnet/$id'
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   CorrectionsRoute: CorrectionsRoute,
   FavorisRoute: FavorisRoute,
   LocalisationRoute: LocalisationRoute,
+  NotificationsRoute: NotificationsRoute,
   CarnetIdRoute: CarnetIdRoute,
   PartageSlugRoute: PartageSlugRoute,
 }

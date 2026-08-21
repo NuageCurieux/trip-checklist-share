@@ -1,7 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { Plus } from "lucide-react";
+import { Bell, Plus } from "lucide-react";
 import type { ReactNode } from "react";
 
+import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/hooks/useSession";
 import { useI18n, type Lang } from "@/lib/i18n";
 
 const LANGS: Lang[] = ["fr", "en", "es"];

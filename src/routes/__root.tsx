@@ -116,6 +116,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
     ],
   }),
+  beforeLoad: async ({ location }) => {
+    if (location.pathname === "/unlock") return;
+    try {
+      await checkGate();
+    } catch {
+      throw redirect({ to: "/unlock" });
+    }
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

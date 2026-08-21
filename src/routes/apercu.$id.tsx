@@ -9,6 +9,7 @@ import { BestTimeBadges, PlaceFameStars } from "@/components/travel/PlaceDetails
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/lib/i18n";
+import { defaultCoverFor } from "@/lib/defaultCover";
 import { embedMapUrl, externalMapUrl, providerForCountry, providerLabel } from "@/lib/mapProviders";
 import {
   progress,
@@ -136,7 +137,7 @@ function PreviewContent() {
   }
 
   const places = data.places;
-  const cover = trip.cover_path ? data.files[trip.cover_path] : trip.cover_url;
+  const cover = trip.cover_path ? data.files[trip.cover_path] : (trip.cover_url ?? defaultCoverFor(trip.destination));
   const provider = providerForCountry(trip.destination);
   const isOwner = user?.id === trip.owner_id;
   const done = places.filter((p) => p.visited).length;

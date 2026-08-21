@@ -8,6 +8,7 @@ import { AppShell, LanguageSwitcher } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/lib/i18n";
+import { defaultCoverFor } from "@/lib/defaultCover";
 import { progress, signPaths, VISIBILITY_LABEL, type Place, type Trip } from "@/lib/travel";
 
 export const Route = createFileRoute("/")({
@@ -31,6 +32,7 @@ export const Route = createFileRoute("/")({
 });
 
 type TripWithPlaces = Trip & { places: Place[] };
+
 
 function Home() {
   const { user, loading } = useSession();
@@ -163,7 +165,7 @@ function TravellerFeed() {
             className="relative block"
           >
             <img
-              src={data?.covers[featured.cover_path ?? ""] ?? coverDefault}
+              src={data?.covers[featured.cover_path ?? ""] ?? defaultCoverFor(featured.destination)}
               alt={featured.title}
               width={800}
               height={1008}

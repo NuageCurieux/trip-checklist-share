@@ -6,6 +6,7 @@ import { LanguageSwitcher } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { progress, signPaths, type Place, type Trip } from "@/lib/travel";
+import { defaultCoverFor } from "@/lib/defaultCover";
 import { BestTimeBadges, PlaceFameStars } from "@/components/travel/PlaceDetails";
 
 type PlaceSheet = { sheet_key: string | null; best_time: string[] | null };
@@ -128,7 +129,7 @@ function SharedTrip() {
 
 
   const places = data.places;
-  const cover = trip.cover_path ? data.files[trip.cover_path] : trip.cover_url;
+  const cover = trip.cover_path ? data.files[trip.cover_path] : (trip.cover_url ?? defaultCoverFor(trip.destination));
 
   return (
     <div className="min-h-screen bg-background pb-12 text-foreground">

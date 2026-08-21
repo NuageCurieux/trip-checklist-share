@@ -112,7 +112,7 @@ export function AppShell({
             activeProps={{ className: "text-primary" }}
           >
             <span className="text-[10px] font-bold tracking-tight uppercase">
-              {t("discover.catalog")}
+              {t("nav.places")}
             </span>
           </Link>
           <Link

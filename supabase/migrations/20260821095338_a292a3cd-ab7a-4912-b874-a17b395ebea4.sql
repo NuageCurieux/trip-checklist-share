@@ -1,0 +1,20 @@
+REVOKE ALL ON FUNCTION public.can_view_trip(uuid) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.is_trip_owner(uuid) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.can_view_location_share(uuid) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.owns_location_share(uuid) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.profile_trip_previews(text) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.share_gate_info(text) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.review_place_suggestion(uuid, boolean) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.has_role(uuid, public.app_role) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.has_follower_access(uuid) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.apply_place_suggestion(uuid, uuid) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.check_suggestion_consensus() FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.notify_access_request() FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.notify_access_reviewed() FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.notify_suggestion_created() FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.notify_suggestion_reviewed() FROM PUBLIC;
+
+REVOKE ALL ON FUNCTION public.can_view_location_share(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.owns_location_share(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.is_trip_owner(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.review_place_suggestion(uuid, boolean) FROM anon;

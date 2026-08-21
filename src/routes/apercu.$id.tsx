@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { PlacesMap } from "@/components/travel/PlacesMap";
+import { BestTimeBadges, PlaceSheetImage } from "@/components/travel/PlaceDetails";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/lib/i18n";
@@ -91,12 +92,24 @@ function PreviewContent() {
       const places = (placesRes.data ?? []) as Place[];
       const documents = (docsRes.data ?? []) as TripDocument[];
       const members = (membersRes.data ?? []) as { id: string; email: string }[];
+      // Catalogue extras (illustrated sheet + best daypart) for places picked from the library.
+      const catalogIds = [...new Set(places.map((p) => p.catalog_place_id).filter(Boolean))] as string[];
+      const sheets: Record<string, { sheet_key: string | null; best_time: string[] | null }> = {};
+      if (catalogIds.length > 0) {
+        const { data: rows } = await supabase
+          .from("catalog_places")
+          .select("id, sheet_key, best_time")
+          .in("id", catalogIds);
+        for (const row of rows ?? []) {
+          sheets[row.id] = { sheet_key: row.sheet_key, best_time: row.best_time };
+        }
+      }
       const files = await signPaths([
         trip?.cover_path ?? null,
         ...places.map((p) => p.photo_path),
         ...documents.map((d) => d.path),
       ]);
-      return { trip, places, documents, members, files };
+      return { trip, places, documents, members, files, sheets };
     },
   });
 
@@ -230,6 +243,18 @@ function PreviewContent() {
                         {place.note}
                       </p>
                     ) : null}
+                    {(() => {
+                      const sheet = place.catalog_place_id
+                        ? data.sheets[place.catalog_place_id]
+                        : undefined;
+                      if (!sheet) return null;
+                      return (
+                        <div className="mt-3 space-y-3">
+                          <BestTimeBadges value={sheet.best_time} />
+                          <PlaceSheetImage sheetKey={sheet.sheet_key} name={place.name} />
+                        </div>
+                      );
+                    })()}
                     {place.photo_path && data.files[place.photo_path] ? (
                       <img
                         src={data.files[place.photo_path]}

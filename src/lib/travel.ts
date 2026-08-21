@@ -44,6 +44,8 @@ export type CatalogPlace = {
   lng: number | null;
   google_place_id: string | null;
   source: string;
+  sheet_key: string | null;
+  best_time: string[] | null;
 };
 
 export const VISIBILITY_LABEL: Record<Visibility, string> = {

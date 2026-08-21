@@ -53,6 +53,7 @@ export type Database = {
       catalog_places: {
         Row: {
           area: string | null
+          best_time: string[]
           category: string | null
           city: string
           country: string | null
@@ -64,10 +65,12 @@ export type Database = {
           lat: number | null
           lng: number | null
           name: string
+          sheet_key: string | null
           source: string
         }
         Insert: {
           area?: string | null
+          best_time?: string[]
           category?: string | null
           city: string
           country?: string | null
@@ -79,10 +82,12 @@ export type Database = {
           lat?: number | null
           lng?: number | null
           name: string
+          sheet_key?: string | null
           source?: string
         }
         Update: {
           area?: string | null
+          best_time?: string[]
           category?: string | null
           city?: string
           country?: string | null
@@ -94,6 +99,7 @@ export type Database = {
           lat?: number | null
           lng?: number | null
           name?: string
+          sheet_key?: string | null
           source?: string
         }
         Relationships: []

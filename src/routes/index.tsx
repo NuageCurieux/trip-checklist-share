@@ -10,10 +10,6 @@ import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/lib/i18n";
 import { defaultCoverFor } from "@/lib/defaultCover";
 import { progress, signPaths, VISIBILITY_LABEL, type Place, type Trip } from "@/lib/travel";
-import { supabase } from "@/integrations/supabase/client";
-import { useSession } from "@/hooks/useSession";
-import { useI18n } from "@/lib/i18n";
-import { progress, signPaths, VISIBILITY_LABEL, type Place, type Trip } from "@/lib/travel";
 
 export const Route = createFileRoute("/")({
   head: () => ({

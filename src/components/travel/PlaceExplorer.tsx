@@ -40,18 +40,23 @@ export function PlaceExplorer({
   const provider = providerForCountry(country);
 
   const { data: catalog } = useQuery({
-    queryKey: ["catalog", city],
-    enabled: Boolean(city),
+    queryKey: ["catalog", city, country],
+    enabled: Boolean(city || country),
     queryFn: async () => {
+      // The notebook stores a free destination ("Corée du Sud"), so match both
+      // the catalogue city and its country to always surface the seeded places.
+      const term = (city ?? country ?? "").trim();
       const { data, error } = await supabase
         .from("catalog_places")
         .select("*")
-        .ilike("city", city ?? "")
+        .or(`city.ilike.%${term}%,country.ilike.%${term}%`)
+        .order("city")
         .order("name");
       if (error) throw error;
       return (data ?? []) as CatalogPlace[];
     },
   });
+
 
   const { data: favorites } = useQuery({
     queryKey: ["favorites"],
@@ -165,17 +170,19 @@ export function PlaceExplorer({
     onError: () => toast.error(t("common.error")),
   });
 
-  /** Catalogue grouped by category so each city reads as labelled sections. */
+  /** Catalogue grouped by "city · category" labelled sections. */
   const groups: Array<[string, CatalogPlace[]]> = (() => {
     const map = new Map<string, CatalogPlace[]>();
     for (const place of catalog ?? []) {
-      const key = place.category?.trim() || t("discover.catalog");
+      const label = place.category?.trim() || t("discover.catalog");
+      const key = place.city ? `${place.city} · ${label}` : label;
       const list = map.get(key) ?? [];
       list.push(place);
       map.set(key, list);
     }
     return [...map.entries()].sort((a, b) => a[0].localeCompare(b[0]));
   })();
+
 
   return (
     <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
@@ -247,7 +254,7 @@ export function PlaceExplorer({
             {groups.map(([category, places]) => (
               <section key={category}>
                 <h3 className="font-serif text-sm italic text-foreground">
-                  {city ? `${city} · ${category}` : category}
+                  {category}
                 </h3>
                 <ul className="mt-2 divide-y divide-border/70 overflow-hidden rounded-xl border border-border/70 bg-muted/40">
                   {places.map((place) => {

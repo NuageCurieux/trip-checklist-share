@@ -61,6 +61,44 @@ export type Database = {
           },
         ]
       }
+      trip_documents: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          name: string
+          path: string
+          position: number
+          trip_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind?: string
+          name: string
+          path: string
+          position?: number
+          trip_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          name?: string
+          path?: string
+          position?: number
+          trip_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trip_documents_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       trip_members: {
         Row: {
           created_at: string

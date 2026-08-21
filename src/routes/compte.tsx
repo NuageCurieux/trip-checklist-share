@@ -1,6 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 
 import { AppShell, LanguageSwitcher } from "@/components/AppShell";
+import { PublicPageEditor } from "@/components/travel/PublicPageEditor";
+
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/lib/i18n";
@@ -52,8 +54,10 @@ function AccountPage() {
 
   return (
     <AppShell kicker={t("account.kicker")} title={t("account.title")}>
-      <section className="px-6">
+      <section className="space-y-4 px-6">
+        <PublicPageEditor userId={user.id} />
         <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
+
           <p className="text-xs font-medium text-muted-foreground">{t("account.email")}</p>
           <p className="mt-1 text-sm">{user.email}</p>
 
@@ -63,8 +67,15 @@ function AccountPage() {
           </div>
 
           <Link
-            to="/localisation"
+            to="/acces"
             className="mt-6 block rounded-xl border border-border py-3 text-center text-sm font-semibold"
+          >
+            {t("access.title")}
+          </Link>
+
+          <Link
+            to="/localisation"
+            className="mt-3 block rounded-xl border border-border py-3 text-center text-sm font-semibold"
           >
             {t("loc.cta")}
           </Link>
@@ -75,6 +86,7 @@ function AccountPage() {
           >
             {t("notif.title")}
           </Link>
+
 
           <button
             type="button"

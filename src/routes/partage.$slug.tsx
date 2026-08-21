@@ -39,11 +39,21 @@ function SharedTrip() {
         .eq("share_slug", slug)
         .maybeSingle();
       if (error) throw error;
-      if (!trip) return {
+      if (!trip) {
+        const { data: gate } = await supabase.rpc("share_gate_info", { _slug: slug });
+        const info = Array.isArray(gate) ? gate[0] : gate;
+        return {
           trip: null as Trip | null,
           places: [] as Place[],
           files: {} as Record<string, string>,
+          gate: (info ?? null) as {
+            owner_handle: string | null;
+            owner_name: string | null;
+            title: string | null;
+          } | null,
         };
+      }
+
       const { data: places } = await supabase
         .from("places")
         .select("*")
@@ -54,7 +64,7 @@ function SharedTrip() {
         (trip as Trip).cover_path,
         ...list.map((p) => p.photo_path),
       ]);
-      return { trip: trip as Trip, places: list, files };
+      return { trip: trip as Trip, places: list, files, gate: null };
     },
   });
 
@@ -68,17 +78,36 @@ function SharedTrip() {
 
   const trip = data?.trip;
   if (!trip) {
+    const gate = data?.gate;
     return (
       <div className="grid min-h-screen place-items-center px-8 text-center">
-        <div>
-          <p className="text-sm text-muted-foreground">{t("public.notFound")}</p>
-          <Link to="/" className="mt-4 inline-block text-sm font-semibold text-primary">
+        <div className="max-w-sm">
+          {gate ? (
+            <>
+              <p className="kicker">{t("access.kicker")}</p>
+              <h1 className="mt-1 font-serif text-2xl italic">{t("access.lockedTitle")}</h1>
+              <p className="mt-3 text-sm text-muted-foreground">{t("access.lockedLead")}</p>
+              {gate.owner_handle ? (
+                <Link
+                  to="/voyageur/$handle"
+                  params={{ handle: gate.owner_handle }}
+                  className="mt-5 inline-flex rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground"
+                >
+                  {t("access.request")}
+                </Link>
+              ) : null}
+            </>
+          ) : (
+            <p className="text-sm text-muted-foreground">{t("public.notFound")}</p>
+          )}
+          <Link to="/" className="mt-4 block text-sm font-semibold text-primary">
             {t("public.backHome")}
           </Link>
         </div>
       </div>
     );
   }
+
 
   const places = data.places;
   const cover = trip.cover_path ? data.files[trip.cover_path] : trip.cover_url;

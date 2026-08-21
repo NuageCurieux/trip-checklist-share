@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccesRouteImport } from './routes/acces'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CompteRouteImport } from './routes/compte'
 import { Route as CorrectionsRouteImport } from './routes/corrections'
@@ -18,10 +19,16 @@ import { Route as LocalisationRouteImport } from './routes/localisation'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
 import { Route as PartageSlugRouteImport } from './routes/partage.$slug'
+import { Route as VoyageurHandleRouteImport } from './routes/voyageur.$handle'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccesRoute = AccesRouteImport.update({
+  id: '/acces',
+  path: '/acces',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -64,9 +71,15 @@ const PartageSlugRoute = PartageSlugRouteImport.update({
   path: '/partage/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VoyageurHandleRoute = VoyageurHandleRouteImport.update({
+  id: '/voyageur/$handle',
+  path: '/voyageur/$handle',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/acces': typeof AccesRoute
   '/auth': typeof AuthRoute
   '/compte': typeof CompteRoute
   '/corrections': typeof CorrectionsRoute
@@ -75,9 +88,11 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof NotificationsRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
+  '/voyageur/$handle': typeof VoyageurHandleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/acces': typeof AccesRoute
   '/auth': typeof AuthRoute
   '/compte': typeof CompteRoute
   '/corrections': typeof CorrectionsRoute
@@ -86,10 +101,12 @@ export interface FileRoutesByTo {
   '/notifications': typeof NotificationsRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
+  '/voyageur/$handle': typeof VoyageurHandleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/acces': typeof AccesRoute
   '/auth': typeof AuthRoute
   '/compte': typeof CompteRoute
   '/corrections': typeof CorrectionsRoute
@@ -98,11 +115,13 @@ export interface FileRoutesById {
   '/notifications': typeof NotificationsRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
+  '/voyageur/$handle': typeof VoyageurHandleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/acces'
     | '/auth'
     | '/compte'
     | '/corrections'
@@ -111,9 +130,11 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/carnet/$id'
     | '/partage/$slug'
+    | '/voyageur/$handle'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/acces'
     | '/auth'
     | '/compte'
     | '/corrections'
@@ -122,9 +143,11 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/carnet/$id'
     | '/partage/$slug'
+    | '/voyageur/$handle'
   id:
     | '__root__'
     | '/'
+    | '/acces'
     | '/auth'
     | '/compte'
     | '/corrections'
@@ -133,10 +156,12 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/carnet/$id'
     | '/partage/$slug'
+    | '/voyageur/$handle'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccesRoute: typeof AccesRoute
   AuthRoute: typeof AuthRoute
   CompteRoute: typeof CompteRoute
   CorrectionsRoute: typeof CorrectionsRoute
@@ -145,6 +170,7 @@ export interface RootRouteChildren {
   NotificationsRoute: typeof NotificationsRoute
   CarnetIdRoute: typeof CarnetIdRoute
   PartageSlugRoute: typeof PartageSlugRoute
+  VoyageurHandleRoute: typeof VoyageurHandleRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -154,6 +180,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/acces': {
+      id: '/acces'
+      path: '/acces'
+      fullPath: '/acces'
+      preLoaderRoute: typeof AccesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -212,11 +245,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartageSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/voyageur/$handle': {
+      id: '/voyageur/$handle'
+      path: '/voyageur/$handle'
+      fullPath: '/voyageur/$handle'
+      preLoaderRoute: typeof VoyageurHandleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccesRoute: AccesRoute,
   AuthRoute: AuthRoute,
   CompteRoute: CompteRoute,
   CorrectionsRoute: CorrectionsRoute,
@@ -225,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   NotificationsRoute: NotificationsRoute,
   CarnetIdRoute: CarnetIdRoute,
   PartageSlugRoute: PartageSlugRoute,
+  VoyageurHandleRoute: VoyageurHandleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -85,12 +85,47 @@ function AuthPage() {
     void navigate({ to: "/profil" });
   }
 
+  if (user) {
+    return (
+      <div className="min-h-screen bg-background px-6 pt-8 pb-12 text-foreground">
+        <div className="flex items-start justify-between">
+          <p className="kicker">{t("landing.kicker")}</p>
+          <LanguageSwitcher />
+        </div>
+        <h1 className="mt-2 font-serif text-3xl italic">{t("auth.alreadyTitle")}</h1>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          {t("auth.alreadyLead")} {user.email}
+        </p>
+        <div className="mt-8 space-y-3">
+          <button
+            type="button"
+            onClick={() => void navigate({ to: "/profil" })}
+            className="w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground"
+          >
+            {t("auth.goToProfile")}
+          </button>
+          <button
+            type="button"
+            onClick={async () => {
+              await supabase.auth.signOut();
+              setMode("signup");
+            }}
+            className="w-full rounded-xl border border-border py-3 text-sm font-semibold"
+          >
+            {t("auth.signOut")}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background px-6 pt-8 pb-12 text-foreground">
       <div className="flex items-start justify-between">
         <p className="kicker">{t("landing.kicker")}</p>
         <LanguageSwitcher />
       </div>
+
       <h1 className="mt-2 font-serif text-3xl italic">
         {mode === "signin" ? t("auth.signIn") : mode === "signup" ? t("auth.signUp") : t("auth.resetTitle")}
       </h1>

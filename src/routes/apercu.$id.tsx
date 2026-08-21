@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Check, Copy, ExternalLink, FileText, Heart } from "lucide-react";
+import { Check, Copy, ExternalLink, FileText, Heart, Monitor, Smartphone } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import { PlacesMap } from "@/components/travel/PlacesMap";

@@ -41,6 +41,37 @@ export const Route = createFileRoute("/apercu/$id")({
 type TripDocument = { id: string; name: string; path: string; kind: string };
 
 function PreviewPage() {
+  const { t } = useI18n();
+  const [mobile, setMobile] = useState(true);
+
+  return (
+    <div className={mobile ? "min-h-screen bg-muted" : "min-h-screen bg-background"}>
+      <div className="mx-auto flex max-w-[430px] items-center justify-between gap-3 px-4 pt-4 sm:max-w-none">
+        <p className="text-xs text-muted-foreground">{mobile ? t("prev.mobileHint") : ""}</p>
+        <button
+          type="button"
+          onClick={() => setMobile((v) => !v)}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold shadow-card"
+        >
+          {mobile ? <Monitor className="size-3.5" /> : <Smartphone className="size-3.5" />}
+          {mobile ? t("prev.fullMode") : t("prev.mobileMode")}
+        </button>
+      </div>
+
+      {mobile ? (
+        <div className="flex justify-center px-2 py-4">
+          <div className="h-[844px] w-[390px] max-w-full overflow-y-auto rounded-[2.25rem] border-[6px] border-foreground/80 bg-background shadow-card">
+            <PreviewContent />
+          </div>
+        </div>
+      ) : (
+        <PreviewContent />
+      )}
+    </div>
+  );
+}
+
+function PreviewContent() {
   const { id } = Route.useParams();
   const { t } = useI18n();
   const { user } = useSession();

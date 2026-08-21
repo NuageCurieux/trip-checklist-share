@@ -222,6 +222,11 @@ const fr: Dict = {
   "access.lockedLead":
     "La voyageuse valide chaque personne qui accède à ses carnets. Demandez l'accès, elle sera prévenue.",
   "access.needProfile": "Créez d'abord votre page publique dans « Mon compte ».",
+  "gate.title": "Accès privé",
+  "gate.lead": "Cette application est réservée aux personnes invitées. Saisissez le mot de passe pour entrer.",
+  "gate.placeholder": "Mot de passe",
+  "gate.error": "Mot de passe incorrect.",
+  "gate.cta": "Déverrouiller",
   "common.loading": "Chargement…",
 
   "common.cancel": "Annuler",
@@ -447,6 +452,11 @@ const en: Dict = {
   "access.lockedLead":
     "The traveller approves everyone who accesses their notebooks. Request access and they will be notified.",
   "access.needProfile": "Create your public page first in \"My account\".",
+  "gate.title": "Private access",
+  "gate.lead": "This app is reserved for invited people. Enter the password to continue.",
+  "gate.placeholder": "Password",
+  "gate.error": "Incorrect password.",
+  "gate.cta": "Unlock",
   "common.loading": "Loading…",
 
   "common.cancel": "Cancel",
@@ -513,6 +523,11 @@ const es: Dict = {
   "prev.mobileMode": "Vista móvil",
   "prev.fullMode": "Pantalla completa",
   "prev.mobileHint": "Simulación de pantalla de teléfono (390 × 844).",
+  "gate.title": "Acceso privado",
+  "gate.lead": "Esta aplicación está reservada a personas invitadas. Introduce la contraseña para entrar.",
+  "gate.placeholder": "Contraseña",
+  "gate.error": "Contraseña incorrecta.",
+  "gate.cta": "Desbloquear",
   "common.loading": "Cargando…",
 };
 

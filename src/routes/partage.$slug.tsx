@@ -39,11 +39,21 @@ function SharedTrip() {
         .eq("share_slug", slug)
         .maybeSingle();
       if (error) throw error;
-      if (!trip) return {
+      if (!trip) {
+        const { data: gate } = await supabase.rpc("share_gate_info", { _slug: slug });
+        const info = Array.isArray(gate) ? gate[0] : gate;
+        return {
           trip: null as Trip | null,
           places: [] as Place[],
           files: {} as Record<string, string>,
+          gate: (info ?? null) as {
+            owner_handle: string | null;
+            owner_name: string | null;
+            title: string | null;
+          } | null,
         };
+      }
+
       const { data: places } = await supabase
         .from("places")
         .select("*")

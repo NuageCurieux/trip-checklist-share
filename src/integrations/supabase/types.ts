@@ -14,13 +14,119 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      places: {
+        Row: {
+          area: string | null
+          category: string | null
+          created_at: string
+          id: string
+          name: string
+          note: string | null
+          position: number
+          trip_id: string
+          visited: boolean
+        }
+        Insert: {
+          area?: string | null
+          category?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          note?: string | null
+          position?: number
+          trip_id: string
+          visited?: boolean
+        }
+        Update: {
+          area?: string | null
+          category?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          note?: string | null
+          position?: number
+          trip_id?: string
+          visited?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "places_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trip_members: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          trip_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          trip_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          trip_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trip_members_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trips: {
+        Row: {
+          cover_url: string | null
+          created_at: string
+          destination: string | null
+          id: string
+          owner_id: string
+          share_slug: string
+          title: string
+          visibility: string
+        }
+        Insert: {
+          cover_url?: string | null
+          created_at?: string
+          destination?: string | null
+          id?: string
+          owner_id?: string
+          share_slug?: string
+          title: string
+          visibility?: string
+        }
+        Update: {
+          cover_url?: string | null
+          created_at?: string
+          destination?: string | null
+          id?: string
+          owner_id?: string
+          share_slug?: string
+          title?: string
+          visibility?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      can_view_trip: { Args: { _trip_id: string }; Returns: boolean }
+      is_trip_owner: { Args: { _trip_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never

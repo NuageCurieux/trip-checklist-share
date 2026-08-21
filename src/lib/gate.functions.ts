@@ -68,20 +68,24 @@ export const getGatePreview = createServerFn({ method: "GET" }).handler(async ()
 
   const { data: trips, error: tripError } = await supabase
     .from("trips")
-    .select(
-      "id, title, destination, cover_path, cover_url, share_slug, owner_id, profiles!inner(handle, display_name)",
-    )
+    .select("id, title, destination, cover_path, cover_url, share_slug, owner_id")
     .eq("visibility", "public")
     .order("created_at", { ascending: false })
     .limit(3);
   if (tripError) throw tripError;
 
+  const ownerIds = [...new Set((trips ?? []).map((t) => t.owner_id).filter(Boolean))];
+  const { data: owners } = await supabase
+    .from("profiles")
+    .select("id, handle, display_name")
+    .in("id", ownerIds.length ? ownerIds : ["00000000-0000-0000-0000-000000000000"]);
+  const ownerMap = new Map(
+    (owners ?? []).map((o) => [o.id, { handle: o.handle, display_name: o.display_name }]),
+  );
+
   const previews: GatePreviewTrip[] = [];
   for (const trip of trips ?? []) {
-    const profile = (trip.profiles as { handle: string; display_name: string }) ?? {
-      handle: "",
-      display_name: "",
-    };
+    const owner = ownerMap.get(trip.owner_id) ?? { handle: "", display_name: "" };
     const { count } = await supabase
       .from("places")
       .select("*", { count: "exact", head: true })
@@ -94,8 +98,8 @@ export const getGatePreview = createServerFn({ method: "GET" }).handler(async ()
       cover_url: trip.cover_url,
       share_slug: trip.share_slug,
       place_count: count ?? 0,
-      owner_handle: profile.handle,
-      owner_name: profile.display_name,
+      owner_handle: owner.handle,
+      owner_name: owner.display_name,
     });
   }
 

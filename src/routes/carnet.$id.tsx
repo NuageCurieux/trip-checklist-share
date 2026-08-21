@@ -387,8 +387,9 @@ function TripPage() {
           <section className="mt-8 px-6">
             <PlaceExplorer
               tripId={trip.id}
-              city={trip.destination}
-              country={trip.destination}
+              city={trip.destination ?? trip.title}
+              country={trip.destination ?? trip.title}
+
               onAdded={() => void queryClient.invalidateQueries({ queryKey: ["trip", id] })}
             />
           </section>

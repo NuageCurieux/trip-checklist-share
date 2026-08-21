@@ -1,6 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 
 import { AppShell, LanguageSwitcher } from "@/components/AppShell";
+import { PublicPageEditor } from "@/components/travel/PublicPageEditor";
+
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/lib/i18n";

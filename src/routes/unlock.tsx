@@ -65,11 +65,20 @@ function UnlockPage() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    // Read the DOM value: browser autofill / paste can set the input without
+    // firing React's onChange, which used to leave the password state empty.
+    const formValue = String(new FormData(e.currentTarget).get("password") ?? "");
+    const candidate = (formValue || password).trim();
+    if (!candidate) {
+      setError(true);
+      return;
+    }
     setLoading(true);
     setError(false);
     try {
-      const { ok } = await unlock({ data: { password: password.trim() } });
+      const { ok } = await unlock({ data: { password: candidate } });
       if (ok) {
+        await router.invalidate();
         await router.navigate({ to: "/" });
         return;
       }
@@ -109,7 +118,8 @@ function UnlockPage() {
         </div>
 
         {/* Password form */}
-        <form onSubmit={onSubmit} className="mt-6 space-y-3 rounded-2xl border border-border/60 bg-white/80 p-5 shadow-card backdrop-blur-xl">
+        {/* method="post" so a pre-hydration submit never puts the password in the URL */}
+        <form method="post" onSubmit={onSubmit} className="mt-6 space-y-3 rounded-2xl border border-border/60 bg-white/80 p-5 shadow-card backdrop-blur-xl">
           <input
             name="password"
             type="password"
@@ -124,7 +134,7 @@ function UnlockPage() {
           ) : null}
           <button
             type="submit"
-            disabled={!password.trim() || loading}
+            disabled={loading}
             className="w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
           >
             {loading ? t("common.loading") : t("gate.cta")}

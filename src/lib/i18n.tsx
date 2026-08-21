@@ -270,6 +270,11 @@ const fr: Dict = {
   "gate.orCreate": "Pas encore de compte ?",
   "gate.createAccount": "Créer mon espace perso",
   "gate.signIn": "J’ai déjà un compte — se connecter",
+  "gate.welcome": "Bienvenue dans Carnets",
+  "gate.tagline": "Check-lists de voyage à partager avec vos proches.",
+  "gate.feedTitle": "Les carnets de voyages",
+  "gate.emptyFeed": "Aucun carnet public pour le moment.",
+  "gate.by": "par",
   "common.loading": "Chargement…",
 
   "common.cancel": "Annuler",
@@ -543,6 +548,11 @@ const en: Dict = {
   "gate.orCreate": "No account yet?",
   "gate.createAccount": "Create my personal space",
   "gate.signIn": "I already have an account — sign in",
+  "gate.welcome": "Welcome to Notebooks",
+  "gate.tagline": "Travel checklists to share with your loved ones.",
+  "gate.feedTitle": "Travel notebooks",
+  "gate.emptyFeed": "No public notebook yet.",
+  "gate.by": "by",
   "common.loading": "Loading…",
 
   "common.cancel": "Cancel",
@@ -632,6 +642,11 @@ const es: Dict = {
   "gate.orCreate": "¿Aún no tienes cuenta?",
   "gate.createAccount": "Crear mi espacio personal",
   "gate.signIn": "Ya tengo una cuenta — iniciar sesión",
+  "gate.welcome": "Bienvenido a Cuadernos",
+  "gate.tagline": "Listas de viaje para compartir con tus seres queridos.",
+  "gate.feedTitle": "Cuadernos de viaje",
+  "gate.emptyFeed": "Todavía no hay cuadernos públicos.",
+  "gate.by": "por",
   "common.loading": "Cargando…",
 };
 

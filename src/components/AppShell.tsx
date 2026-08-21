@@ -66,6 +66,15 @@ export function AppShell({
             </span>
           </Link>
           <Link
+            to="/favoris"
+            className="flex flex-col items-center gap-1"
+            activeProps={{ className: "text-primary" }}
+          >
+            <span className="text-[10px] font-bold tracking-tight uppercase">
+              {t("nav.favorites")}
+            </span>
+          </Link>
+          <Link
             to="/"
             hash="nouveau"
             aria-label={t("nav.new")}

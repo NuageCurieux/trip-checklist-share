@@ -86,10 +86,42 @@ export async function signAvatars(paths: (string | null)[]): Promise<Record<stri
   return map;
 }
 
+/**
+ * Decodes any browser-readable image (including iPhone photos) and re-encodes it
+ * as a square-friendly JPEG so every browser can display the avatar.
+ * Throws Error("avatar-format") when the file cannot be decoded (e.g. HEIC on Chrome).
+ */
+async function toDisplayableJpeg(file: File): Promise<Blob> {
+  let bitmap: ImageBitmap;
+  try {
+    bitmap = await createImageBitmap(file);
+  } catch {
+    throw new Error("avatar-format");
+  }
+  const size = 512;
+  const scale = Math.min(size / bitmap.width, size / bitmap.height, 1);
+  const width = Math.max(1, Math.round(bitmap.width * scale));
+  const height = Math.max(1, Math.round(bitmap.height * scale));
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("avatar-format");
+  ctx.drawImage(bitmap, 0, 0, width, height);
+  bitmap.close?.();
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, "image/jpeg", 0.9),
+  );
+  if (!blob) throw new Error("avatar-format");
+  return blob;
+}
+
 export async function uploadAvatar(file: File, userId: string): Promise<string> {
-  const ext = file.name.split(".").pop() ?? "jpg";
-  const path = `${userId}/avatar-${Date.now()}.${ext}`;
-  const { error } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
+  const jpeg = await toDisplayableJpeg(file);
+  const path = `${userId}/avatar-${Date.now()}.jpg`;
+  const { error } = await supabase.storage
+    .from("avatars")
+    .upload(path, jpeg, { upsert: true, contentType: "image/jpeg" });
   if (error) throw error;
   return path;
 }

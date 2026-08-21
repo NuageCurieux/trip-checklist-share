@@ -1,11 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ChevronDown, Heart, Plus, Search } from "lucide-react";
+import { ChevronDown, ExternalLink, Heart, Plus, Search } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
+import {
+  embedMapUrl,
+  externalMapUrl,
+  providerForCountry,
+  providerLabel,
+} from "@/lib/mapProviders";
 import { searchPlaces, type MapsSearchResult } from "@/lib/maps.functions";
 import { SuggestCorrection } from "@/components/travel/SuggestCorrection";
 import type { CatalogPlace } from "@/lib/travel";
@@ -31,6 +37,7 @@ export function PlaceExplorer({
   const [term, setTerm] = useState("");
   const [results, setResults] = useState<MapsSearchResult[] | null>(null);
   const [openId, setOpenId] = useState<string | null>(null);
+  const provider = providerForCountry(country);
 
   const { data: catalog } = useQuery({
     queryKey: ["catalog", city],

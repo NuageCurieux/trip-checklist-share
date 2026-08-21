@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Heart, Plus, Search } from "lucide-react";
+import { ChevronDown, Heart, Plus, Search } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -30,6 +30,7 @@ export function PlaceExplorer({
   const search = useServerFn(searchPlaces);
   const [term, setTerm] = useState("");
   const [results, setResults] = useState<MapsSearchResult[] | null>(null);
+  const [openId, setOpenId] = useState<string | null>(null);
 
   const { data: catalog } = useQuery({
     queryKey: ["catalog", city],
@@ -156,6 +157,18 @@ export function PlaceExplorer({
     },
     onError: () => toast.error(t("common.error")),
   });
+
+  /** Catalogue grouped by category so each city reads as labelled sections. */
+  const groups: Array<[string, CatalogPlace[]]> = (() => {
+    const map = new Map<string, CatalogPlace[]>();
+    for (const place of catalog ?? []) {
+      const key = place.category?.trim() || t("discover.catalog");
+      const list = map.get(key) ?? [];
+      list.push(place);
+      map.set(key, list);
+    }
+    return [...map.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  })();
 
   return (
     <div className="rounded-2xl border border-border bg-card p-5 shadow-card">

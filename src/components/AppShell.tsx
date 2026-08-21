@@ -82,6 +82,15 @@ export function AppShell({
           >
             <Plus className="size-5" />
           </Link>
+          <Link
+            to="/corrections"
+            className="flex flex-col items-center gap-1"
+            activeProps={{ className: "text-primary" }}
+          >
+            <span className="text-[10px] font-bold tracking-tight uppercase">
+              {t("nav.corrections")}
+            </span>
+          </Link>
           <Link to="/compte" className="flex flex-col items-center gap-1">
             <span className="text-[10px] font-bold tracking-tight uppercase">
               {t("nav.account")}

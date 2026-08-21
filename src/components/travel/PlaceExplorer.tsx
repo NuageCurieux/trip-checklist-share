@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { searchPlaces, type MapsSearchResult } from "@/lib/maps.functions";
+import { SuggestCorrection } from "@/components/travel/SuggestCorrection";
 import type { CatalogPlace } from "@/lib/travel";
 
 /**
@@ -224,13 +225,19 @@ export function PlaceExplorer({
         ) : (
           <ul className="space-y-2">
             {catalog.map((place) => (
-              <li key={place.id} className="flex items-start gap-3 rounded-xl bg-muted/60 p-3">
+              <li key={place.id} className="flex flex-wrap items-start gap-3 rounded-xl bg-muted/60 p-3">
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium">{place.name}</p>
                   <p className="truncate text-xs text-muted-foreground">
                     {[place.category, place.area].filter(Boolean).join(" · ")}
                   </p>
+                  {place.description ? (
+                    <p className="mt-1 font-serif text-xs italic text-muted-foreground">
+                      {place.description}
+                    </p>
+                  ) : null}
                 </div>
+                <SuggestCorrection place={place} />
                 <button
                   type="button"
                   aria-label={t("fav.add")}

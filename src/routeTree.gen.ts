@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CompteRouteImport } from './routes/compte'
+import { Route as CorrectionsRouteImport } from './routes/corrections'
 import { Route as FavorisRouteImport } from './routes/favoris'
 import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
 import { Route as PartageSlugRouteImport } from './routes/partage.$slug'
@@ -29,6 +30,11 @@ const AuthRoute = AuthRouteImport.update({
 const CompteRoute = CompteRouteImport.update({
   id: '/compte',
   path: '/compte',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CorrectionsRoute = CorrectionsRouteImport.update({
+  id: '/corrections',
+  path: '/corrections',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FavorisRoute = FavorisRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/compte': typeof CompteRoute
+  '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/compte': typeof CompteRoute
+  '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/compte': typeof CompteRoute
+  '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
@@ -75,14 +84,28 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/compte' | '/favoris' | '/carnet/$id' | '/partage/$slug'
+    | '/'
+    | '/auth'
+    | '/compte'
+    | '/corrections'
+    | '/favoris'
+    | '/carnet/$id'
+    | '/partage/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/compte' | '/favoris' | '/carnet/$id' | '/partage/$slug'
+  to:
+    | '/'
+    | '/auth'
+    | '/compte'
+    | '/corrections'
+    | '/favoris'
+    | '/carnet/$id'
+    | '/partage/$slug'
   id:
     | '__root__'
     | '/'
     | '/auth'
     | '/compte'
+    | '/corrections'
     | '/favoris'
     | '/carnet/$id'
     | '/partage/$slug'
@@ -92,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   CompteRoute: typeof CompteRoute
+  CorrectionsRoute: typeof CorrectionsRoute
   FavorisRoute: typeof FavorisRoute
   CarnetIdRoute: typeof CarnetIdRoute
   PartageSlugRoute: typeof PartageSlugRoute
@@ -118,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/compte'
       fullPath: '/compte'
       preLoaderRoute: typeof CompteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/corrections': {
+      id: '/corrections'
+      path: '/corrections'
+      fullPath: '/corrections'
+      preLoaderRoute: typeof CorrectionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/favoris': {
@@ -148,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   CompteRoute: CompteRoute,
+  CorrectionsRoute: CorrectionsRoute,
   FavorisRoute: FavorisRoute,
   CarnetIdRoute: CarnetIdRoute,
   PartageSlugRoute: PartageSlugRoute,

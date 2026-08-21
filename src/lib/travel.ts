@@ -25,6 +25,25 @@ export type Place = {
   position: number;
   photo_path: string | null;
   created_at: string;
+  lat: number | null;
+  lng: number | null;
+  favorite: boolean;
+  google_place_id: string | null;
+  catalog_place_id: string | null;
+};
+
+export type CatalogPlace = {
+  id: string;
+  city: string;
+  country: string | null;
+  name: string;
+  category: string | null;
+  area: string | null;
+  description: string | null;
+  lat: number | null;
+  lng: number | null;
+  google_place_id: string | null;
+  source: string;
 };
 
 export const VISIBILITY_LABEL: Record<Visibility, string> = {

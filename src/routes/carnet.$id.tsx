@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Check, Copy, FileText, Trash2 } from "lucide-react";
+import { Check, Copy, FileText, Heart, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
+import { PlaceExplorer } from "@/components/travel/PlaceExplorer";
+import { PlacesMap } from "@/components/travel/PlacesMap";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/lib/i18n";
@@ -117,6 +119,18 @@ function TripPage() {
       if (error) throw error;
     },
     onSuccess: invalidate,
+  });
+
+  const toggleFavorite = useMutation({
+    mutationFn: async (place: Place) => {
+      const { error } = await supabase
+        .from("places")
+        .update({ favorite: !place.favorite })
+        .eq("id", place.id);
+      if (error) throw error;
+    },
+    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["trip", id] }),
+    onError: () => toast.error(t("common.error")),
   });
 
   const removePlace = useMutation({
@@ -245,6 +259,22 @@ function TripPage() {
       </section>
 
       <section className="mt-8 px-6">
+        <h2 className="mb-4 text-sm font-semibold tracking-widest uppercase">{t("map.title")}</h2>
+        <PlacesMap
+          points={places.map((place) => ({
+            id: place.id,
+            name: place.name,
+            lat: place.lat,
+            lng: place.lng,
+            visited: place.visited,
+            favorite: place.favorite,
+          }))}
+          country={trip.destination}
+          city={trip.destination}
+        />
+      </section>
+
+      <section className="mt-8 px-6">
         <h2 className="mb-4 text-sm font-semibold tracking-widest uppercase">
           {t("trip.checklist")}
         </h2>
@@ -315,6 +345,19 @@ function TripPage() {
                 {isOwner ? (
                   <button
                     type="button"
+                    aria-label={t("fav.add")}
+                    onClick={() => toggleFavorite.mutate(place)}
+                    className="text-muted-foreground"
+                  >
+                    <Heart
+                      className={`size-4 ${place.favorite ? "fill-primary text-primary" : ""}`}
+                    />
+                  </button>
+                ) : null}
+
+                {isOwner ? (
+                  <button
+                    type="button"
                     aria-label={t("share.remove")}
                     onClick={() => removePlace.mutate(place.id)}
                     className="text-muted-foreground"
@@ -330,6 +373,15 @@ function TripPage() {
 
       {isOwner ? (
         <>
+          <section className="mt-8 px-6">
+            <PlaceExplorer
+              tripId={trip.id}
+              city={trip.destination}
+              country={trip.destination}
+              onAdded={() => void queryClient.invalidateQueries({ queryKey: ["trip", id] })}
+            />
+          </section>
+
           <section className="mt-8 px-6">
             <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
               <h2 className="mb-3 font-serif text-lg">{t("trip.addPlace")}</h2>

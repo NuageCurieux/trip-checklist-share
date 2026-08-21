@@ -91,6 +91,107 @@ export type Database = {
           },
         ]
       }
+      location_pings: {
+        Row: {
+          accuracy: number | null
+          created_at: string
+          id: string
+          lat: number
+          lng: number
+          share_id: string
+        }
+        Insert: {
+          accuracy?: number | null
+          created_at?: string
+          id?: string
+          lat: number
+          lng: number
+          share_id: string
+        }
+        Update: {
+          accuracy?: number | null
+          created_at?: string
+          id?: string
+          lat?: number
+          lng?: number
+          share_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "location_pings_share_id_fkey"
+            columns: ["share_id"]
+            isOneToOne: false
+            referencedRelation: "location_shares"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      location_shares: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          owner_id: string
+          recipient_email: string
+          status: string
+          trust_ack: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          owner_id?: string
+          recipient_email: string
+          status?: string
+          trust_ack?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          owner_id?: string
+          recipient_email?: string
+          status?: string
+          trust_ack?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: string
+          link: string | null
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind: string
+          link?: string | null
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       place_suggestions: {
         Row: {
           catalog_place_id: string
@@ -375,6 +476,7 @@ export type Database = {
         Args: { _reviewer: string; _suggestion_id: string }
         Returns: undefined
       }
+      can_view_location_share: { Args: { _share_id: string }; Returns: boolean }
       can_view_trip: { Args: { _trip_id: string }; Returns: boolean }
       has_role: {
         Args: {
@@ -384,6 +486,7 @@ export type Database = {
         Returns: boolean
       }
       is_trip_owner: { Args: { _trip_id: string }; Returns: boolean }
+      owns_location_share: { Args: { _share_id: string }; Returns: boolean }
       review_place_suggestion: {
         Args: { _approve: boolean; _suggestion_id: string }
         Returns: undefined

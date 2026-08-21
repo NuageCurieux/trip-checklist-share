@@ -207,6 +207,11 @@ const fr: Dict = {
   "me.continue": "Continuer vers mes carnets",
   "me.needAccount": "Créez votre compte pour composer votre profil.",
   "me.viewPublic": "Voir ma page publique",
+  "me.visibility": "Visibilité du profil",
+  "me.public": "Public",
+  "me.private": "Privé",
+  "me.publicHint": "Public : tout le monde voit votre profil et vos carnets partagés.",
+  "me.privateHint": "Privé : seules les personnes que vous validez voient vos carnets.",
   "access.kicker": "Demandes",
   "access.title": "Accès à mes carnets",
   "access.lead":
@@ -450,6 +455,11 @@ const en: Dict = {
   "me.continue": "Continue to my notebooks",
   "me.needAccount": "Create your account to set up your profile.",
   "me.viewPublic": "View my public page",
+  "me.visibility": "Profile visibility",
+  "me.public": "Public",
+  "me.private": "Private",
+  "me.publicHint": "Public: anyone can see your profile and shared notebooks.",
+  "me.privateHint": "Private: only people you approve can see your notebooks.",
   "access.kicker": "Requests",
   "access.title": "Access to my notebooks",
   "access.lead":

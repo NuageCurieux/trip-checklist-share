@@ -212,6 +212,13 @@ const fr: Dict = {
   "profile.photo": "Photo de profil",
   "profile.choosePhoto": "Choisir une photo",
   "profile.photoUpdated": "Photo mise à jour",
+  "profile.photoFormat":
+    "Ce format de photo n'est pas lisible par les navigateurs (HEIC). Choisissez une image JPG ou PNG.",
+  "profile.edit": "Modifier mon profil",
+  "profile.editing": "Modifier",
+  "profile.cancel": "Annuler",
+  "profile.viewPublicPage": "Voir ma page publique",
+  "profile.changePhoto": "Changer la photo",
   "me.kicker": "Mon profil",
   "me.title": "Mon profil voyageur",
   "me.lead":

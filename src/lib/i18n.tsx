@@ -478,6 +478,14 @@ const es: Dict = {
   "share.copy": "Copiar enlace",
   "share.copied": "Enlace copiado",
   "public.kicker": "Cuaderno compartido",
+  "prev.cta": "Vista previa antes de compartir",
+  "prev.kicker": "Vista previa",
+  "prev.lead": "Esto es exactamente lo que verán tus amigos con el enlace.",
+  "prev.backToTrip": "Volver a editar el cuaderno",
+  "prev.notOwner": "Solo la persona propietaria puede ver esta vista previa.",
+  "prev.docs": "Documentos adjuntos",
+  "prev.friends": "Amigos invitados",
+  "prev.noFriends": "Todavía no hay amigos invitados.",
   "common.loading": "Cargando…",
 };
 

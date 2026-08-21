@@ -6,7 +6,7 @@ import { LanguageSwitcher } from "@/components/AppShell";
 import { AccessRequest } from "@/components/travel/AccessRequest";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
-import { signPaths } from "@/lib/travel";
+import { signAvatar, signPaths } from "@/lib/travel";
 
 export const Route = createFileRoute("/voyageur/$handle")({
   head: () => ({
@@ -49,11 +49,18 @@ function TravellerProfile() {
     queryFn: async () => {
       const { data: profile, error } = await supabase
         .from("profiles")
-        .select("id, handle, display_name, bio, instagram")
+        .select("id, handle, display_name, bio, instagram, avatar_path, is_public")
         .ilike("handle", handle)
         .maybeSingle();
       if (error) throw error;
-      if (!profile) return { profile: null, previews: [] as Preview[], files: {} as Record<string, string> };
+      if (!profile)
+        return {
+          profile: null,
+          previews: [] as Preview[],
+          files: {} as Record<string, string>,
+          avatarUrl: null as string | null,
+        };
+      const avatarUrl = await signAvatar((profile as { avatar_path: string | null }).avatar_path);
 
       const { data: previews, error: previewError } = await supabase.rpc("profile_trip_previews", {
         _handle: handle,
@@ -61,7 +68,7 @@ function TravellerProfile() {
       if (previewError) throw previewError;
       const list = (previews ?? []) as Preview[];
       const files = await signPaths(list.map((p) => p.cover_path));
-      return { profile, previews: list, files };
+      return { profile, previews: list, files, avatarUrl };
     },
   });
 
@@ -92,12 +99,21 @@ function TravellerProfile() {
   return (
     <div className="min-h-screen bg-background pb-14 text-foreground">
       <header className="flex items-start justify-between px-6 pt-8">
-        <div className="min-w-0">
+        <div className="flex min-w-0 items-center gap-3">
+          {data.avatarUrl ? (
+            <img
+              src={data.avatarUrl}
+              alt={profile.display_name}
+              className="size-14 shrink-0 rounded-full border border-border object-cover"
+            />
+          ) : null}
+          <div className="min-w-0">
           <p className="kicker">{t("profile.kicker")}</p>
           <h1 className="mt-1 font-serif text-3xl italic">{profile.display_name}</h1>
           {profile.instagram ? (
             <p className="mt-1 text-sm text-muted-foreground">@{profile.instagram}</p>
           ) : null}
+          </div>
         </div>
         <LanguageSwitcher />
       </header>
@@ -110,7 +126,9 @@ function TravellerProfile() {
         <h2 className="mb-4 text-sm font-semibold tracking-widest uppercase">
           {t("profile.notebooks")}
         </h2>
-        {previews.length === 0 ? (
+        {!profile.is_public ? (
+          <p className="text-sm text-muted-foreground">{t("me.privateHint")}</p>
+        ) : previews.length === 0 ? (
           <p className="text-sm text-muted-foreground">{t("profile.emptyNotebooks")}</p>
         ) : (
           <ul className="space-y-4">

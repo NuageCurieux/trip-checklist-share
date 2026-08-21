@@ -68,6 +68,32 @@ export async function signPaths(paths: (string | null)[]): Promise<Record<string
   return map;
 }
 
+/** Resolves an avatar storage path into a displayable URL. */
+export async function signAvatar(path: string | null): Promise<string | null> {
+  if (!path) return null;
+  const { data } = await supabase.storage.from("avatars").createSignedUrl(path, 60 * 60 * 24 * 7);
+  return data?.signedUrl ?? null;
+}
+
+export async function signAvatars(paths: (string | null)[]): Promise<Record<string, string>> {
+  const clean = paths.filter((p): p is string => Boolean(p));
+  if (clean.length === 0) return {};
+  const { data } = await supabase.storage.from("avatars").createSignedUrls(clean, 60 * 60 * 24 * 7);
+  const map: Record<string, string> = {};
+  for (const item of data ?? []) {
+    if (item.path && item.signedUrl) map[item.path] = item.signedUrl;
+  }
+  return map;
+}
+
+export async function uploadAvatar(file: File, userId: string): Promise<string> {
+  const ext = file.name.split(".").pop() ?? "jpg";
+  const path = `${userId}/avatar-${Date.now()}.${ext}`;
+  const { error } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
+  if (error) throw error;
+  return path;
+}
+
 export async function uploadPhoto(file: File, userId: string): Promise<string> {
   const ext = file.name.split(".").pop() ?? "jpg";
   const path = `${userId}/${crypto.randomUUID()}.${ext}`;

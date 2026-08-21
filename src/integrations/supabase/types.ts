@@ -355,30 +355,36 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_path: string | null
           bio: string | null
           created_at: string
           display_name: string
           handle: string
           id: string
           instagram: string | null
+          is_public: boolean
           updated_at: string
         }
         Insert: {
+          avatar_path?: string | null
           bio?: string | null
           created_at?: string
           display_name: string
           handle: string
           id: string
           instagram?: string | null
+          is_public?: boolean
           updated_at?: string
         }
         Update: {
+          avatar_path?: string | null
           bio?: string | null
           created_at?: string
           display_name?: string
           handle?: string
           id?: string
           instagram?: string | null
+          is_public?: boolean
           updated_at?: string
         }
         Relationships: []

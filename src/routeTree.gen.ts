@@ -18,6 +18,7 @@ import { Route as FavorisRouteImport } from './routes/favoris'
 import { Route as LieuxRouteImport } from './routes/lieux'
 import { Route as LocalisationRouteImport } from './routes/localisation'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as UnlockRouteImport } from './routes/unlock'
 import { Route as ApercuIdRouteImport } from './routes/apercu.$id'
 import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
@@ -69,6 +70,11 @@ const NotificationsRoute = NotificationsRouteImport.update({
   path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfilRoute = ProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UnlockRoute = UnlockRouteImport.update({
   id: '/unlock',
   path: '/unlock',
@@ -105,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
+  '/profil': typeof ProfilRoute
   '/unlock': typeof UnlockRoute
   '/apercu/$id': typeof ApercuIdRoute
   '/carnet/$id': typeof CarnetIdRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByTo {
   '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
+  '/profil': typeof ProfilRoute
   '/unlock': typeof UnlockRoute
   '/apercu/$id': typeof ApercuIdRoute
   '/carnet/$id': typeof CarnetIdRoute
@@ -138,6 +146,7 @@ export interface FileRoutesById {
   '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
+  '/profil': typeof ProfilRoute
   '/unlock': typeof UnlockRoute
   '/apercu/$id': typeof ApercuIdRoute
   '/carnet/$id': typeof CarnetIdRoute
@@ -156,6 +165,7 @@ export interface FileRouteTypes {
     | '/lieux'
     | '/localisation'
     | '/notifications'
+    | '/profil'
     | '/unlock'
     | '/apercu/$id'
     | '/carnet/$id'
@@ -172,6 +182,7 @@ export interface FileRouteTypes {
     | '/lieux'
     | '/localisation'
     | '/notifications'
+    | '/profil'
     | '/unlock'
     | '/apercu/$id'
     | '/carnet/$id'
@@ -188,6 +199,7 @@ export interface FileRouteTypes {
     | '/lieux'
     | '/localisation'
     | '/notifications'
+    | '/profil'
     | '/unlock'
     | '/apercu/$id'
     | '/carnet/$id'
@@ -205,6 +217,7 @@ export interface RootRouteChildren {
   LieuxRoute: typeof LieuxRoute
   LocalisationRoute: typeof LocalisationRoute
   NotificationsRoute: typeof NotificationsRoute
+  ProfilRoute: typeof ProfilRoute
   UnlockRoute: typeof UnlockRoute
   ApercuIdRoute: typeof ApercuIdRoute
   CarnetIdRoute: typeof CarnetIdRoute
@@ -277,6 +290,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profil': {
+      id: '/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof ProfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/unlock': {
       id: '/unlock'
       path: '/unlock'
@@ -325,6 +345,7 @@ const rootRouteChildren: RootRouteChildren = {
   LieuxRoute: LieuxRoute,
   LocalisationRoute: LocalisationRoute,
   NotificationsRoute: NotificationsRoute,
+  ProfilRoute: ProfilRoute,
   UnlockRoute: UnlockRoute,
   ApercuIdRoute: ApercuIdRoute,
   CarnetIdRoute: CarnetIdRoute,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createFileRoute, useRouter, redirect } from "@tanstack/react-router";
+import { createFileRoute, useRouter, redirect, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { Lock } from "lucide-react";
 
@@ -89,6 +89,13 @@ function UnlockPage() {
             {loading ? t("common.loading") : t("gate.cta")}
           </button>
         </form>
+
+        <Link
+          to="/profil"
+          className="mt-6 block text-center text-xs font-semibold text-primary"
+        >
+          {t("me.title")}
+        </Link>
       </div>
     </div>
   );

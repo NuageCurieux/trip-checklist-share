@@ -37,7 +37,7 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    if (user) void navigate({ to: "/" });
+    if (user) void navigate({ to: "/profil" });
   }, [user, navigate]);
 
   async function submit() {
@@ -71,7 +71,7 @@ function AuthPage() {
       return;
     }
     if (result.redirected) return;
-    void navigate({ to: "/" });
+    void navigate({ to: "/profil" });
   }
 
   return (

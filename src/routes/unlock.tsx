@@ -133,7 +133,7 @@ function UnlockPage() {
           ) : null}
           <button
             type="submit"
-            disabled={!password.trim() || loading}
+            disabled={loading}
             className="w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
           >
             {loading ? t("common.loading") : t("gate.cta")}

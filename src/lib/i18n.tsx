@@ -257,6 +257,9 @@ const fr: Dict = {
   "gate.placeholder": "Mot de passe",
   "gate.error": "Mot de passe incorrect.",
   "gate.cta": "Déverrouiller",
+  "gate.orCreate": "Pas encore de compte ?",
+  "gate.createAccount": "Créer mon espace perso",
+  "gate.signIn": "J’ai déjà un compte — se connecter",
   "common.loading": "Chargement…",
 
   "common.cancel": "Annuler",
@@ -517,6 +520,9 @@ const en: Dict = {
   "gate.placeholder": "Password",
   "gate.error": "Incorrect password.",
   "gate.cta": "Unlock",
+  "gate.orCreate": "No account yet?",
+  "gate.createAccount": "Create my personal space",
+  "gate.signIn": "I already have an account — sign in",
   "common.loading": "Loading…",
 
   "common.cancel": "Cancel",
@@ -600,6 +606,9 @@ const es: Dict = {
   "gate.placeholder": "Contraseña",
   "gate.error": "Contraseña incorrecta.",
   "gate.cta": "Desbloquear",
+  "gate.orCreate": "¿Aún no tienes cuenta?",
+  "gate.createAccount": "Crear mi espacio personal",
+  "gate.signIn": "Ya tengo una cuenta — iniciar sesión",
   "common.loading": "Cargando…",
 };
 

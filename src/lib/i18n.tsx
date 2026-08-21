@@ -642,6 +642,11 @@ const es: Dict = {
   "gate.orCreate": "¿Aún no tienes cuenta?",
   "gate.createAccount": "Crear mi espacio personal",
   "gate.signIn": "Ya tengo una cuenta — iniciar sesión",
+  "gate.welcome": "Bienvenido a Cuadernos",
+  "gate.tagline": "Listas de viaje para compartir con tus seres queridos.",
+  "gate.feedTitle": "Cuadernos de viaje",
+  "gate.emptyFeed": "Todavía no hay cuadernos públicos.",
+  "gate.by": "por",
   "common.loading": "Cargando…",
 };
 

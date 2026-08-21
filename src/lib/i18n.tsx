@@ -72,6 +72,7 @@ const fr: Dict = {
   "account.language": "Langue de l'interface",
   "map.title": "Carte du carnet",
   "map.preview": "Aperçu de la carte",
+  "nav.places": "Lieux",
   "map.openIn": "Ouvrir dans",
   "map.noCoords": "Point géographique non renseigné.",
   "discover.title": "Lieux de la ville",
@@ -279,6 +280,7 @@ const en: Dict = {
   "account.language": "Interface language",
   "map.title": "Notebook map",
   "map.preview": "Map preview",
+  "nav.places": "Places",
   "map.openIn": "Open in",
   "map.noCoords": "No coordinates yet.",
   "discover.title": "Places in this city",
@@ -420,6 +422,7 @@ const en: Dict = {
 
 const es: Dict = {
   "map.preview": "Vista previa del mapa",
+  "nav.places": "Lugares",
   "map.openIn": "Abrir en",
   "map.noCoords": "Sin coordenadas todavía.",
   ...en,

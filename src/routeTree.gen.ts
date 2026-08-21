@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CompteRouteImport } from './routes/compte'
 import { Route as CorrectionsRouteImport } from './routes/corrections'
 import { Route as FavorisRouteImport } from './routes/favoris'
+import { Route as LieuxRouteImport } from './routes/lieux'
 import { Route as LocalisationRouteImport } from './routes/localisation'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
@@ -51,6 +52,11 @@ const FavorisRoute = FavorisRouteImport.update({
   path: '/favoris',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LieuxRoute = LieuxRouteImport.update({
+  id: '/lieux',
+  path: '/lieux',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocalisationRoute = LocalisationRouteImport.update({
   id: '/localisation',
   path: '/localisation',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/compte': typeof CompteRoute
   '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
+  '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
   '/carnet/$id': typeof CarnetIdRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/compte': typeof CompteRoute
   '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
+  '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
   '/carnet/$id': typeof CarnetIdRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/compte': typeof CompteRoute
   '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
+  '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
   '/carnet/$id': typeof CarnetIdRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/compte'
     | '/corrections'
     | '/favoris'
+    | '/lieux'
     | '/localisation'
     | '/notifications'
     | '/carnet/$id'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/compte'
     | '/corrections'
     | '/favoris'
+    | '/lieux'
     | '/localisation'
     | '/notifications'
     | '/carnet/$id'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/compte'
     | '/corrections'
     | '/favoris'
+    | '/lieux'
     | '/localisation'
     | '/notifications'
     | '/carnet/$id'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   CompteRoute: typeof CompteRoute
   CorrectionsRoute: typeof CorrectionsRoute
   FavorisRoute: typeof FavorisRoute
+  LieuxRoute: typeof LieuxRoute
   LocalisationRoute: typeof LocalisationRoute
   NotificationsRoute: typeof NotificationsRoute
   CarnetIdRoute: typeof CarnetIdRoute
@@ -217,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FavorisRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lieux': {
+      id: '/lieux'
+      path: '/lieux'
+      fullPath: '/lieux'
+      preLoaderRoute: typeof LieuxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/localisation': {
       id: '/localisation'
       path: '/localisation'
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompteRoute: CompteRoute,
   CorrectionsRoute: CorrectionsRoute,
   FavorisRoute: FavorisRoute,
+  LieuxRoute: LieuxRoute,
   LocalisationRoute: LocalisationRoute,
   NotificationsRoute: NotificationsRoute,
   CarnetIdRoute: CarnetIdRoute,

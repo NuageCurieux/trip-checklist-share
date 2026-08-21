@@ -137,7 +137,7 @@ function PreviewContent() {
   }
 
   const places = data.places;
-  const cover = trip.cover_path ? data.files[trip.cover_path] : trip.cover_url;
+  const cover = trip.cover_path ? data.files[trip.cover_path] : (trip.cover_url ?? defaultCoverFor(trip.destination));
   const provider = providerForCountry(trip.destination);
   const isOwner = user?.id === trip.owner_id;
   const done = places.filter((p) => p.visited).length;

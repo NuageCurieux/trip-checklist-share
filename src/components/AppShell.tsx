@@ -87,7 +87,10 @@ export function AppShell({
           <p className="kicker mb-1">{kicker}</p>
           <h1 className="truncate font-serif text-3xl italic">{title}</h1>
         </div>
-        <div className="flex shrink-0 items-center gap-2">{right ?? <LanguageSwitcher />}</div>
+        <div className="flex shrink-0 items-center gap-2">
+          {showNav ? <NotificationsBell /> : null}
+          {right ?? <LanguageSwitcher />}
+        </div>
       </header>
 
       {children}

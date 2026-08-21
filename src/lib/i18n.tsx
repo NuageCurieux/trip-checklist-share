@@ -485,6 +485,13 @@ const en: Dict = {
   "profile.photo": "Profile photo",
   "profile.choosePhoto": "Choose a photo",
   "profile.photoUpdated": "Photo updated",
+  "profile.photoFormat":
+    "Browsers cannot display this photo format (HEIC). Please pick a JPG or PNG image.",
+  "profile.edit": "Edit my profile",
+  "profile.editing": "Edit",
+  "profile.cancel": "Cancel",
+  "profile.viewPublicPage": "View my public page",
+  "profile.changePhoto": "Change photo",
   "me.kicker": "My profile",
   "me.title": "My traveller profile",
   "me.lead":

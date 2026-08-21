@@ -62,6 +62,20 @@ function AccountPage() {
             <LanguageSwitcher />
           </div>
 
+          <Link
+            to="/localisation"
+            className="mt-6 block rounded-xl border border-border py-3 text-center text-sm font-semibold"
+          >
+            {t("loc.cta")}
+          </Link>
+
+          <Link
+            to="/notifications"
+            className="mt-3 block rounded-xl border border-border py-3 text-center text-sm font-semibold"
+          >
+            {t("notif.title")}
+          </Link>
+
           <button
             type="button"
             onClick={async () => {

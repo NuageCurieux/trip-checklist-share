@@ -14,6 +14,8 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CompteRouteImport } from './routes/compte'
 import { Route as CorrectionsRouteImport } from './routes/corrections'
 import { Route as FavorisRouteImport } from './routes/favoris'
+import { Route as LocalisationRouteImport } from './routes/localisation'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
 import { Route as PartageSlugRouteImport } from './routes/partage.$slug'
 
@@ -42,6 +44,16 @@ const FavorisRoute = FavorisRouteImport.update({
   path: '/favoris',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocalisationRoute = LocalisationRouteImport.update({
+  id: '/localisation',
+  path: '/localisation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CarnetIdRoute = CarnetIdRouteImport.update({
   id: '/carnet/$id',
   path: '/carnet/$id',
@@ -59,6 +71,8 @@ export interface FileRoutesByFullPath {
   '/compte': typeof CompteRoute
   '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
+  '/localisation': typeof LocalisationRoute
+  '/notifications': typeof NotificationsRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
 }
@@ -68,6 +82,8 @@ export interface FileRoutesByTo {
   '/compte': typeof CompteRoute
   '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
+  '/localisation': typeof LocalisationRoute
+  '/notifications': typeof NotificationsRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
 }
@@ -78,6 +94,8 @@ export interface FileRoutesById {
   '/compte': typeof CompteRoute
   '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
+  '/localisation': typeof LocalisationRoute
+  '/notifications': typeof NotificationsRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
 }
@@ -89,6 +107,8 @@ export interface FileRouteTypes {
     | '/compte'
     | '/corrections'
     | '/favoris'
+    | '/localisation'
+    | '/notifications'
     | '/carnet/$id'
     | '/partage/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +118,8 @@ export interface FileRouteTypes {
     | '/compte'
     | '/corrections'
     | '/favoris'
+    | '/localisation'
+    | '/notifications'
     | '/carnet/$id'
     | '/partage/$slug'
   id:
@@ -107,6 +129,8 @@ export interface FileRouteTypes {
     | '/compte'
     | '/corrections'
     | '/favoris'
+    | '/localisation'
+    | '/notifications'
     | '/carnet/$id'
     | '/partage/$slug'
   fileRoutesById: FileRoutesById
@@ -117,6 +141,8 @@ export interface RootRouteChildren {
   CompteRoute: typeof CompteRoute
   CorrectionsRoute: typeof CorrectionsRoute
   FavorisRoute: typeof FavorisRoute
+  LocalisationRoute: typeof LocalisationRoute
+  NotificationsRoute: typeof NotificationsRoute
   CarnetIdRoute: typeof CarnetIdRoute
   PartageSlugRoute: typeof PartageSlugRoute
 }
@@ -158,6 +184,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FavorisRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/localisation': {
+      id: '/localisation'
+      path: '/localisation'
+      fullPath: '/localisation'
+      preLoaderRoute: typeof LocalisationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/carnet/$id': {
       id: '/carnet/$id'
       path: '/carnet/$id'
@@ -181,6 +221,8 @@ const rootRouteChildren: RootRouteChildren = {
   CompteRoute: CompteRoute,
   CorrectionsRoute: CorrectionsRoute,
   FavorisRoute: FavorisRoute,
+  LocalisationRoute: LocalisationRoute,
+  NotificationsRoute: NotificationsRoute,
   CarnetIdRoute: CarnetIdRoute,
   PartageSlugRoute: PartageSlugRoute,
 }

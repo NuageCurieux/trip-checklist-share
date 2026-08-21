@@ -1,7 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { Plus } from "lucide-react";
+import { Bell, Plus } from "lucide-react";
 import type { ReactNode } from "react";
 
+import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/hooks/useSession";
 import { useI18n, type Lang } from "@/lib/i18n";
 
 const LANGS: Lang[] = ["fr", "en", "es"];
@@ -27,6 +30,41 @@ export function LanguageSwitcher() {
   );
 }
 
+export function NotificationsBell() {
+  const { t } = useI18n();
+  const { user } = useSession();
+
+  const { data: unread } = useQuery({
+    queryKey: ["notifications-unread"],
+    enabled: Boolean(user),
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from("notifications")
+        .select("id", { count: "exact", head: true })
+        .is("read_at", null);
+      if (error) throw error;
+      return count ?? 0;
+    },
+  });
+
+  if (!user) return null;
+
+  return (
+    <Link
+      to="/notifications"
+      aria-label={t("notif.title")}
+      className="relative rounded-full border border-border bg-card p-2"
+    >
+      <Bell className="size-4" />
+      {unread ? (
+        <span className="absolute -top-1 -right-1 grid size-4 place-items-center rounded-full bg-primary text-[9px] font-bold text-primary-foreground">
+          {unread > 9 ? "9+" : unread}
+        </span>
+      ) : null}
+    </Link>
+  );
+}
+
 export function AppShell({
   kicker,
   title,
@@ -49,7 +87,10 @@ export function AppShell({
           <p className="kicker mb-1">{kicker}</p>
           <h1 className="truncate font-serif text-3xl italic">{title}</h1>
         </div>
-        <div className="flex shrink-0 items-center gap-2">{right ?? <LanguageSwitcher />}</div>
+        <div className="flex shrink-0 items-center gap-2">
+          {showNav ? <NotificationsBell /> : null}
+          {right ?? <LanguageSwitcher />}
+        </div>
       </header>
 
       {children}

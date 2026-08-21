@@ -1,11 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ChevronDown, Heart, Plus, Search } from "lucide-react";
+import { ChevronDown, ExternalLink, Heart, Plus, Search } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
+import {
+  embedMapUrl,
+  externalMapUrl,
+  providerForCountry,
+  providerLabel,
+} from "@/lib/mapProviders";
 import { searchPlaces, type MapsSearchResult } from "@/lib/maps.functions";
 import { SuggestCorrection } from "@/components/travel/SuggestCorrection";
 import type { CatalogPlace } from "@/lib/travel";
@@ -31,6 +37,7 @@ export function PlaceExplorer({
   const [term, setTerm] = useState("");
   const [results, setResults] = useState<MapsSearchResult[] | null>(null);
   const [openId, setOpenId] = useState<string | null>(null);
+  const provider = providerForCountry(country);
 
   const { data: catalog } = useQuery({
     queryKey: ["catalog", city],
@@ -275,6 +282,32 @@ export function PlaceExplorer({
                                 {place.description}
                               </p>
                             ) : null}
+
+                            {place.lat != null && place.lng != null ? (
+                              <div className="mt-3 overflow-hidden rounded-xl border border-border">
+                                <iframe
+                                  title={`${t("map.preview")} — ${place.name}`}
+                                  src={embedMapUrl(place.lat, place.lng)}
+                                  loading="lazy"
+                                  className="h-40 w-full border-0"
+                                />
+                              </div>
+                            ) : (
+                              <p className="mt-3 text-xs text-muted-foreground">
+                                {t("map.noCoords")}
+                              </p>
+                            )}
+
+                            <a
+                              href={externalMapUrl(provider, place)}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary underline"
+                            >
+                              {t("map.openIn")} {providerLabel(provider)}
+                              <ExternalLink className="size-3" />
+                            </a>
+
                             <div className="mt-3 flex flex-wrap items-center gap-2">
                               <SuggestCorrection place={place} />
                               <button

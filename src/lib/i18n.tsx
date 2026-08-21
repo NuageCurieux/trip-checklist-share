@@ -71,6 +71,9 @@ const fr: Dict = {
   "account.email": "Adresse e-mail",
   "account.language": "Langue de l'interface",
   "map.title": "Carte du carnet",
+  "map.preview": "Aperçu de la carte",
+  "map.openIn": "Ouvrir dans",
+  "map.noCoords": "Point géographique non renseigné.",
   "discover.title": "Lieux de la ville",
   "discover.noCity": "Ajoutez une destination pour explorer les lieux.",
   "discover.searchPlaceholder": "Chercher un lieu (musée, resto…)",
@@ -275,6 +278,9 @@ const en: Dict = {
   "account.email": "Email address",
   "account.language": "Interface language",
   "map.title": "Notebook map",
+  "map.preview": "Map preview",
+  "map.openIn": "Open in",
+  "map.noCoords": "No coordinates yet.",
   "discover.title": "Places in this city",
   "discover.noCity": "Add a destination to explore places.",
   "discover.searchPlaceholder": "Search a place (museum, restaurant…)",
@@ -413,6 +419,9 @@ const en: Dict = {
 };
 
 const es: Dict = {
+  "map.preview": "Vista previa del mapa",
+  "map.openIn": "Abrir en",
+  "map.noCoords": "Sin coordenadas todavía.",
   ...en,
   "app.name": "Cuadernos",
   "nav.notebooks": "Cuadernos",

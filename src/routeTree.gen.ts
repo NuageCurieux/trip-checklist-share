@@ -18,6 +18,7 @@ import { Route as FavorisRouteImport } from './routes/favoris'
 import { Route as LieuxRouteImport } from './routes/lieux'
 import { Route as LocalisationRouteImport } from './routes/localisation'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as ApercuIdRouteImport } from './routes/apercu.$id'
 import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
 import { Route as PartageSlugRouteImport } from './routes/partage.$slug'
 import { Route as VoyageurHandleRouteImport } from './routes/voyageur.$handle'
@@ -67,6 +68,11 @@ const NotificationsRoute = NotificationsRouteImport.update({
   path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApercuIdRoute = ApercuIdRouteImport.update({
+  id: '/apercu/$id',
+  path: '/apercu/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CarnetIdRoute = CarnetIdRouteImport.update({
   id: '/carnet/$id',
   path: '/carnet/$id',
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
+  '/apercu/$id': typeof ApercuIdRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
   '/voyageur/$handle': typeof VoyageurHandleRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
+  '/apercu/$id': typeof ApercuIdRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
   '/voyageur/$handle': typeof VoyageurHandleRoute
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
+  '/apercu/$id': typeof ApercuIdRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
   '/voyageur/$handle': typeof VoyageurHandleRoute
@@ -138,6 +147,7 @@ export interface FileRouteTypes {
     | '/lieux'
     | '/localisation'
     | '/notifications'
+    | '/apercu/$id'
     | '/carnet/$id'
     | '/partage/$slug'
     | '/voyageur/$handle'
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/lieux'
     | '/localisation'
     | '/notifications'
+    | '/apercu/$id'
     | '/carnet/$id'
     | '/partage/$slug'
     | '/voyageur/$handle'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/lieux'
     | '/localisation'
     | '/notifications'
+    | '/apercu/$id'
     | '/carnet/$id'
     | '/partage/$slug'
     | '/voyageur/$handle'
@@ -181,6 +193,7 @@ export interface RootRouteChildren {
   LieuxRoute: typeof LieuxRoute
   LocalisationRoute: typeof LocalisationRoute
   NotificationsRoute: typeof NotificationsRoute
+  ApercuIdRoute: typeof ApercuIdRoute
   CarnetIdRoute: typeof CarnetIdRoute
   PartageSlugRoute: typeof PartageSlugRoute
   VoyageurHandleRoute: typeof VoyageurHandleRoute
@@ -251,6 +264,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/apercu/$id': {
+      id: '/apercu/$id'
+      path: '/apercu/$id'
+      fullPath: '/apercu/$id'
+      preLoaderRoute: typeof ApercuIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/carnet/$id': {
       id: '/carnet/$id'
       path: '/carnet/$id'
@@ -285,6 +305,7 @@ const rootRouteChildren: RootRouteChildren = {
   LieuxRoute: LieuxRoute,
   LocalisationRoute: LocalisationRoute,
   NotificationsRoute: NotificationsRoute,
+  ApercuIdRoute: ApercuIdRoute,
   CarnetIdRoute: CarnetIdRoute,
   PartageSlugRoute: PartageSlugRoute,
   VoyageurHandleRoute: VoyageurHandleRoute,

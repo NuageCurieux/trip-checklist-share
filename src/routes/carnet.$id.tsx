@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Check, Copy, FileText, Heart, Trash2 } from "lucide-react";
+import { Check, Copy, Eye, FileText, Heart, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -256,7 +256,18 @@ function TripPage() {
             />
           </div>
         </div>
+        {isOwner ? (
+          <Link
+            to="/apercu/$id"
+            params={{ id }}
+            className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-primary/40 py-3 text-sm font-semibold text-primary"
+          >
+            <Eye className="size-4" />
+            {t("prev.cta")}
+          </Link>
+        ) : null}
       </section>
+
 
       <section className="mt-8 px-6">
         <h2 className="mb-4 text-sm font-semibold tracking-widest uppercase">{t("map.title")}</h2>

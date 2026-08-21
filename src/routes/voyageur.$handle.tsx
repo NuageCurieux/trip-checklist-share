@@ -126,7 +126,9 @@ function TravellerProfile() {
         <h2 className="mb-4 text-sm font-semibold tracking-widest uppercase">
           {t("profile.notebooks")}
         </h2>
-        {previews.length === 0 ? (
+        {!profile.is_public ? (
+          <p className="text-sm text-muted-foreground">{t("me.privateHint")}</p>
+        ) : previews.length === 0 ? (
           <p className="text-sm text-muted-foreground">{t("profile.emptyNotebooks")}</p>
         ) : (
           <ul className="space-y-4">

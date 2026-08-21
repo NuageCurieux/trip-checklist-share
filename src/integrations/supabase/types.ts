@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      access_requests: {
+        Row: {
+          created_at: string
+          id: string
+          instagram: string | null
+          message: string | null
+          owner_id: string
+          reviewed_at: string | null
+          status: string
+          viewer_id: string
+          viewer_name: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          instagram?: string | null
+          message?: string | null
+          owner_id: string
+          reviewed_at?: string | null
+          status?: string
+          viewer_id?: string
+          viewer_name?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          instagram?: string | null
+          message?: string | null
+          owner_id?: string
+          reviewed_at?: string | null
+          status?: string
+          viewer_id?: string
+          viewer_name?: string | null
+        }
+        Relationships: []
+      }
       catalog_places: {
         Row: {
           area: string | null
@@ -311,6 +347,36 @@ export type Database = {
           },
         ]
       }
+      profiles: {
+        Row: {
+          bio: string | null
+          created_at: string
+          display_name: string
+          handle: string
+          id: string
+          instagram: string | null
+          updated_at: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          display_name: string
+          handle: string
+          id: string
+          instagram?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          display_name?: string
+          handle?: string
+          id?: string
+          instagram?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       suggestion_votes: {
         Row: {
           agree: boolean
@@ -478,6 +544,7 @@ export type Database = {
       }
       can_view_location_share: { Args: { _share_id: string }; Returns: boolean }
       can_view_trip: { Args: { _trip_id: string }; Returns: boolean }
+      has_follower_access: { Args: { _owner_id: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -487,9 +554,32 @@ export type Database = {
       }
       is_trip_owner: { Args: { _trip_id: string }; Returns: boolean }
       owns_location_share: { Args: { _share_id: string }; Returns: boolean }
+      profile_trip_previews: {
+        Args: { _handle: string }
+        Returns: {
+          cover_path: string
+          cover_url: string
+          destination: string
+          id: string
+          place_count: number
+          share_slug: string
+          title: string
+          unlocked: boolean
+        }[]
+      }
       review_place_suggestion: {
         Args: { _approve: boolean; _suggestion_id: string }
         Returns: undefined
+      }
+      share_gate_info: {
+        Args: { _slug: string }
+        Returns: {
+          destination: string
+          owner_handle: string
+          owner_name: string
+          title: string
+          unlocked: boolean
+        }[]
       }
     }
     Enums: {

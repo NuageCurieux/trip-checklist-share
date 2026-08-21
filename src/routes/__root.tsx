@@ -118,9 +118,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   }),
   beforeLoad: async ({ location }) => {
     if (location.pathname === "/unlock") return;
-    try {
-      await checkGate();
-    } catch {
+    const { unlocked } = await checkGate();
+    if (!unlocked) {
       throw redirect({ to: "/unlock" });
     }
   },

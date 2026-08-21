@@ -33,6 +33,14 @@ export const Route = createFileRoute("/")({
 
 type TripWithPlaces = Trip & { places: Place[] };
 
+function defaultCoverFor(destination?: string | null) {
+  const d = (destination ?? "").toLowerCase();
+  if (["corée du sud", "south korea", "korea", "corée", "korean", "séoul", "seoul"].some((k) => d.includes(k))) {
+    return coverKorea;
+  }
+  return coverDefault;
+}
+
 function Home() {
   const { user, loading } = useSession();
   const { t } = useI18n();

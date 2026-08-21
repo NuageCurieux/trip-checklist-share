@@ -42,13 +42,17 @@ function UnlockPage() {
     e.preventDefault();
     setLoading(true);
     setError(false);
-    const { ok } = await unlock({ data: { password: password.trim() } });
-    if (ok) {
-      await router.navigate({ to: "/" });
-    } else {
-      setError(true);
-      setLoading(false);
+    try {
+      const { ok } = await unlock({ data: { password: password.trim() } });
+      if (ok) {
+        await router.navigate({ to: "/" });
+        return;
+      }
+    } catch {
+      // Network hiccup or server reload: show the generic error instead of crashing.
     }
+    setError(true);
+    setLoading(false);
   }
 
   return (

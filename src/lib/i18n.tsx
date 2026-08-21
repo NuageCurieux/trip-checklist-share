@@ -270,6 +270,11 @@ const fr: Dict = {
   "gate.orCreate": "Pas encore de compte ?",
   "gate.createAccount": "Créer mon espace perso",
   "gate.signIn": "J’ai déjà un compte — se connecter",
+  "gate.welcome": "Bienvenue dans Carnets",
+  "gate.tagline": "Check-lists de voyage à partager avec vos proches.",
+  "gate.feedTitle": "Les carnets de voyages",
+  "gate.emptyFeed": "Aucun carnet public pour le moment.",
+  "gate.by": "par",
   "common.loading": "Chargement…",
 
   "common.cancel": "Annuler",

@@ -548,6 +548,11 @@ const en: Dict = {
   "gate.orCreate": "No account yet?",
   "gate.createAccount": "Create my personal space",
   "gate.signIn": "I already have an account — sign in",
+  "gate.welcome": "Welcome to Notebooks",
+  "gate.tagline": "Travel checklists to share with your loved ones.",
+  "gate.feedTitle": "Travel notebooks",
+  "gate.emptyFeed": "No public notebook yet.",
+  "gate.by": "by",
   "common.loading": "Loading…",
 
   "common.cancel": "Cancel",

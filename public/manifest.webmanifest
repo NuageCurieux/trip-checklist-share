@@ -1,0 +1,16 @@
+{
+  "name": "Carnets — check-lists de voyage",
+  "short_name": "Carnets",
+  "description": "Vos lieux à visiter en check-list, partagés à vos amis puis au public.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F7F3EF",
+  "theme_color": "#C25E3E",
+  "icons": [
+    { "src": "/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

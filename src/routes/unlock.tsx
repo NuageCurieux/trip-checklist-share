@@ -118,7 +118,8 @@ function UnlockPage() {
         </div>
 
         {/* Password form */}
-        <form onSubmit={onSubmit} className="mt-6 space-y-3 rounded-2xl border border-border/60 bg-white/80 p-5 shadow-card backdrop-blur-xl">
+        {/* method="post" so a pre-hydration submit never puts the password in the URL */}
+        <form method="post" onSubmit={onSubmit} className="mt-6 space-y-3 rounded-2xl border border-border/60 bg-white/80 p-5 shadow-card backdrop-blur-xl">
           <input
             name="password"
             type="password"

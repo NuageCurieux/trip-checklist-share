@@ -168,11 +168,21 @@ export function PublicPageEditor({ userId }: { userId: string }) {
       />
       <input
         value={handle}
-        onChange={(e) => setHandle(e.target.value)}
+        onChange={(e) =>
+          setHandle(
+            e.target.value
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .replace(/[^a-z0-9_]/g, "_"),
+          )
+        }
         placeholder={t("profile.handle")}
         maxLength={30}
         className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
       />
+      <p className="-mt-1 text-xs text-muted-foreground">{t("profile.handleInvalid")}</p>
+
       <input
         value={instagram}
         onChange={(e) => setInstagram(e.target.value)}

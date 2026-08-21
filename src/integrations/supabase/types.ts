@@ -91,6 +91,56 @@ export type Database = {
           },
         ]
       }
+      place_suggestions: {
+        Row: {
+          catalog_place_id: string
+          created_at: string
+          created_by: string
+          field: string
+          id: string
+          proposed_value: string
+          reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          catalog_place_id: string
+          created_at?: string
+          created_by?: string
+          field: string
+          id?: string
+          proposed_value: string
+          reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          catalog_place_id?: string
+          created_at?: string
+          created_by?: string
+          field?: string
+          id?: string
+          proposed_value?: string
+          reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "place_suggestions_catalog_place_id_fkey"
+            columns: ["catalog_place_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_places"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       places: {
         Row: {
           area: string | null
@@ -156,6 +206,38 @@ export type Database = {
             columns: ["trip_id"]
             isOneToOne: false
             referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      suggestion_votes: {
+        Row: {
+          agree: boolean
+          created_at: string
+          id: string
+          suggestion_id: string
+          user_id: string
+        }
+        Insert: {
+          agree: boolean
+          created_at?: string
+          id?: string
+          suggestion_id: string
+          user_id?: string
+        }
+        Update: {
+          agree?: boolean
+          created_at?: string
+          id?: string
+          suggestion_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "suggestion_votes_suggestion_id_fkey"
+            columns: ["suggestion_id"]
+            isOneToOne: false
+            referencedRelation: "place_suggestions"
             referencedColumns: ["id"]
           },
         ]
@@ -263,16 +345,52 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      apply_place_suggestion: {
+        Args: { _reviewer: string; _suggestion_id: string }
+        Returns: undefined
+      }
       can_view_trip: { Args: { _trip_id: string }; Returns: boolean }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       is_trip_owner: { Args: { _trip_id: string }; Returns: boolean }
+      review_place_suggestion: {
+        Args: { _approve: boolean; _suggestion_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -399,6 +517,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const

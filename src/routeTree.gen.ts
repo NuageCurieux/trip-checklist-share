@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
+import { Route as PartageSlugRouteImport } from './routes/partage.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const CarnetIdRoute = CarnetIdRouteImport.update({
   path: '/carnet/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PartageSlugRoute = PartageSlugRouteImport.update({
+  id: '/partage/$slug',
+  path: '/partage/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/carnet/$id': typeof CarnetIdRoute
+  '/partage/$slug': typeof PartageSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/carnet/$id': typeof CarnetIdRoute
+  '/partage/$slug': typeof PartageSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/carnet/$id': typeof CarnetIdRoute
+  '/partage/$slug': typeof PartageSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/carnet/$id'
+  fullPaths: '/' | '/auth' | '/carnet/$id' | '/partage/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/carnet/$id'
-  id: '__root__' | '/' | '/auth' | '/carnet/$id'
+  to: '/' | '/auth' | '/carnet/$id' | '/partage/$slug'
+  id: '__root__' | '/' | '/auth' | '/carnet/$id' | '/partage/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   CarnetIdRoute: typeof CarnetIdRoute
+  PartageSlugRoute: typeof PartageSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CarnetIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/partage/$slug': {
+      id: '/partage/$slug'
+      path: '/partage/$slug'
+      fullPath: '/partage/$slug'
+      preLoaderRoute: typeof PartageSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   CarnetIdRoute: CarnetIdRoute,
+  PartageSlugRoute: PartageSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

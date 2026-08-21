@@ -39,7 +39,11 @@ function SharedTrip() {
         .eq("share_slug", slug)
         .maybeSingle();
       if (error) throw error;
-      if (!trip) return { trip: null as Trip | null, places: [] as Place[], files: {} };
+      if (!trip) return {
+          trip: null as Trip | null,
+          places: [] as Place[],
+          files: {} as Record<string, string>,
+        };
       const { data: places } = await supabase
         .from("places")
         .select("*")

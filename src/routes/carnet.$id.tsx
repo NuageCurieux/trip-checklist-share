@@ -43,8 +43,8 @@ type TripDocument = {
   id: string;
   trip_id: string;
   name: string;
-  file_path: string;
-  mime_type: string | null;
+  path: string;
+  kind: string;
   created_at: string;
 };
 
@@ -60,7 +60,7 @@ function TripPage() {
   const [name, setName] = useState("");
   const [area, setArea] = useState("");
   const [note, setNote] = useState("");
-  const [category, setCategory] = useState(CATEGORIES[0]);
+  const [category, setCategory] = useState<string>(CATEGORIES[0] ?? "Vue");
   const [friendEmail, setFriendEmail] = useState("");
 
   const invalidate = () => queryClient.invalidateQueries({ queryKey: ["trip", id] });
@@ -81,7 +81,7 @@ function TripPage() {
       const members = (membersRes.data ?? []) as Member[];
       const files = await signPaths([
         ...places.map((p) => p.photo_path),
-        ...documents.map((d) => d.file_path),
+        ...documents.map((d) => d.path),
       ]);
       return { trip, places, documents, members, files };
     },
@@ -179,8 +179,8 @@ function TripPage() {
       const { error } = await supabase.from("trip_documents").insert({
         trip_id: id,
         name: file.name,
-        file_path: path,
-        mime_type: file.type || null,
+        path,
+        kind: file.type.includes("pdf") ? "pdf" : "image",
       });
       if (error) throw error;
     },
@@ -390,7 +390,7 @@ function TripPage() {
                     <li key={doc.id} className="flex items-center gap-3 text-sm">
                       <FileText className="size-4 text-primary" />
                       <a
-                        href={data.files[doc.file_path] ?? "#"}
+                        href={data.files[doc.path] ?? "#"}
                         target="_blank"
                         rel="noreferrer"
                         className="truncate underline"

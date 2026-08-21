@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CarnetIdRoute = CarnetIdRouteImport.update({
+  id: '/carnet/$id',
+  path: '/carnet/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/carnet/$id': typeof CarnetIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/carnet/$id': typeof CarnetIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/carnet/$id': typeof CarnetIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth'
+  fullPaths: '/' | '/auth' | '/carnet/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth'
-  id: '__root__' | '/' | '/auth'
+  to: '/' | '/auth' | '/carnet/$id'
+  id: '__root__' | '/' | '/auth' | '/carnet/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  CarnetIdRoute: typeof CarnetIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/carnet/$id': {
+      id: '/carnet/$id'
+      path: '/carnet/$id'
+      fullPath: '/carnet/$id'
+      preLoaderRoute: typeof CarnetIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  CarnetIdRoute: CarnetIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

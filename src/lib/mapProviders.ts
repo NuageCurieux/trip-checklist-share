@@ -35,3 +35,13 @@ export function externalMapUrl(
   }
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
+
+/**
+ * Embeddable preview. Naver/Amap have no key-free embed, so we show a neutral
+ * OpenStreetMap frame centred on the point and link out to the local provider.
+ */
+export function embedMapUrl(lat: number, lng: number): string {
+  const d = 0.006;
+  const bbox = [lng - d, lat - d, lng + d, lat + d].join("%2C");
+  return `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lng}`;
+}

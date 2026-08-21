@@ -4,8 +4,12 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import coverDefault from "@/assets/cover-calanques.jpg";
-import coverKorea from "@/assets/cover-korea.jpg";
 import { AppShell, LanguageSwitcher } from "@/components/AppShell";
+import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/hooks/useSession";
+import { useI18n } from "@/lib/i18n";
+import { defaultCoverFor } from "@/lib/defaultCover";
+import { progress, signPaths, VISIBILITY_LABEL, type Place, type Trip } from "@/lib/travel";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/lib/i18n";

@@ -41,9 +41,9 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
 
-  useEffect(() => {
-    if (user) void navigate({ to: "/profil" });
-  }, [user, navigate]);
+  // Already signed in: don't bounce silently, explain it so "create my space"
+  // doesn't look broken for someone who already has an account.
+
 
   async function submit() {
     setBusy(true);

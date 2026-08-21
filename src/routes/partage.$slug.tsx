@@ -6,6 +6,9 @@ import { LanguageSwitcher } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { progress, signPaths, type Place, type Trip } from "@/lib/travel";
+import { BestTimeBadges, PlaceSheetImage } from "@/components/travel/PlaceDetails";
+
+type PlaceSheet = { sheet_key: string | null; best_time: string[] | null };
 
 export const Route = createFileRoute("/partage/$slug")({
   head: () => ({
@@ -46,6 +49,7 @@ function SharedTrip() {
           trip: null as Trip | null,
           places: [] as Place[],
           files: {} as Record<string, string>,
+          sheets: {} as Record<string, PlaceSheet>,
           gate: (info ?? null) as {
             owner_handle: string | null;
             owner_name: string | null;
@@ -60,11 +64,25 @@ function SharedTrip() {
         .eq("trip_id", trip.id)
         .order("position");
       const list = (places ?? []) as Place[];
+      // Catalogue extras (illustrated sheet + best daypart) for library places.
+      const catalogIds = [
+        ...new Set(list.map((p) => p.catalog_place_id).filter(Boolean)),
+      ] as string[];
+      const sheets: Record<string, PlaceSheet> = {};
+      if (catalogIds.length > 0) {
+        const { data: rows } = await supabase
+          .from("catalog_places")
+          .select("id, sheet_key, best_time")
+          .in("id", catalogIds);
+        for (const row of rows ?? []) {
+          sheets[row.id] = { sheet_key: row.sheet_key, best_time: row.best_time };
+        }
+      }
       const files = await signPaths([
         (trip as Trip).cover_path,
         ...list.map((p) => p.photo_path),
       ]);
-      return { trip: trip as Trip, places: list, files, gate: null };
+      return { trip: trip as Trip, places: list, files, sheets, gate: null };
     },
   });
 
@@ -178,6 +196,18 @@ function SharedTrip() {
                       className="mt-3 aspect-3/2 w-full rounded-lg object-cover"
                     />
                   ) : null}
+                  {(() => {
+                    const sheet = place.catalog_place_id
+                      ? data.sheets[place.catalog_place_id]
+                      : undefined;
+                    if (!sheet) return null;
+                    return (
+                      <div className="mt-3 space-y-3">
+                        <BestTimeBadges value={sheet.best_time} />
+                        <PlaceSheetImage sheetKey={sheet.sheet_key} name={place.name} />
+                      </div>
+                    );
+                  })()}
                 </div>
               </li>
             ))}

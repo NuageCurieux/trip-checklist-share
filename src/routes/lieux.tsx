@@ -4,6 +4,7 @@ import { ChevronDown, ExternalLink } from "lucide-react";
 import { useState } from "react";
 
 import { AppShell } from "@/components/AppShell";
+import { BestTimeBadges, PlaceSheetImage } from "@/components/travel/PlaceDetails";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import {
@@ -136,6 +137,12 @@ function CatalogPage() {
                                 {place.description}
                               </p>
                             ) : null}
+
+                            <div className="mt-3 space-y-3">
+                              <BestTimeBadges value={place.best_time} />
+                              <PlaceSheetImage sheetKey={place.sheet_key} name={place.name} />
+                            </div>
+
 
                             {place.lat != null && place.lng != null ? (
                               <div className="mt-3 overflow-hidden rounded-xl border border-border">

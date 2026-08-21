@@ -275,6 +275,32 @@ export function PlaceExplorer({
                                 {place.description}
                               </p>
                             ) : null}
+
+                            {place.lat != null && place.lng != null ? (
+                              <div className="mt-3 overflow-hidden rounded-xl border border-border">
+                                <iframe
+                                  title={`${t("map.preview")} — ${place.name}`}
+                                  src={embedMapUrl(place.lat, place.lng)}
+                                  loading="lazy"
+                                  className="h-40 w-full border-0"
+                                />
+                              </div>
+                            ) : (
+                              <p className="mt-3 text-xs text-muted-foreground">
+                                {t("map.noCoords")}
+                              </p>
+                            )}
+
+                            <a
+                              href={externalMapUrl(provider, place)}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary underline"
+                            >
+                              {t("map.openIn")} {providerLabel(provider)}
+                              <ExternalLink className="size-3" />
+                            </a>
+
                             <div className="mt-3 flex flex-wrap items-center gap-2">
                               <SuggestCorrection place={place} />
                               <button

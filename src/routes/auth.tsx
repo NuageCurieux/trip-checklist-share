@@ -31,7 +31,7 @@ function AuthPage() {
   const { t } = useI18n();
   const navigate = useNavigate();
   const { user } = useSession();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup" | "reset">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -43,7 +43,13 @@ function AuthPage() {
   async function submit() {
     setBusy(true);
     try {
-      if (mode === "signup") {
+      if (mode === "reset") {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+        toast.success(t("auth.resetSent"));
+      } else if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
           email,
           password,
@@ -81,8 +87,11 @@ function AuthPage() {
         <LanguageSwitcher />
       </div>
       <h1 className="mt-2 font-serif text-3xl italic">
-        {mode === "signin" ? t("auth.signIn") : t("auth.signUp")}
+        {mode === "signin" ? t("auth.signIn") : mode === "signup" ? t("auth.signUp") : t("auth.resetTitle")}
       </h1>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        {mode === "reset" ? t("auth.resetLead") : mode === "signup" ? t("auth.verifyLead") : ""}
+      </p>
 
       <div className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-card">
         <label className="text-xs font-medium text-muted-foreground" htmlFor="email">
@@ -97,6 +106,8 @@ function AuthPage() {
           className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm"
         />
 
+        {mode === "reset" ? null : (
+        <>
         <label className="mt-4 block text-xs font-medium text-muted-foreground" htmlFor="password">
           {t("auth.password")}
         </label>
@@ -108,16 +119,23 @@ function AuthPage() {
           onChange={(e) => setPassword(e.target.value)}
           className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm"
         />
+        </>
+        )}
 
         <button
           type="button"
-          disabled={busy || !email || !password}
+          disabled={busy || !email || (mode !== "reset" && !password)}
           onClick={() => void submit()}
           className="mt-5 w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground disabled:opacity-50"
         >
-          {mode === "signin" ? t("auth.signIn") : t("auth.signUp")}
+          {mode === "signin"
+            ? t("auth.signIn")
+            : mode === "signup"
+              ? t("auth.signUp")
+              : t("auth.resetSend")}
         </button>
 
+        {mode === "reset" ? null : (
         <button
           type="button"
           onClick={() => void google()}
@@ -125,14 +143,25 @@ function AuthPage() {
         >
           {t("auth.google")}
         </button>
+        )}
 
         <button
           type="button"
-          onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+          onClick={() => setMode(mode === "signup" ? "signin" : mode === "signin" ? "signup" : "signin")}
           className="mt-4 w-full text-xs font-semibold text-primary"
         >
-          {mode === "signin" ? t("auth.toSignUp") : t("auth.toSignIn")}
+          {mode === "signin" ? t("auth.toSignUp") : mode === "signup" ? t("auth.toSignIn") : t("auth.backSignIn")}
         </button>
+
+        {mode === "signin" ? (
+          <button
+            type="button"
+            onClick={() => setMode("reset")}
+            className="mt-2 w-full text-xs font-medium text-muted-foreground underline"
+          >
+            {t("auth.forgot")}
+          </button>
+        ) : null}
       </div>
     </div>
   );

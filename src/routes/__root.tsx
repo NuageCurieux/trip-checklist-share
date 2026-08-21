@@ -118,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   }),
   beforeLoad: async ({ location }) => {
     // The personal profile is created before the shared password gate.
-    const OPEN_PATHS = ["/unlock", "/auth", "/profil"];
+    const OPEN_PATHS = ["/unlock", "/auth", "/profil", "/reset-password"];
     if (OPEN_PATHS.includes(location.pathname)) return;
     const { unlocked } = await checkGate();
     if (!unlocked) {

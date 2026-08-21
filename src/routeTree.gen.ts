@@ -18,6 +18,7 @@ import { Route as FavorisRouteImport } from './routes/favoris'
 import { Route as LieuxRouteImport } from './routes/lieux'
 import { Route as LocalisationRouteImport } from './routes/localisation'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as UnlockRouteImport } from './routes/unlock'
 import { Route as ApercuIdRouteImport } from './routes/apercu.$id'
 import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
 import { Route as PartageSlugRouteImport } from './routes/partage.$slug'
@@ -68,6 +69,11 @@ const NotificationsRoute = NotificationsRouteImport.update({
   path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnlockRoute = UnlockRouteImport.update({
+  id: '/unlock',
+  path: '/unlock',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApercuIdRoute = ApercuIdRouteImport.update({
   id: '/apercu/$id',
   path: '/apercu/$id',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
+  '/unlock': typeof UnlockRoute
   '/apercu/$id': typeof ApercuIdRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
@@ -114,6 +121,7 @@ export interface FileRoutesByTo {
   '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
+  '/unlock': typeof UnlockRoute
   '/apercu/$id': typeof ApercuIdRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
@@ -130,6 +138,7 @@ export interface FileRoutesById {
   '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
+  '/unlock': typeof UnlockRoute
   '/apercu/$id': typeof ApercuIdRoute
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
@@ -147,6 +156,7 @@ export interface FileRouteTypes {
     | '/lieux'
     | '/localisation'
     | '/notifications'
+    | '/unlock'
     | '/apercu/$id'
     | '/carnet/$id'
     | '/partage/$slug'
@@ -162,6 +172,7 @@ export interface FileRouteTypes {
     | '/lieux'
     | '/localisation'
     | '/notifications'
+    | '/unlock'
     | '/apercu/$id'
     | '/carnet/$id'
     | '/partage/$slug'
@@ -177,6 +188,7 @@ export interface FileRouteTypes {
     | '/lieux'
     | '/localisation'
     | '/notifications'
+    | '/unlock'
     | '/apercu/$id'
     | '/carnet/$id'
     | '/partage/$slug'
@@ -193,6 +205,7 @@ export interface RootRouteChildren {
   LieuxRoute: typeof LieuxRoute
   LocalisationRoute: typeof LocalisationRoute
   NotificationsRoute: typeof NotificationsRoute
+  UnlockRoute: typeof UnlockRoute
   ApercuIdRoute: typeof ApercuIdRoute
   CarnetIdRoute: typeof CarnetIdRoute
   PartageSlugRoute: typeof PartageSlugRoute
@@ -264,6 +277,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/unlock': {
+      id: '/unlock'
+      path: '/unlock'
+      fullPath: '/unlock'
+      preLoaderRoute: typeof UnlockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/apercu/$id': {
       id: '/apercu/$id'
       path: '/apercu/$id'
@@ -305,6 +325,7 @@ const rootRouteChildren: RootRouteChildren = {
   LieuxRoute: LieuxRoute,
   LocalisationRoute: LocalisationRoute,
   NotificationsRoute: NotificationsRoute,
+  UnlockRoute: UnlockRoute,
   ApercuIdRoute: ApercuIdRoute,
   CarnetIdRoute: CarnetIdRoute,
   PartageSlugRoute: PartageSlugRoute,

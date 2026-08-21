@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import coverDefault from "@/assets/cover-calanques.jpg";
+import coverKorea from "@/assets/cover-korea.jpg";
 import { AppShell, LanguageSwitcher } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";

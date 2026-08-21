@@ -1,6 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 import { useSession } from "@tanstack/react-start/server";
-import { redirect } from "@tanstack/react-router";
 import { createHash, timingSafeEqual } from "node:crypto";
 
 const sessionConfig = {
@@ -23,17 +22,9 @@ function passwordMatches(input: string, expected: string): boolean {
   return timingSafeEqual(a, b);
 }
 
-async function requireUnlocked() {
-  const session = await useSession<GateSession>(sessionConfig);
-  if (!session.data.unlocked) {
-    throw redirect({ to: "/unlock" });
-  }
-  return session;
-}
-
 export const checkGate = createServerFn({ method: "GET" }).handler(async () => {
-  await requireUnlocked();
-  return { ok: true as const };
+  const session = await useSession<GateSession>(sessionConfig);
+  return { unlocked: session.data.unlocked === true };
 });
 
 export const unlockSite = createServerFn({ method: "POST" })

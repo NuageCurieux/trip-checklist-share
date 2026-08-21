@@ -22,11 +22,9 @@ export const Route = createFileRoute("/unlock")({
     ],
   }),
   beforeLoad: async () => {
-    try {
-      await checkGate();
+    const { unlocked } = await checkGate();
+    if (unlocked) {
       throw redirect({ to: "/" });
-    } catch {
-      // Not unlocked yet: render the unlock page.
     }
   },
   component: UnlockPage,

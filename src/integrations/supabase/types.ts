@@ -14,12 +14,94 @@ export type Database = {
   }
   public: {
     Tables: {
-      places: {
+      catalog_places: {
         Row: {
           area: string | null
           category: string | null
+          city: string
+          country: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          google_place_id: string | null
+          id: string
+          lat: number | null
+          lng: number | null
+          name: string
+          source: string
+        }
+        Insert: {
+          area?: string | null
+          category?: string | null
+          city: string
+          country?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          google_place_id?: string | null
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          name: string
+          source?: string
+        }
+        Update: {
+          area?: string | null
+          category?: string | null
+          city?: string
+          country?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          google_place_id?: string | null
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          name?: string
+          source?: string
+        }
+        Relationships: []
+      }
+      favorites: {
+        Row: {
+          catalog_place_id: string
           created_at: string
           id: string
+          user_id: string
+        }
+        Insert: {
+          catalog_place_id: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Update: {
+          catalog_place_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_catalog_place_id_fkey"
+            columns: ["catalog_place_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_places"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      places: {
+        Row: {
+          area: string | null
+          catalog_place_id: string | null
+          category: string | null
+          created_at: string
+          favorite: boolean
+          google_place_id: string | null
+          id: string
+          lat: number | null
+          lng: number | null
           name: string
           note: string | null
           photo_path: string | null
@@ -29,9 +111,14 @@ export type Database = {
         }
         Insert: {
           area?: string | null
+          catalog_place_id?: string | null
           category?: string | null
           created_at?: string
+          favorite?: boolean
+          google_place_id?: string | null
           id?: string
+          lat?: number | null
+          lng?: number | null
           name: string
           note?: string | null
           photo_path?: string | null
@@ -41,9 +128,14 @@ export type Database = {
         }
         Update: {
           area?: string | null
+          catalog_place_id?: string | null
           category?: string | null
           created_at?: string
+          favorite?: boolean
+          google_place_id?: string | null
           id?: string
+          lat?: number | null
+          lng?: number | null
           name?: string
           note?: string | null
           photo_path?: string | null
@@ -52,6 +144,13 @@ export type Database = {
           visited?: boolean
         }
         Relationships: [
+          {
+            foreignKeyName: "places_catalog_place_id_fkey"
+            columns: ["catalog_place_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_places"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "places_trip_id_fkey"
             columns: ["trip_id"]

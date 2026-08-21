@@ -22,6 +22,7 @@ export type Database = {
           id: string
           name: string
           note: string | null
+          photo_path: string | null
           position: number
           trip_id: string
           visited: boolean
@@ -33,6 +34,7 @@ export type Database = {
           id?: string
           name: string
           note?: string | null
+          photo_path?: string | null
           position?: number
           trip_id: string
           visited?: boolean
@@ -44,6 +46,7 @@ export type Database = {
           id?: string
           name?: string
           note?: string | null
+          photo_path?: string | null
           position?: number
           trip_id?: string
           visited?: boolean
@@ -89,6 +92,7 @@ export type Database = {
       }
       trips: {
         Row: {
+          cover_path: string | null
           cover_url: string | null
           created_at: string
           destination: string | null
@@ -99,6 +103,7 @@ export type Database = {
           visibility: string
         }
         Insert: {
+          cover_path?: string | null
           cover_url?: string | null
           created_at?: string
           destination?: string | null
@@ -109,6 +114,7 @@ export type Database = {
           visibility?: string
         }
         Update: {
+          cover_path?: string | null
           cover_url?: string | null
           created_at?: string
           destination?: string | null

@@ -63,8 +63,15 @@ function AccountPage() {
           </div>
 
           <Link
-            to="/localisation"
+            to="/acces"
             className="mt-6 block rounded-xl border border-border py-3 text-center text-sm font-semibold"
+          >
+            {t("access.title")}
+          </Link>
+
+          <Link
+            to="/localisation"
+            className="mt-3 block rounded-xl border border-border py-3 text-center text-sm font-semibold"
           >
             {t("loc.cta")}
           </Link>
@@ -75,6 +82,7 @@ function AccountPage() {
           >
             {t("notif.title")}
           </Link>
+
 
           <button
             type="button"

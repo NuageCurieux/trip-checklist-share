@@ -6,7 +6,7 @@ import { LanguageSwitcher } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { progress, signPaths, type Place, type Trip } from "@/lib/travel";
-import { BestTimeBadges, PlaceSheetImage } from "@/components/travel/PlaceDetails";
+import { BestTimeBadges, PlaceFameStars } from "@/components/travel/PlaceDetails";
 
 type PlaceSheet = { sheet_key: string | null; best_time: string[] | null };
 
@@ -204,7 +204,7 @@ function SharedTrip() {
                     return (
                       <div className="mt-3 space-y-3">
                         <BestTimeBadges value={sheet.best_time} />
-                        <PlaceSheetImage sheetKey={sheet.sheet_key} name={place.name} />
+                        <PlaceFameStars sheetKey={sheet.sheet_key} name={place.name} />
                       </div>
                     );
                   })()}

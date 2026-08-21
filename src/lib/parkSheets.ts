@@ -1,37 +1,23 @@
-import ansan from "@/assets/parcs/fiche-ansan.png";
-import banpo from "@/assets/parcs/fiche-banpo.png";
-import bugaksan from "@/assets/parcs/fiche-bugaksan.png";
-import bukhansan from "@/assets/parcs/fiche-bukhansan.png";
-import dream from "@/assets/parcs/fiche-dream.png";
-import huwon from "@/assets/parcs/fiche-huwon.png";
-import inwangsan from "@/assets/parcs/fiche-inwangsan.png";
-import namsan from "@/assets/parcs/fiche-namsan.png";
-import seokchon from "@/assets/parcs/fiche-seokchon.png";
-import seonyudo from "@/assets/parcs/fiche-seonyudo.png";
-import seoulForest from "@/assets/parcs/fiche-seoul-forest.png";
-import yeouidoHangang from "@/assets/parcs/fiche-yeouido-hangang.png";
-import yeouidoPark from "@/assets/parcs/fiche-yeouido-park.png";
-
-/** Illustrated cards (price, popularity, mood, highlight, walking) from the Canva booklet. */
-export const parkSheets: Record<string, string> = {
-  ansan,
-  banpo,
-  bugaksan,
-  bukhansan,
-  dream,
-  huwon,
-  inwangsan,
-  namsan,
-  seokchon,
-  seonyudo,
-  "seoul-forest": seoulForest,
-  "yeouido-hangang": yeouidoHangang,
-  "yeouido-park": yeouidoPark,
+/** Fame rating (1-5 stars) per park, from the Canva booklet's popularity row. */
+export const parkFame: Record<string, number> = {
+  ansan: 2,
+  banpo: 4,
+  bugaksan: 2,
+  bukhansan: 4,
+  dream: 2,
+  huwon: 3,
+  inwangsan: 3,
+  namsan: 5,
+  seokchon: 4,
+  seonyudo: 3,
+  "seoul-forest": 4,
+  "yeouido-hangang": 4,
+  "yeouido-park": 3,
 };
 
-export function sheetImage(key?: string | null): string | null {
+export function fameRating(key?: string | null): number | null {
   if (!key) return null;
-  return parkSheets[key] ?? null;
+  return parkFame[key] ?? null;
 }
 
 export const bestTimeSlots = ["matin", "debut-aprem", "fin-aprem", "soiree"] as const;

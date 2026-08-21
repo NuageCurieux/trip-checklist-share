@@ -1,7 +1,7 @@
 import { CloudSun, Moon, Sun, Sunrise } from "lucide-react";
 
 import { useI18n } from "@/lib/i18n";
-import { bestTimeMeta, orderedBestTime, sheetImage, type BestTimeSlot } from "@/lib/parkSheets";
+import { bestTimeMeta, fameRating, orderedBestTime, type BestTimeSlot } from "@/lib/parkSheets";
 
 const ICONS: Record<BestTimeSlot, typeof Sun> = {
   matin: Sunrise,
@@ -37,8 +37,8 @@ export function BestTimeBadges({ value }: { value?: string[] | null }) {
   );
 }
 
-/** Small illustrated sheet (price, popularity, mood, highlight, walking route). */
-export function PlaceSheetImage({
+/** Fame rating shown as stars instead of the old illustrated sheet. */
+export function PlaceFameStars({
   sheetKey,
   name,
 }: {
@@ -46,12 +46,19 @@ export function PlaceSheetImage({
   name: string;
 }) {
   const { t } = useI18n();
-  const src = sheetImage(sheetKey);
-  if (!src) return null;
+  const rating = fameRating(sheetKey);
+  if (!rating) return null;
 
   return (
-    <figure className="overflow-hidden rounded-xl border border-border bg-background">
-      <img src={src} alt={`${t("time.sheet")} — ${name}`} loading="lazy" className="w-full" />
-    </figure>
+    <div>
+      <p className="kicker">{t("time.fame")}</p>
+      <p
+        className="mt-1 text-base leading-none tracking-[0.15em] text-primary"
+        aria-label={`${name} — ${rating}/5`}
+        title={`${rating}/5`}
+      >
+        <span aria-hidden="true">{"\u2605".repeat(rating) + "\u2606".repeat(5 - rating)}</span>
+      </p>
+    </div>
   );
 }

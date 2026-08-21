@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { PlacesMap } from "@/components/travel/PlacesMap";
-import { BestTimeBadges, PlaceSheetImage } from "@/components/travel/PlaceDetails";
+import { BestTimeBadges, PlaceFameStars } from "@/components/travel/PlaceDetails";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/lib/i18n";
@@ -251,7 +251,7 @@ function PreviewContent() {
                       return (
                         <div className="mt-3 space-y-3">
                           <BestTimeBadges value={sheet.best_time} />
-                          <PlaceSheetImage sheetKey={sheet.sheet_key} name={place.name} />
+                          <PlaceFameStars sheetKey={sheet.sheet_key} name={place.name} />
                         </div>
                       );
                     })()}

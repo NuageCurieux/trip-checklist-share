@@ -14,7 +14,7 @@ import {
 } from "@/lib/mapProviders";
 import { searchPlaces, type MapsSearchResult } from "@/lib/maps.functions";
 import { SuggestCorrection } from "@/components/travel/SuggestCorrection";
-import { BestTimeBadges, PlaceSheetImage } from "@/components/travel/PlaceDetails";
+import { BestTimeBadges, PlaceFameStars } from "@/components/travel/PlaceDetails";
 import type { CatalogPlace } from "@/lib/travel";
 
 /**
@@ -291,7 +291,7 @@ export function PlaceExplorer({
 
                             <div className="mt-3 space-y-3">
                               <BestTimeBadges value={place.best_time} />
-                              <PlaceSheetImage
+                              <PlaceFameStars
                                 sheetKey={place.sheet_key}
                                 name={place.name}
                               />

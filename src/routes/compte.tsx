@@ -52,8 +52,10 @@ function AccountPage() {
 
   return (
     <AppShell kicker={t("account.kicker")} title={t("account.title")}>
-      <section className="px-6">
+      <section className="space-y-4 px-6">
+        <PublicPageEditor userId={user.id} />
         <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
+
           <p className="text-xs font-medium text-muted-foreground">{t("account.email")}</p>
           <p className="mt-1 text-sm">{user.email}</p>
 

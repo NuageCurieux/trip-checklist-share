@@ -129,7 +129,7 @@ function SharedTrip() {
 
 
   const places = data.places;
-  const cover = trip.cover_path ? data.files[trip.cover_path] : trip.cover_url;
+  const cover = trip.cover_path ? data.files[trip.cover_path] : (trip.cover_url ?? defaultCoverFor(trip.destination));
 
   return (
     <div className="min-h-screen bg-background pb-12 text-foreground">

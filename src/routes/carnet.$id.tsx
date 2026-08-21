@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Check, Copy, FileText, Heart, Trash2 } from "lucide-react";
+import { Check, Copy, Eye, FileText, Heart, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 

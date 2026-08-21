@@ -107,6 +107,15 @@ export function AppShell({
             </span>
           </Link>
           <Link
+            to="/lieux"
+            className="flex flex-col items-center gap-1"
+            activeProps={{ className: "text-primary" }}
+          >
+            <span className="text-[10px] font-bold tracking-tight uppercase">
+              {t("discover.catalog")}
+            </span>
+          </Link>
+          <Link
             to="/favoris"
             className="flex flex-col items-center gap-1"
             activeProps={{ className: "text-primary" }}

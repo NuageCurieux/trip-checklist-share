@@ -1,8 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 
 import { AppShell, LanguageSwitcher } from "@/components/AppShell";
-import { PublicPageEditor } from "@/components/travel/PublicPageEditor";
-
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/lib/i18n";
@@ -55,7 +53,12 @@ function AccountPage() {
   return (
     <AppShell kicker={t("account.kicker")} title={t("account.title")}>
       <section className="space-y-4 px-6">
-        <PublicPageEditor userId={user.id} />
+        <Link
+          to="/profil"
+          className="block rounded-2xl border border-border bg-card p-5 text-sm font-semibold shadow-card"
+        >
+          {t("me.title")}
+        </Link>
         <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
 
           <p className="text-xs font-medium text-muted-foreground">{t("account.email")}</p>

@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Camera } from "lucide-react";
+import { Camera, Globe, Instagram, Lock, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
@@ -29,6 +30,7 @@ export function PublicPageEditor({ userId }: { userId: string }) {
   const [bio, setBio] = useState("");
   const [instagram, setInstagram] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   const { data } = useQuery({
     queryKey: ["my-profile", userId],
@@ -57,7 +59,7 @@ export function PublicPageEditor({ userId }: { userId: string }) {
   }, [profile]);
 
   const save = useMutation({
-    mutationFn: async (avatarPath?: string) => {
+    mutationFn: async () => {
       const cleanHandle = handle.trim().toLowerCase();
       if (!HANDLE_RE.test(cleanHandle)) throw new Error("invalid");
       const { error } = await supabase.from("profiles").upsert({
@@ -67,12 +69,12 @@ export function PublicPageEditor({ userId }: { userId: string }) {
         bio: bio.trim() || null,
         instagram: instagram.trim().replace(/^@/, "") || null,
         is_public: isPublic,
-        ...(avatarPath ? { avatar_path: avatarPath } : {}),
       });
       if (error) throw error;
     },
     onSuccess: () => {
       toast.success(t("common.saved"));
+      setEditing(false);
       queryClient.invalidateQueries({ queryKey: ["my-profile", userId] });
     },
     onError: (error: unknown) => {
@@ -96,7 +98,10 @@ export function PublicPageEditor({ userId }: { userId: string }) {
       toast.success(t("profile.photoUpdated"));
       queryClient.invalidateQueries({ queryKey: ["my-profile", userId] });
     },
-    onError: () => toast.error(t("common.error")),
+    onError: (error: unknown) => {
+      const message = error instanceof Error ? error.message : "";
+      toast.error(message === "avatar-format" ? t("profile.photoFormat") : t("common.error"));
+    },
   });
 
   const publicUrl =
@@ -104,11 +109,113 @@ export function PublicPageEditor({ userId }: { userId: string }) {
       ? `${window.location.origin}/voyageur/${profile.handle}`
       : "";
 
+  const photoInput = (
+    <input
+      ref={fileInput}
+      type="file"
+      accept="image/jpeg,image/png,image/webp,image/gif"
+      hidden
+      onChange={(event) => {
+        const file = event.target.files?.[0];
+        if (file) photo.mutate(file);
+        event.target.value = "";
+      }}
+    />
+  );
+
+  const avatar = (
+    <button
+      type="button"
+      onClick={() => fileInput.current?.click()}
+      aria-label={t("profile.choosePhoto")}
+      className="relative grid size-20 shrink-0 place-items-center overflow-hidden rounded-full border border-border bg-background"
+    >
+      {data?.avatarUrl ? (
+        <img
+          src={data.avatarUrl}
+          alt={profile?.display_name ?? t("profile.photo")}
+          className="size-full object-cover"
+        />
+      ) : (
+        <Camera className="size-5 text-muted-foreground" />
+      )}
+    </button>
+  );
+
+  if (profile && !editing) {
+    return (
+      <section className="space-y-4 rounded-2xl border border-border bg-card p-5 shadow-card">
+        <div className="flex items-start gap-4">
+          {avatar}
+          <div className="min-w-0 flex-1">
+            <h2 className="truncate font-serif text-2xl italic">{profile.display_name}</h2>
+            <p className="truncate text-sm text-muted-foreground">@{profile.handle}</p>
+            <span className="mt-2 inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
+              {profile.is_public ? <Globe className="size-3" /> : <Lock className="size-3" />}
+              {profile.is_public ? t("me.public") : t("me.private")}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setEditing(true)}
+            aria-label={t("profile.edit")}
+            className="grid size-9 shrink-0 place-items-center rounded-full border border-border"
+          >
+            <Pencil className="size-4" />
+          </button>
+        </div>
+
+        {profile.bio ? <p className="text-sm leading-relaxed">{profile.bio}</p> : null}
+
+        {profile.instagram ? (
+          <a
+            href={`https://instagram.com/${profile.instagram}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary"
+          >
+            <Instagram className="size-4" />@{profile.instagram}
+          </a>
+        ) : null}
+
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setEditing(true)}
+            className="flex-1 rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground"
+          >
+            {t("profile.edit")}
+          </button>
+          <Link
+            to="/voyageur/$handle"
+            params={{ handle: profile.handle }}
+            className="flex-1 rounded-full border border-border px-4 py-2.5 text-center text-sm font-semibold"
+          >
+            {t("profile.viewPublicPage")}
+          </Link>
+          {publicUrl ? (
+            <button
+              type="button"
+              onClick={async () => {
+                await navigator.clipboard.writeText(publicUrl);
+                toast.success(t("profile.copied"));
+              }}
+              className="w-full rounded-xl border border-border py-2.5 text-sm font-semibold"
+            >
+              {t("profile.copyLink")}
+            </button>
+          ) : null}
+        </div>
+        {photoInput}
+      </section>
+    );
+  }
+
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        save.mutate(undefined);
+        save.mutate();
       }}
       className="space-y-3 rounded-2xl border border-border bg-card p-5 shadow-card"
     >
@@ -119,22 +226,7 @@ export function PublicPageEditor({ userId }: { userId: string }) {
       </div>
 
       <div className="flex items-center gap-4">
-        <button
-          type="button"
-          onClick={() => fileInput.current?.click()}
-          aria-label={t("profile.choosePhoto")}
-          className="relative grid size-20 shrink-0 place-items-center overflow-hidden rounded-full border border-border bg-background"
-        >
-          {data?.avatarUrl ? (
-            <img
-              src={data.avatarUrl}
-              alt={profile?.display_name ?? t("profile.photo")}
-              className="size-full object-cover"
-            />
-          ) : (
-            <Camera className="size-5 text-muted-foreground" />
-          )}
-        </button>
+        {avatar}
         <div className="min-w-0">
           <p className="text-xs font-medium text-muted-foreground">{t("profile.photo")}</p>
           <button
@@ -146,17 +238,7 @@ export function PublicPageEditor({ userId }: { userId: string }) {
             {t("profile.choosePhoto")}
           </button>
         </div>
-        <input
-          ref={fileInput}
-          type="file"
-          accept="image/*"
-          hidden
-          onChange={(event) => {
-            const file = event.target.files?.[0];
-            if (file) photo.mutate(file);
-            event.target.value = "";
-          }}
-        />
+        {photoInput}
       </div>
 
       <input
@@ -231,16 +313,13 @@ export function PublicPageEditor({ userId }: { userId: string }) {
         {t("profile.save")}
       </button>
 
-      {publicUrl ? (
+      {profile ? (
         <button
           type="button"
-          onClick={async () => {
-            await navigator.clipboard.writeText(publicUrl);
-            toast.success(t("profile.copied"));
-          }}
+          onClick={() => setEditing(false)}
           className="w-full rounded-xl border border-border py-2.5 text-sm font-semibold"
         >
-          {t("profile.copyLink")}
+          {t("profile.cancel")}
         </button>
       ) : null}
     </form>

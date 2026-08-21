@@ -172,7 +172,7 @@ function TravellerFeed() {
             className="relative block"
           >
             <img
-              src={data?.covers[featured.cover_path ?? ""] ?? coverDefault}
+              src={data?.covers[featured.cover_path ?? ""] ?? defaultCoverFor(featured.destination)}
               alt={featured.title}
               width={800}
               height={1008}

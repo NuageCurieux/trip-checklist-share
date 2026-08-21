@@ -254,7 +254,7 @@ export function PlaceExplorer({
             {groups.map(([category, places]) => (
               <section key={category}>
                 <h3 className="font-serif text-sm italic text-foreground">
-                  {city ? `${city} · ${category}` : category}
+                  {category}
                 </h3>
                 <ul className="mt-2 divide-y divide-border/70 overflow-hidden rounded-xl border border-border/70 bg-muted/40">
                   {places.map((place) => {

@@ -6,6 +6,7 @@ import { LanguageSwitcher } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { progress, signPaths, type Place, type Trip } from "@/lib/travel";
+import { defaultCoverFor } from "@/lib/defaultCover";
 import { BestTimeBadges, PlaceFameStars } from "@/components/travel/PlaceDetails";
 
 type PlaceSheet = { sheet_key: string | null; best_time: string[] | null };

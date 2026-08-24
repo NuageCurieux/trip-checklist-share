@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { unlockSite, checkGate, getGatePreview } from "@/lib/gate.functions";
 import { useI18n } from "@/lib/i18n";
+import { InstallHint } from "@/components/travel/InstallHint";
 import { signAvatar, signPaths } from "@/lib/travel";
 import coverKorea from "@/assets/cover-korea.jpg";
 
@@ -245,6 +246,8 @@ function UnlockPage() {
             {t("gate.signIn")}
           </Link>
         </div>
+
+        <InstallHint />
       </div>
     </div>
   );

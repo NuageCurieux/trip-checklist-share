@@ -286,6 +286,9 @@ const fr: Dict = {
   "install.desktop1": "Sur ordinateur, cliquez sur l’icône d’installation dans la barre d’adresse de Chrome ou Edge.",
   "install.desktop2": "Sur téléphone, ouvrez ce lien dans Safari (iPhone) ou Chrome (Android) pour l’ajouter à l’écran d’accueil.",
   "install.note": "L’installation est facultative : le lien seul suffit pour consulter les carnets.",
+  "install.now": "Installer maintenant",
+  "install.how": "Comment l’installer ?",
+  "install.later": "Plus tard",
   "common.loading": "Chargement…",
 
   "common.cancel": "Annuler",
@@ -575,6 +578,9 @@ const en: Dict = {
   "install.desktop1": "On a computer, click the install icon in the Chrome or Edge address bar.",
   "install.desktop2": "On a phone, open this link in Safari (iPhone) or Chrome (Android) to add it to the home screen.",
   "install.note": "Installing is optional: the link alone is enough to browse the notebooks.",
+  "install.now": "Install now",
+  "install.how": "How do I install it?",
+  "install.later": "Later",
   "common.loading": "Loading…",
 
   "common.cancel": "Cancel",
@@ -680,6 +686,9 @@ const es: Dict = {
   "install.desktop1": "En ordenador, haz clic en el icono de instalación en la barra de direcciones de Chrome o Edge.",
   "install.desktop2": "En el teléfono, abre este enlace en Safari (iPhone) o Chrome (Android) para añadirlo a la pantalla de inicio.",
   "install.note": "Instalar es opcional: el enlace por sí solo basta para ver los cuadernos.",
+  "install.now": "Instalar ahora",
+  "install.how": "¿Cómo instalarlo?",
+  "install.later": "Más tarde",
   "common.loading": "Cargando…",
 };
 

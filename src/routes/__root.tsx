@@ -11,6 +11,7 @@ import { redirect } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
 import { Toaster } from "@/components/ui/sonner";
+import { InstallPrompt } from "@/components/travel/InstallPrompt";
 import { LanguageProvider } from "@/lib/i18n";
 import { checkGate } from "@/lib/gate.functions";
 import appCss from "../styles.css?url";
@@ -153,6 +154,7 @@ function RootComponent() {
       <LanguageProvider>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
+        <InstallPrompt />
         <Toaster position="top-center" />
       </LanguageProvider>
     </QueryClientProvider>

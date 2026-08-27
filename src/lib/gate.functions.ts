@@ -3,6 +3,7 @@ import { createServerFn } from "@tanstack/react-start";
 export const checkGate = createServerFn({ method: "GET" }).handler(async () => {
   const { gateSession } = await import("./gate.server");
   const session = await gateSession();
+  console.log("[gate] checkGate data", JSON.stringify(session.data));
   return { unlocked: session.data.unlocked === true };
 });
 
@@ -21,6 +22,7 @@ export const unlockSite = createServerFn({ method: "POST" })
 
     const session = await gateSession();
     await session.update({ unlocked: true });
+    console.log("[gate] unlocked set", JSON.stringify(session.data));
     return { ok: true as const };
   });
 

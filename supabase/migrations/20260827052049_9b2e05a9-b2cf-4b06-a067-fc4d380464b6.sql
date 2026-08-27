@@ -1,0 +1,8 @@
+alter table public.catalog_places add column if not exists price_info text;
+
+insert into public.catalog_places (city, country, name, category, area, description, lat, lng, source, sheet_key, best_time, price_info)
+values
+ ('Séoul','Corée du Sud','COEX Aquarium','Culture','Gangnam / COEX Mall','Le plus grand aquarium du centre de Séoul, installé dans le sous-sol du COEX Mall : 14 zones thématiques, 40 000 animaux, requins, manchots et une jolie galerie de méduses. Parfait un jour de pluie, à combiner avec la bibliothèque Starfield juste au-dessus.',37.5130,127.0587,'seed','coex-aquarium','{matin,debut-aprem}','Adulte 33 000 ₩ · Enfant 29 000 ₩'),
+ ('Séoul','Corée du Sud','Lotte World Aquarium','Culture','Jamsil / Lotte World Mall','Aquarium moderne au bord du lac Seokchon, avec un immense tunnel de verre, un béluga, des loutres et des otaries. Très pratique combiné avec la Lotte World Tower et les cerisiers du lac au printemps.',37.5133,127.1028,'seed','lotte-aquarium','{debut-aprem,fin-aprem}','Adulte 35 000 ₩ · Enfant 31 000 ₩'),
+ ('Séoul','Corée du Sud','Aqua Planet 63','Culture','Yeouido / 63 Building','Le plus intime des trois, au pied de la tour 63 sur le fleuve Han : bassins colorés, spectacle des otaries et pingouins. À enchaîner avec l''observatoire de la tour au coucher du soleil.',37.5199,126.9401,'seed','aquaplanet-63','{fin-aprem,soiree}','Adulte 27 000 ₩ · Enfant 25 000 ₩')
+on conflict do nothing;

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { PlacesMap } from "@/components/travel/PlacesMap";
-import { BestTimeBadges, PlaceFameStars } from "@/components/travel/PlaceDetails";
+import { BestTimeBadges, PlaceFameStars, PlacePrice } from "@/components/travel/PlaceDetails";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/lib/i18n";
@@ -95,14 +95,14 @@ function PreviewContent() {
       const members = (membersRes.data ?? []) as { id: string; email: string }[];
       // Catalogue extras (illustrated sheet + best daypart) for places picked from the library.
       const catalogIds = [...new Set(places.map((p) => p.catalog_place_id).filter(Boolean))] as string[];
-      const sheets: Record<string, { sheet_key: string | null; best_time: string[] | null }> = {};
+      const sheets: Record<string, { sheet_key: string | null; best_time: string[] | null; price_info: string | null }> = {};
       if (catalogIds.length > 0) {
         const { data: rows } = await supabase
           .from("catalog_places")
-          .select("id, sheet_key, best_time")
+          .select("id, sheet_key, best_time, price_info")
           .in("id", catalogIds);
         for (const row of rows ?? []) {
-          sheets[row.id] = { sheet_key: row.sheet_key, best_time: row.best_time };
+          sheets[row.id] = { sheet_key: row.sheet_key, best_time: row.best_time, price_info: row.price_info };
         }
       }
       const files = await signPaths([
@@ -253,6 +253,7 @@ function PreviewContent() {
                         <div className="mt-3 space-y-3">
                           <BestTimeBadges value={sheet.best_time} />
                           <PlaceFameStars sheetKey={sheet.sheet_key} name={place.name} />
+                        <PlacePrice value={sheet.price_info} />
                         </div>
                       );
                     })()}

@@ -7,9 +7,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { progress, signPaths, type Place, type Trip } from "@/lib/travel";
 import { defaultCoverFor } from "@/lib/defaultCover";
-import { BestTimeBadges, PlaceFameStars } from "@/components/travel/PlaceDetails";
+import { BestTimeBadges, PlaceFameStars, PlacePrice } from "@/components/travel/PlaceDetails";
 
-type PlaceSheet = { sheet_key: string | null; best_time: string[] | null };
+type PlaceSheet = { sheet_key: string | null; best_time: string[] | null; price_info: string | null };
 
 export const Route = createFileRoute("/partage/$slug")({
   head: () => ({
@@ -73,10 +73,10 @@ function SharedTrip() {
       if (catalogIds.length > 0) {
         const { data: rows } = await supabase
           .from("catalog_places")
-          .select("id, sheet_key, best_time")
+          .select("id, sheet_key, best_time, price_info")
           .in("id", catalogIds);
         for (const row of rows ?? []) {
-          sheets[row.id] = { sheet_key: row.sheet_key, best_time: row.best_time };
+          sheets[row.id] = { sheet_key: row.sheet_key, best_time: row.best_time, price_info: row.price_info };
         }
       }
       const files = await signPaths([
@@ -206,6 +206,7 @@ function SharedTrip() {
                       <div className="mt-3 space-y-3">
                         <BestTimeBadges value={sheet.best_time} />
                         <PlaceFameStars sheetKey={sheet.sheet_key} name={place.name} />
+                        <PlacePrice value={sheet.price_info} />
                       </div>
                     );
                   })()}

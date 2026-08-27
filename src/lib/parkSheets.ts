@@ -13,6 +13,9 @@ export const parkFame: Record<string, number> = {
   "seoul-forest": 4,
   "yeouido-hangang": 4,
   "yeouido-park": 3,
+  "coex-aquarium": 4,
+  "lotte-aquarium": 4,
+  "aquaplanet-63": 3,
 };
 
 export function fameRating(key?: string | null): number | null {

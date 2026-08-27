@@ -14,7 +14,7 @@ import {
 } from "@/lib/mapProviders";
 import { searchPlaces, type MapsSearchResult } from "@/lib/maps.functions";
 import { SuggestCorrection } from "@/components/travel/SuggestCorrection";
-import { BestTimeBadges, PlaceFameStars } from "@/components/travel/PlaceDetails";
+import { BestTimeBadges, PlaceFameStars, PlacePrice } from "@/components/travel/PlaceDetails";
 import type { CatalogPlace } from "@/lib/travel";
 
 /**
@@ -295,6 +295,7 @@ export function PlaceExplorer({
                                 sheetKey={place.sheet_key}
                                 name={place.name}
                               />
+                              <PlacePrice value={place.price_info} />
                             </div>
 
 

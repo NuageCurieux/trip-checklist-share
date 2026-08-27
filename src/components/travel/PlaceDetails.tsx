@@ -62,3 +62,16 @@ export function PlaceFameStars({
     </div>
   );
 }
+
+/** Ticket prices row from the city sheet. */
+export function PlacePrice({ value }: { value?: string | null }) {
+  const { t } = useI18n();
+  if (!value) return null;
+
+  return (
+    <div>
+      <p className="kicker">{t("time.price")}</p>
+      <p className="mt-1 text-xs text-foreground">{value}</p>
+    </div>
+  );
+}

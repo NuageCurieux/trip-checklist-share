@@ -46,6 +46,7 @@ export type CatalogPlace = {
   source: string;
   sheet_key: string | null;
   best_time: string[] | null;
+  price_info: string | null;
 };
 
 export const VISIBILITY_LABEL: Record<Visibility, string> = {

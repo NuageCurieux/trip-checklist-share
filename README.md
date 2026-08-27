@@ -1,14 +1,18 @@
-# Welcome to your Lovable project
+# Trip Checklist Share
+
+Application de voyage pour mettre les lieux a visiter comme une check liste que je pourrai rendre ensuite disponible aux autres mais avant à mes amis
 
 This project was built with [Lovable](https://lovable.dev).
 
+**Live app**: https://trip-checklist-share.lovable.app
+
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/cf0fbee3-253a-415f-85ae-1f5fdaa6cc30).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +24,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS

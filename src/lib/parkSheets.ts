@@ -131,6 +131,11 @@ export const parkFame: Record<string, number> = {
   bukchang: 3,
   seosomun: 2,
   yakhyeon: 2,
+  // Séoul — grands parcs complémentaires
+  "seoul-grand-park": 4,
+  "children-grand-park": 3,
+  boramae: 2,
+  "worldcup-park": 3,
   // Musées & lieux culturels — autres villes
   "busan-musee-national": 3,
   "busan-musee-art": 3,

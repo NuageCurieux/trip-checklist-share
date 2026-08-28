@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { ChevronDown, ExternalLink, Heart, Plus, Search } from "lucide-react";
+import { ChevronDown, ChevronRight, ExternalLink, Heart, Plus, Search } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -15,6 +16,7 @@ import {
 import { searchPlaces, type MapsSearchResult } from "@/lib/maps.functions";
 import { SuggestCorrection } from "@/components/travel/SuggestCorrection";
 import { BestTimeBadges, PlaceFameStars, PlacePrice } from "@/components/travel/PlaceDetails";
+import { orderCities } from "@/lib/catalog";
 import { placeTitle, type CatalogPlace } from "@/lib/travel";
 
 /**
@@ -182,6 +184,24 @@ export function PlaceExplorer({
     return [...map.entries()].sort((a, b) => a[0].localeCompare(b[0]));
   })();
 
+  const countryName = (() => {
+    const requested = (city ?? country ?? "").trim();
+    const countries = new Set((catalog ?? []).map((place) => place.country).filter(Boolean));
+    return countries.size === 1 && countries.has(requested) ? requested : null;
+  })();
+
+  const cityChoices = (() => {
+    if (!countryName) return [];
+    const counts = new Map<string, number>();
+    for (const place of catalog ?? []) {
+      if (!place.city) continue;
+      counts.set(place.city, (counts.get(place.city) ?? 0) + 1);
+    }
+    return [...counts.entries()]
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => orderCities(a.name, b.name));
+  })();
+
 
   return (
     <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
@@ -248,6 +268,26 @@ export function PlaceExplorer({
         <p className="kicker mb-2">{t("discover.catalog")}</p>
         {!catalog || catalog.length === 0 ? (
           <p className="text-sm text-muted-foreground">{t("discover.noResults")}</p>
+        ) : countryName ? (
+          <ul className="space-y-2">
+            {cityChoices.map((choice) => (
+              <li key={choice.name}>
+                <Link
+                  to="/lieux/$country/$city"
+                  params={{ country: countryName, city: choice.name }}
+                  className="flex w-full items-center gap-3 rounded-xl border border-border bg-background p-4"
+                >
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-serif text-lg">{choice.name}</span>
+                    <span className="mt-0.5 block text-xs text-muted-foreground">
+                      {choice.count} lieux
+                    </span>
+                  </span>
+                  <ChevronRight className="size-5 shrink-0 text-muted-foreground" />
+                </Link>
+              </li>
+            ))}
+          </ul>
         ) : (
           <div className="space-y-5">
             {groups.map(([category, places]) => (

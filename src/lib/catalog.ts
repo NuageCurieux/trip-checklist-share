@@ -58,14 +58,15 @@ export function citiesQuery(country: string) {
   };
 }
 
-/** Every place of one city. */
-export function cityPlacesQuery(city: string) {
+/** Every place of one city, scoped to its country. */
+export function cityPlacesQuery(country: string, city: string) {
   return {
-    queryKey: ["catalog-city", city],
+    queryKey: ["catalog-city", country, city],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("catalog_places")
         .select("*")
+        .eq("country", country)
         .eq("city", city)
         .order("name");
       if (error) throw error;

@@ -39,7 +39,7 @@ function CityPage() {
   const { country, city } = Route.useParams();
   const { t } = useI18n();
   const [openId, setOpenId] = useState<string | null>(null);
-  const { data: places, isLoading } = useQuery(cityPlacesQuery(city));
+  const { data: places, isLoading } = useQuery(cityPlacesQuery(country, city));
 
   const groups = groupByCategory(places ?? [], t("discover.catalog"));
   const provider = providerForCountry(places?.[0]?.country ?? country);

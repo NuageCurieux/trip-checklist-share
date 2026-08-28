@@ -202,10 +202,14 @@ export function curatedPlansFor(city: string): CuratedDayPlan[] {
 
 export type DayPlan = {
   id: string;
+  owner_id: string;
   country: string;
   city: string;
   title: string;
   note: string | null;
+  planned_date: string | null;
+  done: boolean;
+  shared: boolean;
   created_at: string;
 };
 
@@ -217,31 +221,58 @@ export type DayPlanItem = {
   position: number;
 };
 
-/** The traveller's own day plans for one city, with their steps. */
-export function myDayPlansQuery(country: string, city: string, enabled: boolean) {
+export type DayPlanWithItems = DayPlan & { items: DayPlanItem[] };
+
+const PLAN_COLUMNS =
+  "id, owner_id, country, city, title, note, planned_date, done, shared, created_at";
+
+async function withItems(plans: DayPlan[]): Promise<DayPlanWithItems[]> {
+  const ids = plans.map((p) => p.id);
+  if (ids.length === 0) return [];
+  const { data: items, error } = await supabase
+    .from("day_plan_items")
+    .select("id, plan_id, catalog_place_id, slot, position")
+    .in("plan_id", ids)
+    .order("position");
+  if (error) throw error;
+  return plans.map((plan) => ({
+    ...plan,
+    items: ((items ?? []) as DayPlanItem[]).filter((i) => i.plan_id === plan.id),
+  }));
+}
+
+/** Every day plan visible for one city: the traveller's own ones and the shared ones. */
+export function cityDayPlansQuery(country: string, city: string, enabled: boolean) {
   return {
     queryKey: ["day-plans", country, city],
     enabled,
     queryFn: async () => {
-      const { data: plans, error } = await supabase
+      const { data, error } = await supabase
         .from("day_plans")
-        .select("id, country, city, title, note, created_at")
+        .select(PLAN_COLUMNS)
         .eq("country", country)
         .eq("city", city)
+        .order("planned_date", { ascending: true, nullsFirst: false })
         .order("created_at", { ascending: false });
       if (error) throw error;
-      const ids = (plans ?? []).map((p) => p.id);
-      if (ids.length === 0) return [] as Array<DayPlan & { items: DayPlanItem[] }>;
-      const { data: items, error: itemsError } = await supabase
-        .from("day_plan_items")
-        .select("id, plan_id, catalog_place_id, slot, position")
-        .in("plan_id", ids)
-        .order("position");
-      if (itemsError) throw itemsError;
-      return (plans ?? []).map((plan) => ({
-        ...(plan as DayPlan),
-        items: ((items ?? []) as DayPlanItem[]).filter((i) => i.plan_id === plan.id),
-      }));
+      return withItems((data ?? []) as DayPlan[]);
+    },
+  };
+}
+
+/** Shared and personal day plans across every city, for the carnet page. */
+export function allDayPlansQuery(enabled: boolean) {
+  return {
+    queryKey: ["day-plans-all"],
+    enabled,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("day_plans")
+        .select(PLAN_COLUMNS)
+        .order("planned_date", { ascending: true, nullsFirst: false })
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return withItems((data ?? []) as DayPlan[]);
     },
   };
 }
@@ -251,6 +282,8 @@ export async function createDayPlan(input: {
   city: string;
   title: string;
   note?: string | null;
+  plannedDate?: string | null;
+  shared?: boolean;
   selection: Array<{ placeId: string; slot: string }>;
 }) {
   const { data: plan, error } = await supabase
@@ -260,6 +293,8 @@ export async function createDayPlan(input: {
       city: input.city,
       title: input.title,
       note: input.note ?? null,
+      planned_date: input.plannedDate || null,
+      shared: input.shared ?? true,
     })
     .select("id")
     .single();
@@ -275,6 +310,27 @@ export async function createDayPlan(input: {
     if (itemsError) throw itemsError;
   }
   return plan.id as string;
+}
+
+/** Collaborative edit: any signed-in traveller may update a shared plan. */
+export async function updateDayPlan(
+  id: string,
+  patch: { title?: string; note?: string | null; planned_date?: string | null; done?: boolean },
+) {
+  const { error } = await supabase.from("day_plans").update(patch).eq("id", id);
+  if (error) throw error;
+}
+
+export async function addDayPlanItem(planId: string, catalogPlaceId: string, slot: string) {
+  const { error } = await supabase
+    .from("day_plan_items")
+    .insert({ plan_id: planId, catalog_place_id: catalogPlaceId, slot, position: 999 });
+  if (error) throw error;
+}
+
+export async function removeDayPlanItem(itemId: string) {
+  const { error } = await supabase.from("day_plan_items").delete().eq("id", itemId);
+  if (error) throw error;
 }
 
 export async function deleteDayPlan(id: string) {
@@ -300,3 +356,11 @@ export function slotRank(slot: string | null) {
   const index = SLOTS.indexOf((slot ?? "") as (typeof SLOTS)[number]);
   return index === -1 ? SLOTS.length : index;
 }
+
+export function formatPlanDate(date: string | null) {
+  if (!date) return null;
+  const parsed = new Date(`${date}T12:00:00`);
+  if (Number.isNaN(parsed.getTime())) return date;
+  return parsed.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+}
+

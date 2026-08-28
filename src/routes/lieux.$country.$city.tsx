@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, ChevronLeft, ExternalLink } from "lucide-react";
+import { CalendarDays, ChevronDown, ChevronLeft, ExternalLink } from "lucide-react";
 import { useState } from "react";
 
 import { AppShell } from "@/components/AppShell";
@@ -139,6 +139,21 @@ function CityPage() {
           <ChevronLeft className="size-4" />
           {country}
         </Link>
+
+        <Link
+          to="/journee/$country/$city"
+          params={{ country, city }}
+          className="mb-5 flex items-center gap-3 rounded-xl border border-border/70 bg-muted/40 px-3 py-3"
+        >
+          <CalendarDays className="size-5 shrink-0 text-primary" />
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-medium">Une journée à {city}</span>
+            <span className="block font-serif text-xs italic text-muted-foreground">
+              Programmes suggérés et fiche à composer soi-même
+            </span>
+          </span>
+        </Link>
+
 
         {isLoading ? (
           <p className="text-sm text-muted-foreground">{t("common.loading")}</p>

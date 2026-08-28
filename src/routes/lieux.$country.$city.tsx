@@ -5,15 +5,16 @@ import { useState } from "react";
 
 import { AppShell } from "@/components/AppShell";
 import { BestTimeBadges, PlaceFameStars, PlacePrice } from "@/components/travel/PlaceDetails";
-import { cityPlacesQuery, groupByCategory } from "@/lib/catalog";
+import { cityPlacesQuery, groupActivities, groupByCategory } from "@/lib/catalog";
 import { useI18n } from "@/lib/i18n";
 import {
   embedMapUrl,
   externalMapUrl,
   providerForCountry,
   providerLabel,
+  type MapProvider,
 } from "@/lib/mapProviders";
-import { placeTitle } from "@/lib/travel";
+import { placeTitle, type CatalogPlace } from "@/lib/travel";
 
 export const Route = createFileRoute("/lieux/$country/$city")({
   component: CityPage,

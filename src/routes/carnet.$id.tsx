@@ -69,6 +69,9 @@ function TripPage() {
 
   const invalidate = () => queryClient.invalidateQueries({ queryKey: ["trip", id] });
 
+  const { data: dayPlans } = useQuery(allDayPlansQuery(Boolean(user)));
+
+
   const { data, isLoading } = useQuery({
     queryKey: ["trip", id],
     queryFn: async () => {

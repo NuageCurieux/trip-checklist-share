@@ -16,7 +16,36 @@ export const parkFame: Record<string, number> = {
   "coex-aquarium": 4,
   "lotte-aquarium": 4,
   "aquaplanet-63": 3,
+  // Musées
+  "musee-national": 5,
+  "musee-palais": 3,
+  "mmca-seoul": 4,
+  leeum: 4,
+  sema: 3,
+  "musee-histoire-seoul": 3,
+  "memorial-guerre": 4,
+  "musee-folklore": 3,
+  kimchikan: 2,
+  ddp: 4,
+  "nam-june-paik": 2,
+  "paju-mimesis": 2,
+  // Activités
+  "n-seoul-tower": 5,
+  "seoul-sky": 5,
+  gyeongbokgung: 5,
+  changdeokgung: 4,
+  "hanbok-bukchon": 4,
+  "dragon-hill": 3,
+  "croisiere-han": 3,
+  gwangjang: 4,
+  "baseball-jamsil": 3,
+  "lotte-world": 4,
+  everland: 4,
+  nami: 4,
+  "hwaseong-suwon": 3,
+  "dmz-paju": 4,
 };
+
 
 export function fameRating(key?: string | null): number | null {
   if (!key) return null;

@@ -27,6 +27,7 @@ import { Route as LieuxIndexRouteImport } from './routes/lieux.index'
 import { Route as PartageSlugRouteImport } from './routes/partage.$slug'
 import { Route as VoyageurHandleRouteImport } from './routes/voyageur.$handle'
 import { Route as LieuxCountryIndexRouteImport } from './routes/lieux.$country.index'
+import { Route as LieuxCountryCityRouteImport } from './routes/lieux.$country.$city'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -118,6 +119,11 @@ const LieuxCountryIndexRoute = LieuxCountryIndexRouteImport.update({
   path: '/$country/',
   getParentRoute: () => LieuxRoute,
 } as any)
+const LieuxCountryCityRoute = LieuxCountryCityRouteImport.update({
+  id: '/$country/$city',
+  path: '/$country/$city',
+  getParentRoute: () => LieuxRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/partage/$slug': typeof PartageSlugRoute
   '/voyageur/$handle': typeof VoyageurHandleRoute
   '/lieux/': typeof LieuxIndexRoute
+  '/lieux/$country/$city': typeof LieuxCountryCityRoute
   '/lieux/$country/': typeof LieuxCountryIndexRoute
 }
 export interface FileRoutesByTo {
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/partage/$slug': typeof PartageSlugRoute
   '/voyageur/$handle': typeof VoyageurHandleRoute
   '/lieux': typeof LieuxIndexRoute
+  '/lieux/$country/$city': typeof LieuxCountryCityRoute
   '/lieux/$country': typeof LieuxCountryIndexRoute
 }
 export interface FileRoutesById {
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/partage/$slug': typeof PartageSlugRoute
   '/voyageur/$handle': typeof VoyageurHandleRoute
   '/lieux/': typeof LieuxIndexRoute
+  '/lieux/$country/$city': typeof LieuxCountryCityRoute
   '/lieux/$country/': typeof LieuxCountryIndexRoute
 }
 export interface FileRouteTypes {
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/partage/$slug'
     | '/voyageur/$handle'
     | '/lieux/'
+    | '/lieux/$country/$city'
     | '/lieux/$country/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -218,6 +228,7 @@ export interface FileRouteTypes {
     | '/partage/$slug'
     | '/voyageur/$handle'
     | '/lieux'
+    | '/lieux/$country/$city'
     | '/lieux/$country'
   id:
     | '__root__'
@@ -238,6 +249,7 @@ export interface FileRouteTypes {
     | '/partage/$slug'
     | '/voyageur/$handle'
     | '/lieux/'
+    | '/lieux/$country/$city'
     | '/lieux/$country/'
   fileRoutesById: FileRoutesById
 }
@@ -388,16 +400,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LieuxCountryIndexRouteImport
       parentRoute: typeof LieuxRoute
     }
+    '/lieux/$country/$city': {
+      id: '/lieux/$country/$city'
+      path: '/$country/$city'
+      fullPath: '/lieux/$country/$city'
+      preLoaderRoute: typeof LieuxCountryCityRouteImport
+      parentRoute: typeof LieuxRoute
+    }
   }
 }
 
 interface LieuxRouteChildren {
   LieuxIndexRoute: typeof LieuxIndexRoute
+  LieuxCountryCityRoute: typeof LieuxCountryCityRoute
   LieuxCountryIndexRoute: typeof LieuxCountryIndexRoute
 }
 
 const LieuxRouteChildren: LieuxRouteChildren = {
   LieuxIndexRoute: LieuxIndexRoute,
+  LieuxCountryCityRoute: LieuxCountryCityRoute,
   LieuxCountryIndexRoute: LieuxCountryIndexRoute,
 }
 

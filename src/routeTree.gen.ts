@@ -23,8 +23,11 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as UnlockRouteImport } from './routes/unlock'
 import { Route as ApercuIdRouteImport } from './routes/apercu.$id'
 import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
+import { Route as LieuxIndexRouteImport } from './routes/lieux.index'
 import { Route as PartageSlugRouteImport } from './routes/partage.$slug'
 import { Route as VoyageurHandleRouteImport } from './routes/voyageur.$handle'
+import { Route as LieuxCountryIndexRouteImport } from './routes/lieux.$country.index'
+import { Route as LieuxCountryCityRouteImport } from './routes/lieux.$country.$city'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -96,6 +99,11 @@ const CarnetIdRoute = CarnetIdRouteImport.update({
   path: '/carnet/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LieuxIndexRoute = LieuxIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LieuxRoute,
+} as any)
 const PartageSlugRoute = PartageSlugRouteImport.update({
   id: '/partage/$slug',
   path: '/partage/$slug',
@@ -106,6 +114,16 @@ const VoyageurHandleRoute = VoyageurHandleRouteImport.update({
   path: '/voyageur/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LieuxCountryIndexRoute = LieuxCountryIndexRouteImport.update({
+  id: '/$country/',
+  path: '/$country/',
+  getParentRoute: () => LieuxRoute,
+} as any)
+const LieuxCountryCityRoute = LieuxCountryCityRouteImport.update({
+  id: '/$country/$city',
+  path: '/$country/$city',
+  getParentRoute: () => LieuxRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -114,7 +132,7 @@ export interface FileRoutesByFullPath {
   '/compte': typeof CompteRoute
   '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
-  '/lieux': typeof LieuxRoute
+  '/lieux': typeof LieuxRouteWithChildren
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
   '/profil': typeof ProfilRoute
@@ -124,6 +142,9 @@ export interface FileRoutesByFullPath {
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
   '/voyageur/$handle': typeof VoyageurHandleRoute
+  '/lieux/': typeof LieuxIndexRoute
+  '/lieux/$country/$city': typeof LieuxCountryCityRoute
+  '/lieux/$country/': typeof LieuxCountryIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -132,7 +153,6 @@ export interface FileRoutesByTo {
   '/compte': typeof CompteRoute
   '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
-  '/lieux': typeof LieuxRoute
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
   '/profil': typeof ProfilRoute
@@ -142,6 +162,9 @@ export interface FileRoutesByTo {
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
   '/voyageur/$handle': typeof VoyageurHandleRoute
+  '/lieux': typeof LieuxIndexRoute
+  '/lieux/$country/$city': typeof LieuxCountryCityRoute
+  '/lieux/$country': typeof LieuxCountryIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -151,7 +174,7 @@ export interface FileRoutesById {
   '/compte': typeof CompteRoute
   '/corrections': typeof CorrectionsRoute
   '/favoris': typeof FavorisRoute
-  '/lieux': typeof LieuxRoute
+  '/lieux': typeof LieuxRouteWithChildren
   '/localisation': typeof LocalisationRoute
   '/notifications': typeof NotificationsRoute
   '/profil': typeof ProfilRoute
@@ -161,6 +184,9 @@ export interface FileRoutesById {
   '/carnet/$id': typeof CarnetIdRoute
   '/partage/$slug': typeof PartageSlugRoute
   '/voyageur/$handle': typeof VoyageurHandleRoute
+  '/lieux/': typeof LieuxIndexRoute
+  '/lieux/$country/$city': typeof LieuxCountryCityRoute
+  '/lieux/$country/': typeof LieuxCountryIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -181,6 +207,9 @@ export interface FileRouteTypes {
     | '/carnet/$id'
     | '/partage/$slug'
     | '/voyageur/$handle'
+    | '/lieux/'
+    | '/lieux/$country/$city'
+    | '/lieux/$country/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -189,7 +218,6 @@ export interface FileRouteTypes {
     | '/compte'
     | '/corrections'
     | '/favoris'
-    | '/lieux'
     | '/localisation'
     | '/notifications'
     | '/profil'
@@ -199,6 +227,9 @@ export interface FileRouteTypes {
     | '/carnet/$id'
     | '/partage/$slug'
     | '/voyageur/$handle'
+    | '/lieux'
+    | '/lieux/$country/$city'
+    | '/lieux/$country'
   id:
     | '__root__'
     | '/'
@@ -217,6 +248,9 @@ export interface FileRouteTypes {
     | '/carnet/$id'
     | '/partage/$slug'
     | '/voyageur/$handle'
+    | '/lieux/'
+    | '/lieux/$country/$city'
+    | '/lieux/$country/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -226,7 +260,7 @@ export interface RootRouteChildren {
   CompteRoute: typeof CompteRoute
   CorrectionsRoute: typeof CorrectionsRoute
   FavorisRoute: typeof FavorisRoute
-  LieuxRoute: typeof LieuxRoute
+  LieuxRoute: typeof LieuxRouteWithChildren
   LocalisationRoute: typeof LocalisationRoute
   NotificationsRoute: typeof NotificationsRoute
   ProfilRoute: typeof ProfilRoute
@@ -338,6 +372,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CarnetIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lieux/': {
+      id: '/lieux/'
+      path: '/'
+      fullPath: '/lieux/'
+      preLoaderRoute: typeof LieuxIndexRouteImport
+      parentRoute: typeof LieuxRoute
+    }
     '/partage/$slug': {
       id: '/partage/$slug'
       path: '/partage/$slug'
@@ -352,8 +393,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VoyageurHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lieux/$country/': {
+      id: '/lieux/$country/'
+      path: '/$country'
+      fullPath: '/lieux/$country/'
+      preLoaderRoute: typeof LieuxCountryIndexRouteImport
+      parentRoute: typeof LieuxRoute
+    }
+    '/lieux/$country/$city': {
+      id: '/lieux/$country/$city'
+      path: '/$country/$city'
+      fullPath: '/lieux/$country/$city'
+      preLoaderRoute: typeof LieuxCountryCityRouteImport
+      parentRoute: typeof LieuxRoute
+    }
   }
 }
+
+interface LieuxRouteChildren {
+  LieuxIndexRoute: typeof LieuxIndexRoute
+  LieuxCountryCityRoute: typeof LieuxCountryCityRoute
+  LieuxCountryIndexRoute: typeof LieuxCountryIndexRoute
+}
+
+const LieuxRouteChildren: LieuxRouteChildren = {
+  LieuxIndexRoute: LieuxIndexRoute,
+  LieuxCountryCityRoute: LieuxCountryCityRoute,
+  LieuxCountryIndexRoute: LieuxCountryIndexRoute,
+}
+
+const LieuxRouteWithChildren = LieuxRoute._addFileChildren(LieuxRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -362,7 +431,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompteRoute: CompteRoute,
   CorrectionsRoute: CorrectionsRoute,
   FavorisRoute: FavorisRoute,
-  LieuxRoute: LieuxRoute,
+  LieuxRoute: LieuxRouteWithChildren,
   LocalisationRoute: LocalisationRoute,
   NotificationsRoute: NotificationsRoute,
   ProfilRoute: ProfilRoute,

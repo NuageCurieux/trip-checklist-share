@@ -89,3 +89,32 @@ export function groupByCategory(
   }
   return [...map.entries()].sort((a, b) => a[0].localeCompare(b[0]));
 }
+
+/**
+ * Inside a category, places that share an `activity_group` (several ring-making
+ * studios, thrift streets…) are shown as one activity with its venues listed.
+ */
+export type CatalogEntry =
+  | { kind: "place"; key: string; place: CatalogPlace }
+  | { kind: "group"; key: string; label: string; places: CatalogPlace[] };
+
+export function groupActivities(places: CatalogPlace[]): CatalogEntry[] {
+  const entries: CatalogEntry[] = [];
+  const groups = new Map<string, CatalogPlace[]>();
+  for (const place of places) {
+    const group = place.activity_group?.trim();
+    if (!group) {
+      entries.push({ kind: "place", key: place.id, place });
+      continue;
+    }
+    const list = groups.get(group) ?? [];
+    list.push(place);
+    groups.set(group, list);
+    if (list.length === 1) entries.push({ kind: "group", key: group, label: group, places: list });
+  }
+  return entries.map((entry) =>
+    entry.kind === "group"
+      ? { ...entry, places: groups.get(entry.key) ?? entry.places }
+      : entry,
+  );
+}

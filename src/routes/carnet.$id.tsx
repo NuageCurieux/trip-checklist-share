@@ -270,6 +270,60 @@ function TripPage() {
         ) : null}
       </section>
 
+      {user && (dayPlans?.length ?? 0) > 0 ? (
+        <section className="mt-8 px-6">
+          <h2 className="mb-4 text-sm font-semibold tracking-widest uppercase">
+            Listes d'activités partagées
+          </h2>
+          <ul className="space-y-3">
+            {(dayPlans ?? []).map((plan) => (
+              <li
+                key={plan.id}
+                className="rounded-xl border border-border bg-card p-4 shadow-card"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium">{plan.title}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {plan.country} · {plan.city} · {plan.items.length} activités
+                    </p>
+                    <p className="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
+                      {plan.planned_date ? (
+                        <span className="inline-flex items-center gap-1">
+                          <CalendarDays className="size-3" />
+                          {formatPlanDate(plan.planned_date)}
+                        </span>
+                      ) : null}
+                      {plan.shared ? (
+                        <span className="inline-flex items-center gap-1">
+                          <Users className="size-3" />
+                          partagée
+                        </span>
+                      ) : null}
+                      {plan.done ? (
+                        <span className="inline-flex items-center gap-1 text-primary">
+                          <Check className="size-3" />
+                          déjà fait
+                        </span>
+                      ) : null}
+                    </p>
+                  </div>
+                  <Link
+                    to="/journee/$country/$city"
+                    params={{ country: plan.country, city: plan.city }}
+                    className="shrink-0 text-xs font-medium text-primary underline"
+                  >
+                    Ouvrir
+                  </Link>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+
+
 
       <section className="mt-8 px-6">
         <h2 className="mb-4 text-sm font-semibold tracking-widest uppercase">{t("map.title")}</h2>

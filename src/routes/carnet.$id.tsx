@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Check, Copy, Eye, FileText, Heart, Trash2 } from "lucide-react";
+import { CalendarDays, Check, Copy, Eye, FileText, Heart, Trash2, Users } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -10,6 +10,7 @@ import { PlacesMap } from "@/components/travel/PlacesMap";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/lib/i18n";
+import { allDayPlansQuery, formatPlanDate } from "@/lib/dayPlans";
 import {
   CATEGORIES,
   progress,
@@ -21,6 +22,7 @@ import {
   type Trip,
   type Visibility,
 } from "@/lib/travel";
+
 
 export const Route = createFileRoute("/carnet/$id")({
   head: () => ({

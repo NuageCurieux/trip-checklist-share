@@ -123,6 +123,16 @@ export const parkFame: Record<string, number> = {
   noraebang: 4,
   ttukseom: 3,
   yeonnam: 3,
+  // Séoul — palais royaux & temples
+  changgyeonggung: 4,
+  unhyeongung: 2,
+  seonjeongneung: 3,
+  bongwonsa: 2,
+  gilsangsa: 3,
+  hwagyesa: 2,
+  jingwansa: 3,
+  doseonsa: 3,
+  myogaksa: 2,
   // Busan — compléments
   beomeosa: 3,
   huinnyeoul: 4,

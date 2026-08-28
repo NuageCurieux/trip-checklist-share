@@ -2,7 +2,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { CatalogPlace } from "@/lib/travel";
 
 /** Cities are shown in travel order rather than alphabetically. */
-const CITY_ORDER = ["Séoul", "Autour de Séoul", "Suncheon", "Busan"];
+const CITY_ORDER = ["Séoul", "Autour de Séoul", "Suncheon", "Autour de Suncheon", "Busan"];
 
 export function orderCities(a: string, b: string) {
   const ia = CITY_ORDER.indexOf(a);

@@ -1,0 +1,5 @@
+INSERT INTO public.catalog_places (country, city, name, name_ko, category, area, description, lat, lng, sheet_key, best_time, price_info, source)
+SELECT * FROM (VALUES
+  ('Corée du Sud','Busan','Téléphérique maritime de Songdo','송도 해상케이블카','Vue','Songdo, Busan','Téléphérique au-dessus de la baie de Songdo reliant la plage de Songdo à l''île de Amnam. Vue panoramique sur la mer, les falaises et le pont de Busan. Cabines standards et cabines cristal au plancher de verre.',35.0764::double precision,129.0236::double precision,'busan-cablecar',ARRAY['fin-aprem','soiree'],'Aller-retour ~15 000 ₩ (~9,50 €) ; cabine cristal ~20 000 ₩ (~12,60 €)','seed')
+) AS v(country, city, name, name_ko, category, area, description, lat, lng, sheet_key, best_time, price_info, source)
+WHERE NOT EXISTS (SELECT 1 FROM public.catalog_places c WHERE c.name = v.name AND c.city = v.city);

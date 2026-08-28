@@ -123,6 +123,14 @@ export const parkFame: Record<string, number> = {
   noraebang: 4,
   ttukseom: 3,
   yeonnam: 3,
+  // Séoul — quartier français, Guryong & autour de la gare de Séoul
+  seorae: 3,
+  guryong: 2,
+  "station-284": 3,
+  sungnyemun: 4,
+  bukchang: 3,
+  seosomun: 2,
+  yakhyeon: 2,
   // Musées & lieux culturels — autres villes
   "busan-musee-national": 3,
   "busan-musee-art": 3,

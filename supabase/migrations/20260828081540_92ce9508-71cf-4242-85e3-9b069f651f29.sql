@@ -1,0 +1,1 @@
+ALTER TABLE public.catalog_places ADD COLUMN IF NOT EXISTS name_ko text;

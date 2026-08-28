@@ -48,6 +48,8 @@ export type CatalogPlace = {
   sheet_key: string | null;
   best_time: string[] | null;
   price_info: string | null;
+  website?: string | null;
+  activity_group?: string | null;
 };
 
 /**

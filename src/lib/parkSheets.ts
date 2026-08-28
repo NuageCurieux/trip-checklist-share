@@ -44,6 +44,25 @@ export const parkFame: Record<string, number> = {
   nami: 4,
   "hwaseong-suwon": 3,
   "dmz-paju": 4,
+  // Ateliers
+  "atelier-bagues": 3,
+  "atelier-poterie": 3,
+  "atelier-kimchi": 3,
+  "atelier-parfum": 2,
+  // Suncheon
+  "suncheon-jardin": 4,
+  "suncheon-baie": 4,
+  naganeupseong: 3,
+  "suncheon-drama": 2,
+  songgwangsa: 3,
+  // Busan
+  gamcheon: 4,
+  haeundae: 5,
+  jagalchi: 4,
+  yonggungsa: 4,
+  gwangalli: 4,
+  "busan-x-the-sky": 4,
+  taejongdae: 3,
 };
 
 

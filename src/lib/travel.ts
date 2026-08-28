@@ -37,6 +37,7 @@ export type CatalogPlace = {
   city: string;
   country: string | null;
   name: string;
+  name_ko: string | null;
   category: string | null;
   area: string | null;
   description: string | null;

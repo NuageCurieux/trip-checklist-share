@@ -127,6 +127,7 @@ export const parkFame: Record<string, number> = {
   beomeosa: 3,
   huinnyeoul: 4,
   "songdo-skywalk": 3,
+  "busan-cablecar": 4,
   gukje: 4,
   igidae: 3,
   oryukdo: 3,

@@ -1,6 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChevronDown, ChevronLeft, MapPin, Plus, Trash2 } from "lucide-react";
+import {
+  CalendarDays,
+  Check,
+  ChevronDown,
+  ChevronLeft,
+  MapPin,
+  Plus,
+  Trash2,
+  Users,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -11,16 +20,22 @@ import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/hooks/useSession";
 import { cityPlacesQuery } from "@/lib/catalog";
 import {
+  addDayPlanItem,
+  cityDayPlansQuery,
   createDayPlan,
   curatedPlansFor,
+  type DayPlanWithItems,
   deleteDayPlan,
+  formatPlanDate,
   indexById,
   indexBySheetKey,
-  myDayPlansQuery,
+  removeDayPlanItem,
   slotRank,
   SLOTS,
+  updateDayPlan,
 } from "@/lib/dayPlans";
 import { placeTitle } from "@/lib/travel";
+
 
 export const Route = createFileRoute("/journee/$country/$city")({
   component: DayPlanPage,

@@ -37,6 +37,7 @@ export type CatalogPlace = {
   city: string;
   country: string | null;
   name: string;
+  name_ko: string | null;
   category: string | null;
   area: string | null;
   description: string | null;
@@ -48,6 +49,17 @@ export type CatalogPlace = {
   best_time: string[] | null;
   price_info: string | null;
 };
+
+/**
+ * Splits a catalogue title into its Latin name and its Korean name. Some seeded
+ * park names already embed the Korean form as "Namsan Park — 남산공원", so we
+ * strip it to avoid showing it twice next to `name_ko`.
+ */
+export function placeTitle(place: { name: string; name_ko?: string | null }) {
+  const [latin, embedded] = place.name.split(" — ");
+  const ko = place.name_ko?.trim() || embedded?.trim() || null;
+  return { name: (latin ?? place.name).trim(), ko };
+}
 
 export const VISIBILITY_LABEL: Record<Visibility, string> = {
   private: "Privé",

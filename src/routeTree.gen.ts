@@ -10,33 +10,232 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccesRouteImport } from './routes/acces'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CompteRouteImport } from './routes/compte'
+import { Route as CorrectionsRouteImport } from './routes/corrections'
+import { Route as FavorisRouteImport } from './routes/favoris'
+import { Route as LieuxRouteImport } from './routes/lieux'
+import { Route as LocalisationRouteImport } from './routes/localisation'
+import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as ProfilRouteImport } from './routes/profil'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as UnlockRouteImport } from './routes/unlock'
+import { Route as ApercuIdRouteImport } from './routes/apercu.$id'
+import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
+import { Route as PartageSlugRouteImport } from './routes/partage.$slug'
+import { Route as VoyageurHandleRouteImport } from './routes/voyageur.$handle'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccesRoute = AccesRouteImport.update({
+  id: '/acces',
+  path: '/acces',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompteRoute = CompteRouteImport.update({
+  id: '/compte',
+  path: '/compte',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CorrectionsRoute = CorrectionsRouteImport.update({
+  id: '/corrections',
+  path: '/corrections',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavorisRoute = FavorisRouteImport.update({
+  id: '/favoris',
+  path: '/favoris',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LieuxRoute = LieuxRouteImport.update({
+  id: '/lieux',
+  path: '/lieux',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalisationRoute = LocalisationRouteImport.update({
+  id: '/localisation',
+  path: '/localisation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfilRoute = ProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UnlockRoute = UnlockRouteImport.update({
+  id: '/unlock',
+  path: '/unlock',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApercuIdRoute = ApercuIdRouteImport.update({
+  id: '/apercu/$id',
+  path: '/apercu/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CarnetIdRoute = CarnetIdRouteImport.update({
+  id: '/carnet/$id',
+  path: '/carnet/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartageSlugRoute = PartageSlugRouteImport.update({
+  id: '/partage/$slug',
+  path: '/partage/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VoyageurHandleRoute = VoyageurHandleRouteImport.update({
+  id: '/voyageur/$handle',
+  path: '/voyageur/$handle',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/acces': typeof AccesRoute
+  '/auth': typeof AuthRoute
+  '/compte': typeof CompteRoute
+  '/corrections': typeof CorrectionsRoute
+  '/favoris': typeof FavorisRoute
+  '/lieux': typeof LieuxRoute
+  '/localisation': typeof LocalisationRoute
+  '/notifications': typeof NotificationsRoute
+  '/profil': typeof ProfilRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/unlock': typeof UnlockRoute
+  '/apercu/$id': typeof ApercuIdRoute
+  '/carnet/$id': typeof CarnetIdRoute
+  '/partage/$slug': typeof PartageSlugRoute
+  '/voyageur/$handle': typeof VoyageurHandleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/acces': typeof AccesRoute
+  '/auth': typeof AuthRoute
+  '/compte': typeof CompteRoute
+  '/corrections': typeof CorrectionsRoute
+  '/favoris': typeof FavorisRoute
+  '/lieux': typeof LieuxRoute
+  '/localisation': typeof LocalisationRoute
+  '/notifications': typeof NotificationsRoute
+  '/profil': typeof ProfilRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/unlock': typeof UnlockRoute
+  '/apercu/$id': typeof ApercuIdRoute
+  '/carnet/$id': typeof CarnetIdRoute
+  '/partage/$slug': typeof PartageSlugRoute
+  '/voyageur/$handle': typeof VoyageurHandleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/acces': typeof AccesRoute
+  '/auth': typeof AuthRoute
+  '/compte': typeof CompteRoute
+  '/corrections': typeof CorrectionsRoute
+  '/favoris': typeof FavorisRoute
+  '/lieux': typeof LieuxRoute
+  '/localisation': typeof LocalisationRoute
+  '/notifications': typeof NotificationsRoute
+  '/profil': typeof ProfilRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/unlock': typeof UnlockRoute
+  '/apercu/$id': typeof ApercuIdRoute
+  '/carnet/$id': typeof CarnetIdRoute
+  '/partage/$slug': typeof PartageSlugRoute
+  '/voyageur/$handle': typeof VoyageurHandleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/acces'
+    | '/auth'
+    | '/compte'
+    | '/corrections'
+    | '/favoris'
+    | '/lieux'
+    | '/localisation'
+    | '/notifications'
+    | '/profil'
+    | '/reset-password'
+    | '/unlock'
+    | '/apercu/$id'
+    | '/carnet/$id'
+    | '/partage/$slug'
+    | '/voyageur/$handle'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/acces'
+    | '/auth'
+    | '/compte'
+    | '/corrections'
+    | '/favoris'
+    | '/lieux'
+    | '/localisation'
+    | '/notifications'
+    | '/profil'
+    | '/reset-password'
+    | '/unlock'
+    | '/apercu/$id'
+    | '/carnet/$id'
+    | '/partage/$slug'
+    | '/voyageur/$handle'
+  id:
+    | '__root__'
+    | '/'
+    | '/acces'
+    | '/auth'
+    | '/compte'
+    | '/corrections'
+    | '/favoris'
+    | '/lieux'
+    | '/localisation'
+    | '/notifications'
+    | '/profil'
+    | '/reset-password'
+    | '/unlock'
+    | '/apercu/$id'
+    | '/carnet/$id'
+    | '/partage/$slug'
+    | '/voyageur/$handle'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccesRoute: typeof AccesRoute
+  AuthRoute: typeof AuthRoute
+  CompteRoute: typeof CompteRoute
+  CorrectionsRoute: typeof CorrectionsRoute
+  FavorisRoute: typeof FavorisRoute
+  LieuxRoute: typeof LieuxRoute
+  LocalisationRoute: typeof LocalisationRoute
+  NotificationsRoute: typeof NotificationsRoute
+  ProfilRoute: typeof ProfilRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  UnlockRoute: typeof UnlockRoute
+  ApercuIdRoute: typeof ApercuIdRoute
+  CarnetIdRoute: typeof CarnetIdRoute
+  PartageSlugRoute: typeof PartageSlugRoute
+  VoyageurHandleRoute: typeof VoyageurHandleRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +247,131 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/acces': {
+      id: '/acces'
+      path: '/acces'
+      fullPath: '/acces'
+      preLoaderRoute: typeof AccesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compte': {
+      id: '/compte'
+      path: '/compte'
+      fullPath: '/compte'
+      preLoaderRoute: typeof CompteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/corrections': {
+      id: '/corrections'
+      path: '/corrections'
+      fullPath: '/corrections'
+      preLoaderRoute: typeof CorrectionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favoris': {
+      id: '/favoris'
+      path: '/favoris'
+      fullPath: '/favoris'
+      preLoaderRoute: typeof FavorisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lieux': {
+      id: '/lieux'
+      path: '/lieux'
+      fullPath: '/lieux'
+      preLoaderRoute: typeof LieuxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/localisation': {
+      id: '/localisation'
+      path: '/localisation'
+      fullPath: '/localisation'
+      preLoaderRoute: typeof LocalisationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profil': {
+      id: '/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof ProfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/unlock': {
+      id: '/unlock'
+      path: '/unlock'
+      fullPath: '/unlock'
+      preLoaderRoute: typeof UnlockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/apercu/$id': {
+      id: '/apercu/$id'
+      path: '/apercu/$id'
+      fullPath: '/apercu/$id'
+      preLoaderRoute: typeof ApercuIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/carnet/$id': {
+      id: '/carnet/$id'
+      path: '/carnet/$id'
+      fullPath: '/carnet/$id'
+      preLoaderRoute: typeof CarnetIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partage/$slug': {
+      id: '/partage/$slug'
+      path: '/partage/$slug'
+      fullPath: '/partage/$slug'
+      preLoaderRoute: typeof PartageSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/voyageur/$handle': {
+      id: '/voyageur/$handle'
+      path: '/voyageur/$handle'
+      fullPath: '/voyageur/$handle'
+      preLoaderRoute: typeof VoyageurHandleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccesRoute: AccesRoute,
+  AuthRoute: AuthRoute,
+  CompteRoute: CompteRoute,
+  CorrectionsRoute: CorrectionsRoute,
+  FavorisRoute: FavorisRoute,
+  LieuxRoute: LieuxRoute,
+  LocalisationRoute: LocalisationRoute,
+  NotificationsRoute: NotificationsRoute,
+  ProfilRoute: ProfilRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  UnlockRoute: UnlockRoute,
+  ApercuIdRoute: ApercuIdRoute,
+  CarnetIdRoute: CarnetIdRoute,
+  PartageSlugRoute: PartageSlugRoute,
+  VoyageurHandleRoute: VoyageurHandleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

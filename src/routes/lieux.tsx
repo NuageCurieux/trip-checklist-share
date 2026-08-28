@@ -13,7 +13,7 @@ import {
   providerForCountry,
   providerLabel,
 } from "@/lib/mapProviders";
-import type { CatalogPlace } from "@/lib/travel";
+import { placeTitle, type CatalogPlace } from "@/lib/travel";
 
 export const Route = createFileRoute("/lieux")({
   component: CatalogPage,
@@ -116,7 +116,14 @@ function CatalogPage() {
                           className="flex w-full items-center gap-3 px-3 py-3 text-left"
                         >
                           <span className="min-w-0 flex-1">
-                            <span className="block text-sm font-medium">{place.name}</span>
+                            <span className="block text-sm font-medium">
+                              {placeTitle(place).name}
+                            </span>
+                            {placeTitle(place).ko ? (
+                              <span className="block text-xs text-muted-foreground">
+                                {placeTitle(place).ko}
+                              </span>
+                            ) : null}
                             {place.area ? (
                               <span className="block truncate text-xs text-muted-foreground">
                                 {place.area}

@@ -26,6 +26,7 @@ import { Route as CarnetIdRouteImport } from './routes/carnet.$id'
 import { Route as LieuxIndexRouteImport } from './routes/lieux.index'
 import { Route as PartageSlugRouteImport } from './routes/partage.$slug'
 import { Route as VoyageurHandleRouteImport } from './routes/voyageur.$handle'
+import { Route as LieuxCountryIndexRouteImport } from './routes/lieux.$country.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -112,6 +113,11 @@ const VoyageurHandleRoute = VoyageurHandleRouteImport.update({
   path: '/voyageur/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LieuxCountryIndexRoute = LieuxCountryIndexRouteImport.update({
+  id: '/$country/',
+  path: '/$country/',
+  getParentRoute: () => LieuxRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/partage/$slug': typeof PartageSlugRoute
   '/voyageur/$handle': typeof VoyageurHandleRoute
   '/lieux/': typeof LieuxIndexRoute
+  '/lieux/$country/': typeof LieuxCountryIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/partage/$slug': typeof PartageSlugRoute
   '/voyageur/$handle': typeof VoyageurHandleRoute
   '/lieux': typeof LieuxIndexRoute
+  '/lieux/$country': typeof LieuxCountryIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/partage/$slug': typeof PartageSlugRoute
   '/voyageur/$handle': typeof VoyageurHandleRoute
   '/lieux/': typeof LieuxIndexRoute
+  '/lieux/$country/': typeof LieuxCountryIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -190,6 +199,7 @@ export interface FileRouteTypes {
     | '/partage/$slug'
     | '/voyageur/$handle'
     | '/lieux/'
+    | '/lieux/$country/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/partage/$slug'
     | '/voyageur/$handle'
     | '/lieux'
+    | '/lieux/$country'
   id:
     | '__root__'
     | '/'
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/partage/$slug'
     | '/voyageur/$handle'
     | '/lieux/'
+    | '/lieux/$country/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -369,15 +381,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VoyageurHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lieux/$country/': {
+      id: '/lieux/$country/'
+      path: '/$country'
+      fullPath: '/lieux/$country/'
+      preLoaderRoute: typeof LieuxCountryIndexRouteImport
+      parentRoute: typeof LieuxRoute
+    }
   }
 }
 
 interface LieuxRouteChildren {
   LieuxIndexRoute: typeof LieuxIndexRoute
+  LieuxCountryIndexRoute: typeof LieuxCountryIndexRoute
 }
 
 const LieuxRouteChildren: LieuxRouteChildren = {
   LieuxIndexRoute: LieuxIndexRoute,
+  LieuxCountryIndexRoute: LieuxCountryIndexRoute,
 }
 
 const LieuxRouteWithChildren = LieuxRoute._addFileChildren(LieuxRouteChildren)

@@ -137,6 +137,13 @@ export const parkFame: Record<string, number> = {
   jogyesan: 2,
   aryong: 2,
   "yongsan-suncheon": 3,
+  // Autour de Suncheon
+  "boseong-dawon": 4,
+  "yulpo-beach": 2,
+  "suncheonman-birds": 4,
+  odongdo: 4,
+  "yeosu-cablecar": 4,
+  "gwangyang-maehwa": 3,
 };
 
 

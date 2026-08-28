@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n } from "@/i18n/i18n";
 import { defaultCoverFor } from "@/lib/defaultCover";
-import { progress, signPaths, VISIBILITY_LABEL, Type Place, type Trip } from "@/lib/travel";
+import { progress, signPaths, VISIBILITY_LABEL, type Place, type Trip } from "@/lib/travel";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -132,8 +132,13 @@ function TravelerFeed() {
         .order("created_at", { ascending: false });
       if (error) throw error;
       const tr = (trips || []) as unknown as TripWithPlaces[];
-      const covers = await Promise.all(tr.map((tr) => tr.cover_path));
-      return { list: covers };
+      const signed = await signPaths(tr.map((item) => item.cover_path));
+      return {
+        list: tr.map((item) => ({
+          ...item,
+          cover_path: item.cover_path ? (signed[item.cover_path] ?? null) : null,
+        })),
+      };
     },
   });
 

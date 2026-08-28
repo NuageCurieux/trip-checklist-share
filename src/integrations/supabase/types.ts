@@ -163,9 +163,12 @@ export type Database = {
           city: string
           country: string
           created_at: string
+          done: boolean
           id: string
           note: string | null
           owner_id: string
+          planned_date: string | null
+          shared: boolean
           title: string
           updated_at: string
         }
@@ -173,9 +176,12 @@ export type Database = {
           city: string
           country: string
           created_at?: string
+          done?: boolean
           id?: string
           note?: string | null
           owner_id?: string
+          planned_date?: string | null
+          shared?: boolean
           title: string
           updated_at?: string
         }
@@ -183,9 +189,12 @@ export type Database = {
           city?: string
           country?: string
           created_at?: string
+          done?: boolean
           id?: string
           note?: string | null
           owner_id?: string
+          planned_date?: string | null
+          shared?: boolean
           title?: string
           updated_at?: string
         }

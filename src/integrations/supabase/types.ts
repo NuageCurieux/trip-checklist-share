@@ -52,6 +52,7 @@ export type Database = {
       }
       catalog_places: {
         Row: {
+          activity_group: string | null
           area: string | null
           best_time: string[]
           category: string | null
@@ -69,8 +70,10 @@ export type Database = {
           price_info: string | null
           sheet_key: string | null
           source: string
+          website: string | null
         }
         Insert: {
+          activity_group?: string | null
           area?: string | null
           best_time?: string[]
           category?: string | null
@@ -88,8 +91,10 @@ export type Database = {
           price_info?: string | null
           sheet_key?: string | null
           source?: string
+          website?: string | null
         }
         Update: {
+          activity_group?: string | null
           area?: string | null
           best_time?: string[]
           category?: string | null
@@ -107,6 +112,7 @@ export type Database = {
           price_info?: string | null
           sheet_key?: string | null
           source?: string
+          website?: string | null
         }
         Relationships: []
       }

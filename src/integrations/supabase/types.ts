@@ -116,6 +116,81 @@ export type Database = {
         }
         Relationships: []
       }
+      day_plan_items: {
+        Row: {
+          catalog_place_id: string
+          created_at: string
+          id: string
+          plan_id: string
+          position: number
+          slot: string | null
+        }
+        Insert: {
+          catalog_place_id: string
+          created_at?: string
+          id?: string
+          plan_id: string
+          position?: number
+          slot?: string | null
+        }
+        Update: {
+          catalog_place_id?: string
+          created_at?: string
+          id?: string
+          plan_id?: string
+          position?: number
+          slot?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "day_plan_items_catalog_place_id_fkey"
+            columns: ["catalog_place_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_places"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "day_plan_items_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "day_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      day_plans: {
+        Row: {
+          city: string
+          country: string
+          created_at: string
+          id: string
+          note: string | null
+          owner_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          city: string
+          country: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          owner_id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          city?: string
+          country?: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          owner_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       favorites: {
         Row: {
           catalog_place_id: string

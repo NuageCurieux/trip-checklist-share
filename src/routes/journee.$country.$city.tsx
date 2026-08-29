@@ -117,6 +117,30 @@ function DayPlanPage() {
     onError: () => toast.error("Impossible d'enregistrer la liste"),
   });
 
+  const useCurated = useMutation({
+    mutationFn: (plan: (typeof curated)[number]) => {
+      const steps = plan.steps
+        .map((step) => ({ place: bySheet.get(step.sheetKey), slot: step.slot }))
+        .filter((s): s is { place: NonNullable<typeof s.place>; slot: string } => Boolean(s.place));
+      if (steps.length === 0) throw new Error("empty");
+      return createDayPlan({
+        country,
+        city,
+        title: plan.title,
+        note: plan.summary,
+        plannedDate: null,
+        shared: true,
+        selection: steps.map((s) => ({ placeId: s.place.id, slot: s.slot })),
+      });
+    },
+    onSuccess: () => {
+      toast.success("Programme ajouté à vos listes à faire");
+      refresh();
+    },
+    onError: () => toast.error("Impossible de copier ce programme"),
+  });
+
+
   const patch = useMutation({
     mutationFn: (input: {
       id: string;

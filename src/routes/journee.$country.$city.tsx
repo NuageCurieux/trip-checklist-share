@@ -387,6 +387,27 @@ function DayPlanPage() {
                         })}
                       </ol>
                     ) : null}
+
+                    <div className="border-t border-border/70 px-3 py-2">
+                      {user ? (
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          disabled={useCurated.isPending}
+                          onClick={() => useCurated.mutate(plan)}
+                        >
+                          <Plus className="mr-1 size-4" />
+                          Utiliser ce programme
+                        </Button>
+                      ) : (
+                        <p className="text-xs text-muted-foreground">
+                          <Link to="/auth" className="font-medium text-primary underline">
+                            Connectez-vous
+                          </Link>{" "}
+                          pour copier ce programme dans vos listes à faire.
+                        </p>
+                      )}
+                    </div>
                   </li>
                 );
               })}

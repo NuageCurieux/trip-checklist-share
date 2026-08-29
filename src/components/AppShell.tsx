@@ -123,6 +123,7 @@ export function AppShell({
           <h1 className="truncate font-serif text-3xl italic">{title}</h1>
         </div>
         <div className="flex shrink-0 items-center gap-2">
+          {showNav ? <AccessRequestsBell /> : null}
           {showNav ? <NotificationsBell /> : null}
           {right ?? <LanguageSwitcher />}
         </div>

@@ -31,6 +31,7 @@ export function AccessRequest({ ownerId }: { ownerId: string }) {
         .from("access_requests")
         .select("id, status")
         .eq("owner_id", ownerId)
+        .eq("viewer_id", user!.id)
         .maybeSingle();
       if (error) throw error;
       return (data as RequestRow | null) ?? null;

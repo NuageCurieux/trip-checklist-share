@@ -641,6 +641,35 @@ export type Database = {
         }
         Relationships: []
       }
+      visited_places: {
+        Row: {
+          catalog_place_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          catalog_place_id: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Update: {
+          catalog_place_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visited_places_catalog_place_id_fkey"
+            columns: ["catalog_place_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_places"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

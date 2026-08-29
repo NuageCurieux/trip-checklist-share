@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { Bell, Plus } from "lucide-react";
+import { Bell, Plus, UserCheck } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
@@ -61,6 +61,41 @@ export function NotificationsBell() {
           {unread > 9 ? "9+" : unread}
         </span>
       ) : null}
+    </Link>
+  );
+}
+
+/** Shortcut to the access page, badged with the number of requests waiting for a decision. */
+export function AccessRequestsBell() {
+  const { user } = useSession();
+
+  const { data: pending } = useQuery({
+    queryKey: ["access-requests-pending", user?.id],
+    enabled: Boolean(user),
+    refetchInterval: 60_000,
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from("access_requests")
+        .select("id", { count: "exact", head: true })
+        .eq("owner_id", user!.id)
+        .eq("status", "pending");
+      if (error) throw error;
+      return count ?? 0;
+    },
+  });
+
+  if (!user || !pending) return null;
+
+  return (
+    <Link
+      to="/acces"
+      aria-label="Demandes d'accès en attente"
+      className="relative rounded-full border border-border bg-card p-2"
+    >
+      <UserCheck className="size-4" />
+      <span className="absolute -top-1 -right-1 grid size-4 place-items-center rounded-full bg-primary text-[9px] font-bold text-primary-foreground">
+        {pending > 9 ? "9+" : pending}
+      </span>
     </Link>
   );
 }

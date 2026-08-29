@@ -117,6 +117,30 @@ function DayPlanPage() {
     onError: () => toast.error("Impossible d'enregistrer la liste"),
   });
 
+  const useCurated = useMutation({
+    mutationFn: (plan: (typeof curated)[number]) => {
+      const steps = plan.steps
+        .map((step) => ({ place: bySheet.get(step.sheetKey), slot: step.slot }))
+        .filter((s): s is { place: NonNullable<typeof s.place>; slot: string } => Boolean(s.place));
+      if (steps.length === 0) throw new Error("empty");
+      return createDayPlan({
+        country,
+        city,
+        title: plan.title,
+        note: plan.summary,
+        plannedDate: null,
+        shared: true,
+        selection: steps.map((s) => ({ placeId: s.place.id, slot: s.slot })),
+      });
+    },
+    onSuccess: () => {
+      toast.success("Programme ajouté à vos listes à faire");
+      refresh();
+    },
+    onError: () => toast.error("Impossible de copier ce programme"),
+  });
+
+
   const patch = useMutation({
     mutationFn: (input: {
       id: string;
@@ -363,6 +387,27 @@ function DayPlanPage() {
                         })}
                       </ol>
                     ) : null}
+
+                    <div className="border-t border-border/70 px-3 py-2">
+                      {user ? (
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          disabled={useCurated.isPending}
+                          onClick={() => useCurated.mutate(plan)}
+                        >
+                          <Plus className="mr-1 size-4" />
+                          Utiliser ce programme
+                        </Button>
+                      ) : (
+                        <p className="text-xs text-muted-foreground">
+                          <Link to="/auth" className="font-medium text-primary underline">
+                            Connectez-vous
+                          </Link>{" "}
+                          pour copier ce programme dans vos listes à faire.
+                        </p>
+                      )}
+                    </div>
                   </li>
                 );
               })}

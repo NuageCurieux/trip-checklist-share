@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { AppShell } from "@/components/AppShell";
 import { BestTimeBadges, PlaceFameStars, PlacePrice } from "@/components/travel/PlaceDetails";
+import { PlaceMarks } from "@/components/travel/PlaceMarks";
 import { cityPlacesQuery, groupActivities, groupByCategory } from "@/lib/catalog";
 import { useI18n } from "@/lib/i18n";
 import {

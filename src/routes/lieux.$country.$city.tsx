@@ -83,6 +83,8 @@ function PlaceBody({
         <PlacePrice value={place.price_info} />
       </div>
 
+      <PlaceMarks placeId={place.id} />
+
       {place.lat != null && place.lng != null ? (
         <div className="mt-3 overflow-hidden rounded-xl border border-border">
           <iframe

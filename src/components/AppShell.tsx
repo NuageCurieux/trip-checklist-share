@@ -152,6 +152,7 @@ export function AppShell({
         <div className="flex shrink-0 items-center gap-2">
           {showNav ? <AccessRequestsBell /> : null}
           {showNav ? <NotificationsBell /> : null}
+          {showNav ? <SignOutButton /> : null}
           {right ?? <LanguageSwitcher />}
         </div>
       </header>

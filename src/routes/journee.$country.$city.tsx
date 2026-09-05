@@ -5,6 +5,7 @@ import {
   Check,
   ChevronDown,
   ChevronLeft,
+  Heart,
   MapPin,
   Plus,
   Trash2,
@@ -35,6 +36,14 @@ import {
   updateDayPlan,
 } from "@/lib/dayPlans";
 import { placeTitle } from "@/lib/travel";
+import { supabase } from "@/integrations/supabase/client";
+import { usePlaceMarks } from "@/lib/placeMarks";
+
+/** Surfaces the real backend message instead of a generic failure notice. */
+function describeError(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error ?? "");
+  return message.trim() || "Une erreur inconnue est survenue.";
+}
 
 
 export const Route = createFileRoute("/journee/$country/$city")({
@@ -60,6 +69,7 @@ export const Route = createFileRoute("/journee/$country/$city")({
 function DayPlanPage() {
   const { country, city } = Route.useParams();
   const { user } = useSession();
+  const { favoriteIds } = usePlaceMarks();
   const queryClient = useQueryClient();
 
   const { data: places, isLoading } = useQuery(cityPlacesQuery(country, city));
@@ -183,7 +193,7 @@ function DayPlanPage() {
       patch: { planned_date?: string | null; done?: boolean; title?: string };
     }) => updateDayPlan(input.id, input.patch),
     onSuccess: refresh,
-    onError: () => toast.error("Modification impossible"),
+    onError: (error) => toast.error(describeError(error)),
   });
 
   const addStep = useMutation({
@@ -193,13 +203,13 @@ function DayPlanPage() {
       toast.success("Activité ajoutée");
       refresh();
     },
-    onError: () => toast.error("Ajout impossible"),
+    onError: (error) => toast.error(describeError(error)),
   });
 
   const removeStep = useMutation({
     mutationFn: (itemId: string) => removeDayPlanItem(itemId),
     onSuccess: refresh,
-    onError: () => toast.error("Suppression impossible"),
+    onError: (error) => toast.error(describeError(error)),
   });
 
   const remove = useMutation({
@@ -208,7 +218,7 @@ function DayPlanPage() {
       toast.success("Liste supprimée");
       refresh();
     },
-    onError: () => toast.error("Seule la créatrice peut supprimer cette liste"),
+    onError: (error) => toast.error(describeError(error)),
   });
 
   function toggle(placeId: string) {
@@ -458,6 +468,15 @@ function DayPlanPage() {
               <Button size="sm" variant="secondary" onClick={() => setShowBuilder((v) => !v)}>
                 <Plus className="mr-1 size-4" />
                 {showBuilder ? "Fermer" : "Créer"}
+              </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                disabled={fromFavorites.isPending}
+                onClick={() => fromFavorites.mutate()}
+              >
+                <Heart className="mr-1 size-4" />
+                Depuis mes coups de cœur
               </Button>
             ) : null}
           </div>

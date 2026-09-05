@@ -143,8 +143,38 @@ function DayPlanPage() {
       toast.success("Programme ajouté à vos listes à faire");
       refresh();
     },
-    onError: () => toast.error("Impossible de copier ce programme"),
+    onError: (error) => toast.error(describeError(error)),
   });
+
+  /** Turns the traveller's loved places of this city into a shared day list. */
+  const fromFavorites = useMutation({
+    mutationFn: async () => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        throw new Error("Votre session a expiré : reconnectez-vous puis réessayez.");
+      }
+      const loved = (places ?? []).filter((place) => favoriteIds.has(place.id));
+      if (loved.length === 0) {
+        throw new Error(`Aucun coup de cœur à ${city} pour l'instant.`);
+      }
+      return createDayPlan({
+        country,
+        city,
+        title: `Mes coups de cœur à ${city}`,
+        note: null,
+        plannedDate: date || null,
+        shared: true,
+        selection: loved.map((place) => ({ placeId: place.id, slot: "Matin" })),
+      });
+    },
+    onSuccess: () => {
+      toast.success("Liste créée depuis vos coups de cœur");
+      refresh();
+    },
+    onError: (error) => toast.error(describeError(error)),
+  });
+
+
 
 
   const patch = useMutation({

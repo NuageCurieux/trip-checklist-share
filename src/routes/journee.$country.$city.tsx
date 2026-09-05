@@ -114,15 +114,21 @@ function DayPlanPage() {
       setShowBuilder(false);
       refresh();
     },
-    onError: () => toast.error("Impossible d'enregistrer la liste"),
+    onError: (error) => toast.error(describeError(error)),
   });
 
   const useCurated = useMutation({
-    mutationFn: (plan: (typeof curated)[number]) => {
+    mutationFn: async (plan: (typeof curated)[number]) => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        throw new Error("Votre session a expiré : reconnectez-vous puis réessayez.");
+      }
       const steps = plan.steps
         .map((step) => ({ place: bySheet.get(step.sheetKey), slot: step.slot }))
         .filter((s): s is { place: NonNullable<typeof s.place>; slot: string } => Boolean(s.place));
-      if (steps.length === 0) throw new Error("empty");
+      if (steps.length === 0) {
+        throw new Error("Aucune activité de ce programme n'est encore dans le catalogue.");
+      }
       return createDayPlan({
         country,
         city,

@@ -462,22 +462,24 @@ function DayPlanPage() {
         </section>
 
         <section className="mt-8">
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="font-serif text-sm italic text-foreground">Listes à faire</h2>
             {user ? (
-              <Button size="sm" variant="secondary" onClick={() => setShowBuilder((v) => !v)}>
-                <Plus className="mr-1 size-4" />
-                {showBuilder ? "Fermer" : "Créer"}
-              </Button>
-              <Button
-                size="sm"
-                variant="secondary"
-                disabled={fromFavorites.isPending}
-                onClick={() => fromFavorites.mutate()}
-              >
-                <Heart className="mr-1 size-4" />
-                Depuis mes coups de cœur
-              </Button>
+              <div className="flex flex-wrap items-center gap-2">
+                <Button size="sm" variant="secondary" onClick={() => setShowBuilder((v) => !v)}>
+                  <Plus className="mr-1 size-4" />
+                  {showBuilder ? "Fermer" : "Créer"}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  disabled={fromFavorites.isPending}
+                  onClick={() => fromFavorites.mutate()}
+                >
+                  <Heart className="mr-1 size-4" />
+                  Depuis mes coups de cœur
+                </Button>
+              </div>
             ) : null}
           </div>
 

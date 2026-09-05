@@ -1,11 +1,38 @@
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
-import { Bell, Plus, UserCheck } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Bell, LogOut, Plus, UserCheck } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 import { useI18n, type Lang } from "@/lib/i18n";
+
+/** Header shortcut to switch accounts without going through the account page. */
+export function SignOutButton() {
+  const { t } = useI18n();
+  const { user } = useSession();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  if (!user) return null;
+
+  return (
+    <button
+      type="button"
+      aria-label={t("auth.signOut")}
+      title={t("auth.signOut")}
+      onClick={async () => {
+        await queryClient.cancelQueries();
+        queryClient.clear();
+        await supabase.auth.signOut();
+        void navigate({ to: "/auth", replace: true });
+      }}
+      className="rounded-full border border-border bg-card p-2"
+    >
+      <LogOut className="size-4" />
+    </button>
+  );
+}
 
 const LANGS: Lang[] = ["fr", "en", "es"];
 
@@ -125,6 +152,7 @@ export function AppShell({
         <div className="flex shrink-0 items-center gap-2">
           {showNav ? <AccessRequestsBell /> : null}
           {showNav ? <NotificationsBell /> : null}
+          {showNav ? <SignOutButton /> : null}
           {right ?? <LanguageSwitcher />}
         </div>
       </header>
